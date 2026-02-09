@@ -161,42 +161,6 @@ Examples:
 - docker-compose
 - GitHub Actions (CI/CD)
 
----
-
-## Repository Structure
-
-.
-├── frontend
-│ ├── app
-│ ├── src
-│ │ ├── components
-│ │ ├── features
-│ │ ├── services
-│ │ └── schemas
-│ └── middleware.ts
-│
-├── backend
-│ ├── src
-│ │ ├── auth
-│ │ ├── users
-│ │ ├── vehicles
-│ │ ├── diagnostics
-│ │ │ ├── ingestion
-│ │ │ ├── parser
-│ │ │ ├── rules
-│ │ │ ├── analyzer
-│ │ │ └── reports
-│ │ ├── ai
-│ │ ├── jobs
-│ │ └── common
-│ └── prisma
-│
-├── docker-compose.yml
-├── .github
-│ └── workflows
-└── README.md
-
----
 
 ## Diagnostic Processing Flow
 Upload OBD data
