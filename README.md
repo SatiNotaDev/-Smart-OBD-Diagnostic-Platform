@@ -165,6 +165,7 @@ Examples:
 
 ## Repository Structure
 
+.
 ├── frontend
 │ ├── app
 │ ├── src
@@ -191,7 +192,8 @@ Examples:
 │ └── prisma
 │
 ├── docker-compose.yml
-├── .github/workflows
+├── .github
+│ └── workflows
 └── README.md
 
 ---
