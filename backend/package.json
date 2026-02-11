@@ -1,0 +1,1 @@
+{"scripts":{"build":"nest build","start":"node dist/main.js","start:dev":"nest start --watch"},"devDependencies":{"@nestjs/cli":"^11.0.16","@types/node":"^25.2.2","ts-node":"^10.9.2","typescript":"^5.9.3"},"dependencies":{"@nestjs/common":"^11.1.13","@nestjs/core":"^11.1.13","@prisma/client":"^6.19.2","prisma":"^6.19.2","reflect-metadata":"^0.2.2","rxjs":"^7.8.2"}}

@@ -1,0 +1,97 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+
+model User {
+  id        String    @id @default(uuid())
+  email     String    @unique
+  password  String
+  role      UserRole  @default(USER)
+  vehicles  Vehicle[]
+  createdAt DateTime  @default(now())
+}
+
+model Vehicle {
+  id          String              @id @default(uuid())
+  userId      String
+  user        User                @relation(fields: [userId], references: [id])
+  brand       String
+  model       String
+  year        Int
+  engineType  String
+  vin         String?
+  diagnostics DiagnosticSession[]
+  createdAt   DateTime            @default(now())
+}
+
+model DiagnosticSession {
+  id          String             @id @default(uuid())
+  vehicleId   String
+  vehicle     Vehicle            @relation(fields: [vehicleId], references: [id])
+  status      DiagnosticStatus   @default(PENDING)
+  sourceType  DiagnosticSource
+  metrics     DiagnosticMetric[]
+  dtcs        DtcCode[]
+  result      AnalysisResult?
+  createdAt   DateTime           @default(now())
+}
+
+model DiagnosticMetric {
+  id        String            @id @default(uuid())
+  sessionId String
+  session   DiagnosticSession @relation(fields: [sessionId], references: [id])
+  name      String
+  value     Float
+  unit      String
+  timestamp DateTime
+}
+
+model DtcCode {
+  id          String            @id @default(uuid())
+  sessionId  String
+  session    DiagnosticSession @relation(fields: [sessionId], references: [id])
+  code        String
+  description String
+  severity    Int
+}
+
+model DiagnosticRule {
+  id          String   @id @default(uuid())
+  key         String   @unique
+  description String
+  confidence  Float
+  active      Boolean @default(true)
+}
+
+model AnalysisResult {
+  id         String            @id @default(uuid())
+  sessionId  String            @unique
+  session    DiagnosticSession @relation(fields: [sessionId], references: [id])
+  summary    String
+  confidence Float
+  createdAt  DateTime          @default(now())
+}
+
+enum DiagnosticStatus {
+  PENDING
+  PROCESSING
+  COMPLETED
+  FAILED
+}
+
+enum DiagnosticSource {
+  CSV
+  JSON
+  MANUAL
+}
+
+enum UserRole {
+  USER
+  ADMIN
+}

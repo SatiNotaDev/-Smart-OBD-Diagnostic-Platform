@@ -1,0 +1,32 @@
+version: "3.9"
+
+services:
+  postgres:
+    image: postgres:15
+    container_name: smart_obd_postgres
+    restart: "no"
+    environment:
+      POSTGRES_DB: smart_obd
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5433:5432"
+    volumes:
+      - smart_obd_postgres_data:/var/lib/postgresql/data
+
+  backend:
+    build:
+      context: .
+    container_name: smart_obd_backend
+    restart: "no"
+    depends_on:
+      - postgres
+    env_file:
+      - .env.local
+    ports:
+      - "3000:3000"
+    command: node dist/main.js
+
+
+volumes:
+  smart_obd_postgres_data:
