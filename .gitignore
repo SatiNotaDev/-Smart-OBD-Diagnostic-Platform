@@ -29,3 +29,11 @@ Thumbs.db
 # Docker installer scripts
 get-docker.sh
 INSTALL_DOCKER.sh
+
+# Local planning/progress docs
+DOCKER_SETUP.md
+IMPLEMENTATION_PLAN.md
+IMPLEMENTATION_PLAN_V2.md
+PROGRESS_SUMMARY.md
+QUICK_START.md
+backend/BACKEND_SETUP.md
