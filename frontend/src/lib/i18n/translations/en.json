@@ -1,0 +1,95 @@
+{
+  "auth": {
+    "login": {
+      "title": "Welcome Back",
+      "subtitle": "Sign in to your account",
+      "email": "Email",
+      "emailPlaceholder": "your@email.com",
+      "password": "Password",
+      "passwordPlaceholder": "Enter your password",
+      "submit": "Sign In",
+      "forgotPassword": "Forgot password?",
+      "noAccount": "Don't have an account?",
+      "register": "Create account",
+      "or": "or",
+      "googleButton": "Sign in with Google",
+      "errors": {
+        "invalidCredentials": "Invalid email or password",
+        "emailNotVerified": "Please verify your email first",
+        "serverError": "Server error. Try again later."
+      }
+    },
+    "register": {
+      "title": "Create Account",
+      "subtitle": "Start managing your vehicles",
+      "name": "Full Name",
+      "namePlaceholder": "John Doe",
+      "email": "Email",
+      "emailPlaceholder": "your@email.com",
+      "password": "Password",
+      "passwordPlaceholder": "Min. 8 characters",
+      "confirmPassword": "Confirm Password",
+      "confirmPasswordPlaceholder": "Repeat password",
+      "submit": "Create Account",
+      "hasAccount": "Already have an account?",
+      "login": "Sign in",
+      "or": "or",
+      "googleButton": "Sign up with Google",
+      "passwordRequirements": "Min 8 chars, uppercase, lowercase, number, special char",
+      "success": "Registration successful! Check your email.",
+      "errors": {
+        "emailTaken": "This email is already registered",
+        "passwordMismatch": "Passwords do not match",
+        "weakPassword": "Password does not meet requirements"
+      }
+    },
+    "forgotPassword": {
+      "title": "Reset Password",
+      "subtitle": "Enter your email to receive a reset link",
+      "email": "Email",
+      "emailPlaceholder": "your@email.com",
+      "submit": "Send Reset Link",
+      "backToLogin": "Back to sign in",
+      "success": "If this email exists, a reset link has been sent."
+    },
+    "resetPassword": {
+      "title": "New Password",
+      "subtitle": "Enter your new password",
+      "password": "New Password",
+      "confirmPassword": "Confirm New Password",
+      "submit": "Reset Password",
+      "success": "Password changed successfully!",
+      "invalidToken": "Invalid or expired reset link."
+    },
+    "verifyEmail": {
+      "title": "Verify Email",
+      "verifying": "Verifying your email...",
+      "success": "Email verified! You can now sign in.",
+      "error": "Invalid or expired verification link.",
+      "loginButton": "Go to Sign In"
+    },
+    "mfa": {
+      "title": "Two-Factor Authentication",
+      "subtitle": "Enter the 6-digit code from your authenticator app",
+      "codePlaceholder": "000000",
+      "submit": "Verify",
+      "useBackupCode": "Use a backup code",
+      "backupCodePlaceholder": "Enter backup code",
+      "error": "Invalid code. Try again."
+    }
+  },
+  "common": {
+    "loading": "Loading...",
+    "error": "Something went wrong",
+    "theme": {
+      "light": "Light",
+      "dark": "Dark",
+      "system": "System"
+    },
+    "language": {
+      "en": "English",
+      "ru": "Russian",
+      "fr": "French"
+    }
+  }
+}

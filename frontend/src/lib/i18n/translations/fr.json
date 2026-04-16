@@ -1,0 +1,95 @@
+{
+  "auth": {
+    "login": {
+      "title": "Bon Retour",
+      "subtitle": "Connectez-vous a votre compte",
+      "email": "Adresse e-mail",
+      "emailPlaceholder": "votre@email.com",
+      "password": "Mot de passe",
+      "passwordPlaceholder": "Entrez votre mot de passe",
+      "submit": "Se Connecter",
+      "forgotPassword": "Mot de passe oublie ?",
+      "noAccount": "Pas de compte ?",
+      "register": "Creer un compte",
+      "or": "ou",
+      "googleButton": "Se connecter avec Google",
+      "errors": {
+        "invalidCredentials": "E-mail ou mot de passe incorrect",
+        "emailNotVerified": "Veuillez d'abord verifier votre e-mail",
+        "serverError": "Erreur serveur. Reessayez plus tard."
+      }
+    },
+    "register": {
+      "title": "Creer un Compte",
+      "subtitle": "Commencez a gerer vos vehicules",
+      "name": "Nom complet",
+      "namePlaceholder": "Jean Dupont",
+      "email": "Adresse e-mail",
+      "emailPlaceholder": "votre@email.com",
+      "password": "Mot de passe",
+      "passwordPlaceholder": "Min. 8 caracteres",
+      "confirmPassword": "Confirmer le mot de passe",
+      "confirmPasswordPlaceholder": "Repetez le mot de passe",
+      "submit": "Creer un compte",
+      "hasAccount": "Vous avez deja un compte ?",
+      "login": "Se connecter",
+      "or": "ou",
+      "googleButton": "S'inscrire avec Google",
+      "passwordRequirements": "Min 8 car., majuscule, minuscule, chiffre, car. special",
+      "success": "Inscription reussie ! Verifiez votre e-mail.",
+      "errors": {
+        "emailTaken": "Cet e-mail est deja enregistre",
+        "passwordMismatch": "Les mots de passe ne correspondent pas",
+        "weakPassword": "Le mot de passe ne repond pas aux exigences"
+      }
+    },
+    "forgotPassword": {
+      "title": "Reinitialiser le Mot de Passe",
+      "subtitle": "Entrez votre e-mail pour recevoir un lien",
+      "email": "Adresse e-mail",
+      "emailPlaceholder": "votre@email.com",
+      "submit": "Envoyer le lien",
+      "backToLogin": "Retour a la connexion",
+      "success": "Si cet e-mail existe, un lien de reinitialisation a ete envoye."
+    },
+    "resetPassword": {
+      "title": "Nouveau Mot de Passe",
+      "subtitle": "Entrez votre nouveau mot de passe",
+      "password": "Nouveau mot de passe",
+      "confirmPassword": "Confirmer le nouveau mot de passe",
+      "submit": "Reinitialiser",
+      "success": "Mot de passe change avec succes !",
+      "invalidToken": "Lien invalide ou expire."
+    },
+    "verifyEmail": {
+      "title": "Verification de l'E-mail",
+      "verifying": "Verification en cours...",
+      "success": "E-mail verifie ! Vous pouvez vous connecter.",
+      "error": "Lien invalide ou expire.",
+      "loginButton": "Aller a la connexion"
+    },
+    "mfa": {
+      "title": "Authentification a Deux Facteurs",
+      "subtitle": "Entrez le code a 6 chiffres de votre application",
+      "codePlaceholder": "000000",
+      "submit": "Verifier",
+      "useBackupCode": "Utiliser un code de secours",
+      "backupCodePlaceholder": "Entrez le code de secours",
+      "error": "Code invalide. Reessayez."
+    }
+  },
+  "common": {
+    "loading": "Chargement...",
+    "error": "Une erreur est survenue",
+    "theme": {
+      "light": "Clair",
+      "dark": "Sombre",
+      "system": "Systeme"
+    },
+    "language": {
+      "en": "Anglais",
+      "ru": "Russe",
+      "fr": "Francais"
+    }
+  }
+}

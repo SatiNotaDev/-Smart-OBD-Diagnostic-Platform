@@ -1,0 +1,95 @@
+{
+  "auth": {
+    "login": {
+      "title": "C Возвращением",
+      "subtitle": "Войдите в свой аккаунт",
+      "email": "Электронная почта",
+      "emailPlaceholder": "ваш@email.com",
+      "password": "Пароль",
+      "passwordPlaceholder": "Введите пароль",
+      "submit": "Войти",
+      "forgotPassword": "Забыли пароль?",
+      "noAccount": "Нет аккаунта?",
+      "register": "Создать аккаунт",
+      "or": "или",
+      "googleButton": "Войти через Google",
+      "errors": {
+        "invalidCredentials": "Неверный email или пароль",
+        "emailNotVerified": "Сначала подтвердите ваш email",
+        "serverError": "Ошибка сервера. Попробуйте позже."
+      }
+    },
+    "register": {
+      "title": "Создать Аккаунт",
+      "subtitle": "Начните управлять вашими автомобилями",
+      "name": "Полное имя",
+      "namePlaceholder": "Иван Иванов",
+      "email": "Электронная почта",
+      "emailPlaceholder": "ваш@email.com",
+      "password": "Пароль",
+      "passwordPlaceholder": "Мин. 8 символов",
+      "confirmPassword": "Подтвердите пароль",
+      "confirmPasswordPlaceholder": "Повторите пароль",
+      "submit": "Создать аккаунт",
+      "hasAccount": "Уже есть аккаунт?",
+      "login": "Войти",
+      "or": "или",
+      "googleButton": "Зарегистрироваться через Google",
+      "passwordRequirements": "Мин. 8 символов, заглавная, строчная, цифра, спецсимвол",
+      "success": "Регистрация успешна! Проверьте почту.",
+      "errors": {
+        "emailTaken": "Этот email уже зарегистрирован",
+        "passwordMismatch": "Пароли не совпадают",
+        "weakPassword": "Пароль не соответствует требованиям"
+      }
+    },
+    "forgotPassword": {
+      "title": "Сброс Пароля",
+      "subtitle": "Введите email для получения ссылки",
+      "email": "Электронная почта",
+      "emailPlaceholder": "ваш@email.com",
+      "submit": "Отправить ссылку",
+      "backToLogin": "Назад ко входу",
+      "success": "Если этот email существует, ссылка для сброса отправлена."
+    },
+    "resetPassword": {
+      "title": "Новый Пароль",
+      "subtitle": "Введите новый пароль",
+      "password": "Новый пароль",
+      "confirmPassword": "Подтвердите новый пароль",
+      "submit": "Сбросить пароль",
+      "success": "Пароль успешно изменен!",
+      "invalidToken": "Недействительная или устаревшая ссылка."
+    },
+    "verifyEmail": {
+      "title": "Подтверждение Email",
+      "verifying": "Проверяем ваш email...",
+      "success": "Email подтвержден! Теперь можете войти.",
+      "error": "Недействительная или устаревшая ссылка.",
+      "loginButton": "Перейти ко входу"
+    },
+    "mfa": {
+      "title": "Двухфакторная Аутентификация",
+      "subtitle": "Введите 6-значный код из приложения-аутентификатора",
+      "codePlaceholder": "000000",
+      "submit": "Подтвердить",
+      "useBackupCode": "Использовать резервный код",
+      "backupCodePlaceholder": "Введите резервный код",
+      "error": "Неверный код. Попробуйте снова."
+    }
+  },
+  "common": {
+    "loading": "Загрузка...",
+    "error": "Что-то пошло не так",
+    "theme": {
+      "light": "Светлая",
+      "dark": "Тёмная",
+      "system": "Системная"
+    },
+    "language": {
+      "en": "Английский",
+      "ru": "Русский",
+      "fr": "Французский"
+    }
+  }
+}
