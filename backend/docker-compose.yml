@@ -13,6 +13,11 @@ services:
       - "5433:5432"
     volumes:
       - smart_obd_postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
 
   backend:
     build:
@@ -20,12 +25,13 @@ services:
     container_name: smart_obd_backend
     restart: "no"
     depends_on:
-      - postgres
-    env_file:
-      - .env.local
+      postgres:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: postgresql://postgres:postgres@postgres:5432/smart_obd
+      NODE_ENV: production
     ports:
       - "3000:3000"
-    command: node dist/main.js
 
 
 volumes:

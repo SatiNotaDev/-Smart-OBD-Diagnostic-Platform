@@ -9,6 +9,7 @@ COPY tsconfig.json ./
 COPY prisma ./prisma
 COPY src ./src
 
+RUN npx prisma generate
 RUN npm run build
 
 # --------------------
@@ -22,7 +23,8 @@ RUN npm install --omit=dev
 
 COPY --from=builder /app/dist ./dist
 COPY --from=builder /app/prisma ./prisma
+COPY --from=builder /app/node_modules/.prisma ./node_modules/.prisma
 
 EXPOSE 3000
 
-CMD ["node", "dist/main.js"]
+CMD ["sh", "-c", "npx prisma migrate deploy && node dist/main.js"]
