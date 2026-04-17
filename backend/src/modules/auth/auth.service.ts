@@ -326,22 +326,27 @@ export class AuthService {
     });
 
     if (!user) {
-      // Проверить email
-      user = await this.prisma.user.findUnique({
+      const existingUser = await this.prisma.user.findUnique({
         where: { email: profile.email },
       });
 
-      if (user) {
-        // Связать существующий аккаунт с Google
+      if (existingUser && existingUser.password) {
+        // Password-protected account exists — refuse auto-link to prevent account takeover
+        throw new UnauthorizedException(
+          'An account with this email already exists. Please log in with your password first, then link Google in settings.',
+        );
+      }
+
+      if (existingUser) {
+        // OAuth-only account without password — safe to link
         user = await this.prisma.user.update({
-          where: { id: user.id },
+          where: { id: existingUser.id },
           data: {
             googleId: profile.id,
-            isEmailVerified: true, // Google emails уже верифицированы
+            isEmailVerified: true,
           },
         });
       } else {
-        // Создать новый аккаунт
         user = await this.prisma.user.create({
           data: {
             email: profile.email,

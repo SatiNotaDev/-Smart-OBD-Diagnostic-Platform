@@ -61,21 +61,19 @@ export class VehiclesService {
   }
 
   async update(id: string, userId: string, dto: UpdateVehicleDto) {
-    // Verify ownership
     await this.findOne(id, userId);
 
     return this.prisma.vehicle.update({
-      where: { id },
+      where: { id, userId },
       data: dto,
     });
   }
 
   async remove(id: string, userId: string) {
-    // Verify ownership
     await this.findOne(id, userId);
 
     return this.prisma.vehicle.delete({
-      where: { id },
+      where: { id, userId },
     });
   }
 }
