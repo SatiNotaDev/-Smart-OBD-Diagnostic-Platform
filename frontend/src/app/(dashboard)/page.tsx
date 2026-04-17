@@ -3,17 +3,21 @@
 import { Car, Activity, CreditCard } from "lucide-react";
 import { useAuth } from "@/lib/auth/auth-context";
 import { useI18n } from "@/lib/i18n/i18n";
+import { useVehicles } from "@/lib/query/use-vehicles";
 import Link from "next/link";
 
 export default function DashboardPage() {
   const { user } = useAuth();
   const { t } = useI18n();
+  const { data: vehicles } = useVehicles();
+
+  const vehicleCount = vehicles?.length ?? 0;
 
   const stats = [
     {
       icon: Car,
       label: t("dashboard.overview.totalVehicles"),
-      value: "0",
+      value: String(vehicleCount),
     },
     {
       icon: Activity,

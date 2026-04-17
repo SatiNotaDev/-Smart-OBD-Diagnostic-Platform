@@ -10,6 +10,7 @@ import { Input } from "@/components/ui/input";
 import { Select } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
 import { useI18n } from "@/lib/i18n/i18n";
+import { useCreateVehicle } from "@/lib/query/use-vehicles";
 import {
   vehiclesApi,
   type CreateVehicleData,
@@ -35,13 +36,12 @@ type FormValues = z.infer<typeof schema>;
 interface AddVehicleDialogProps {
   open: boolean;
   onClose: () => void;
-  onAdded: () => void;
 }
 
-export function AddVehicleDialog({ open, onClose, onAdded }: AddVehicleDialogProps) {
+export function AddVehicleDialog({ open, onClose }: AddVehicleDialogProps) {
   const { t } = useI18n();
   const [error, setError] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
+  const createVehicle = useCreateVehicle();
 
   // VIN decode
   const [vinLoading, setVinLoading] = useState(false);
@@ -132,7 +132,6 @@ export function AddVehicleDialog({ open, onClose, onAdded }: AddVehicleDialogPro
     fetchModels(name);
   };
 
-  // Show model dropdown on focus when models loaded
   const handleModelFocus = () => {
     if (models.length > 0) setModelsOpen(true);
   };
@@ -142,7 +141,6 @@ export function AddVehicleDialog({ open, onClose, onAdded }: AddVehicleDialogPro
     setModelsOpen(false);
   };
 
-  // Filter models by typed text
   const filteredModels = modelValue
     ? models.filter((m) => m.name.toLowerCase().includes(modelValue.toLowerCase()))
     : models;
@@ -177,30 +175,28 @@ export function AddVehicleDialog({ open, onClose, onAdded }: AddVehicleDialogPro
 
   const onSubmit = async (values: FormValues) => {
     setError("");
-    setIsLoading(true);
-    try {
-      const data: CreateVehicleData = {
-        brand: values.brand,
-        model: values.model,
-        year: Number(values.year),
-        engineType: values.engineType,
-      };
-      if (values.vin) data.vin = values.vin;
-      if (values.mileage) data.mileage = Number(values.mileage);
-      if (values.color) data.color = values.color;
-      if (values.licensePlate) data.licensePlate = values.licensePlate;
+    const data: CreateVehicleData = {
+      brand: values.brand,
+      model: values.model,
+      year: Number(values.year),
+      engineType: values.engineType,
+    };
+    if (values.vin) data.vin = values.vin;
+    if (values.mileage) data.mileage = Number(values.mileage);
+    if (values.color) data.color = values.color;
+    if (values.licensePlate) data.licensePlate = values.licensePlate;
 
-      await vehiclesApi.create(data);
-      reset();
-      setMakes([]);
-      setModels([]);
-      onAdded();
-      onClose();
-    } catch (err: any) {
-      setError(err?.message || t("common.error"));
-    } finally {
-      setIsLoading(false);
-    }
+    createVehicle.mutate(data, {
+      onSuccess: () => {
+        reset();
+        setMakes([]);
+        setModels([]);
+        onClose();
+      },
+      onError: (err: any) => {
+        setError(err?.message || t("common.error"));
+      },
+    });
   };
 
   return (
@@ -354,7 +350,7 @@ export function AddVehicleDialog({ open, onClose, onAdded }: AddVehicleDialogPro
           <Button type="button" variant="outline" onClick={onClose}>
             {t("dashboard.vehicles.addDialog.cancel")}
           </Button>
-          <Button type="submit" isLoading={isLoading}>
+          <Button type="submit" isLoading={createVehicle.isPending}>
             {t("dashboard.vehicles.addDialog.submit")}
           </Button>
         </div>
