@@ -1,6 +1,6 @@
 "use client";
 
-import { Car, Gauge, Hash } from "lucide-react";
+import { Car, Gauge, Hash, Trash2 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { useI18n } from "@/lib/i18n/i18n";
 import type { Vehicle } from "@/lib/api/vehicles-api";
@@ -14,9 +14,10 @@ const engineVariant: Record<string, "default" | "success" | "warning" | "error">
 
 interface VehicleCardProps {
   vehicle: Vehicle;
+  onDelete?: (id: string) => void;
 }
 
-export function VehicleCard({ vehicle }: VehicleCardProps) {
+export function VehicleCard({ vehicle, onDelete }: VehicleCardProps) {
   const { t } = useI18n();
 
   const engineLabel =
@@ -37,9 +38,20 @@ export function VehicleCard({ vehicle }: VehicleCardProps) {
             <p className="text-sm text-muted">{vehicle.year}</p>
           </div>
         </div>
-        <Badge variant={engineVariant[vehicle.engineType] || "default"}>
-          {engineLabel}
-        </Badge>
+        <div className="flex items-center gap-2">
+          <Badge variant={engineVariant[vehicle.engineType] || "default"}>
+            {engineLabel}
+          </Badge>
+          {onDelete && (
+            <button
+              type="button"
+              onClick={() => onDelete(vehicle.id)}
+              className="p-1.5 rounded-[var(--radius)] text-muted hover:text-error hover:bg-error/10 transition-colors"
+            >
+              <Trash2 size={15} />
+            </button>
+          )}
+        </div>
       </div>
 
       <div className="mt-4 flex flex-wrap gap-x-5 gap-y-1 text-sm text-muted">
