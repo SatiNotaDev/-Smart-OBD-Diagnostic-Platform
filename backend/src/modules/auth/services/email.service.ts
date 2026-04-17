@@ -12,7 +12,7 @@ export class EmailService {
    * Отправляет email верификации
    */
   async sendVerificationEmail(email: string, token: string): Promise<void> {
-    const verificationUrl = `${this.configService.get('FRONTEND_URL')}/auth/verify-email?token=${token}`;
+    const verificationUrl = `${this.configService.get('FRONTEND_URL')}/verify-email?token=${token}`;
 
     // TODO: Интеграция с email провайдером (SendGrid, AWS SES, etc.)
     // Для dev окружения просто логируем
@@ -35,7 +35,7 @@ export class EmailService {
    * Отправляет email для сброса пароля
    */
   async sendPasswordResetEmail(email: string, token: string): Promise<void> {
-    const resetUrl = `${this.configService.get('FRONTEND_URL')}/auth/reset-password?token=${token}`;
+    const resetUrl = `${this.configService.get('FRONTEND_URL')}/reset-password?token=${token}`;
 
     this.logger.log(`
       📧 Password Reset
