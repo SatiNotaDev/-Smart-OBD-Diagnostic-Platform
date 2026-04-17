@@ -91,5 +91,79 @@
       "ru": "Русский",
       "fr": "Французский"
     }
+  },
+  "dashboard": {
+    "sidebar": {
+      "dashboard": "Панель",
+      "vehicles": "Автомобили",
+      "settings": "Настройки",
+      "logout": "Выйти"
+    },
+    "overview": {
+      "welcome": "С возвращением",
+      "totalVehicles": "Всего автомобилей",
+      "lastDiagnostic": "Последняя диагностика",
+      "noDiagnostics": "Нет диагностик",
+      "accountStatus": "Статус аккаунта",
+      "freePlan": "Бесплатный план",
+      "addVehicle": "Добавить авто"
+    },
+    "vehicles": {
+      "title": "Мои автомобили",
+      "searchPlaceholder": "Поиск автомобилей...",
+      "sortBy": "Сортировка",
+      "sortBrand": "Марка",
+      "sortYear": "Год",
+      "sortDate": "Дата добавления",
+      "addVehicle": "Добавить авто",
+      "emptyTitle": "Нет автомобилей",
+      "emptyDescription": "Добавьте первый автомобиль",
+      "brand": "Марка",
+      "model": "Модель",
+      "year": "Год",
+      "engineType": "Тип двигателя",
+      "vin": "VIN",
+      "mileage": "Пробег",
+      "color": "Цвет",
+      "licensePlate": "Гос. номер",
+      "km": "км",
+      "enginePetrol": "Бензин",
+      "engineDiesel": "Дизель",
+      "engineHybrid": "Гибрид",
+      "engineElectric": "Электро",
+      "addDialog": {
+        "title": "Добавить автомобиль",
+        "submit": "Добавить",
+        "cancel": "Отмена"
+      },
+      "vinDecode": "Расшифровать VIN",
+      "vinDecoding": "Расшифровка...",
+      "vinDecoded": "Данные авто загружены по VIN",
+      "vinError": "Не удалось расшифровать VIN",
+      "searchMake": "Начните вводить...",
+      "deleteConfirm": "Удалить автомобиль?",
+      "deleted": "Автомобиль удалён"
+    },
+    "settings": {
+      "title": "Настройки",
+      "profile": {
+        "title": "Профиль",
+        "name": "Полное имя",
+        "email": "Email",
+        "language": "Язык",
+        "theme": "Тема",
+        "themeLight": "Светлая",
+        "themeDark": "Тёмная",
+        "save": "Сохранить",
+        "saved": "Настройки сохранены"
+      },
+      "tariff": {
+        "title": "Подписка",
+        "currentPlan": "Текущий план",
+        "freePlan": "Бесплатный",
+        "freePlanDesc": "Базовые функции для личного использования",
+        "upgrade": "Улучшить"
+      }
+    }
   }
 }

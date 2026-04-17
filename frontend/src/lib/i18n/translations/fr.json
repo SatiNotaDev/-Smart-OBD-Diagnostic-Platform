@@ -91,5 +91,79 @@
       "ru": "Russe",
       "fr": "Francais"
     }
+  },
+  "dashboard": {
+    "sidebar": {
+      "dashboard": "Tableau de bord",
+      "vehicles": "Véhicules",
+      "settings": "Paramètres",
+      "logout": "Déconnexion"
+    },
+    "overview": {
+      "welcome": "Bon retour",
+      "totalVehicles": "Total véhicules",
+      "lastDiagnostic": "Dernier diagnostic",
+      "noDiagnostics": "Pas encore de diagnostic",
+      "accountStatus": "Statut du compte",
+      "freePlan": "Plan gratuit",
+      "addVehicle": "Ajouter un véhicule"
+    },
+    "vehicles": {
+      "title": "Mes véhicules",
+      "searchPlaceholder": "Rechercher un véhicule...",
+      "sortBy": "Trier par",
+      "sortBrand": "Marque",
+      "sortYear": "Année",
+      "sortDate": "Date d'ajout",
+      "addVehicle": "Ajouter un véhicule",
+      "emptyTitle": "Aucun véhicule",
+      "emptyDescription": "Ajoutez votre premier véhicule",
+      "brand": "Marque",
+      "model": "Modèle",
+      "year": "Année",
+      "engineType": "Type de moteur",
+      "vin": "VIN",
+      "mileage": "Kilométrage",
+      "color": "Couleur",
+      "licensePlate": "Plaque d'immatriculation",
+      "km": "km",
+      "enginePetrol": "Essence",
+      "engineDiesel": "Diesel",
+      "engineHybrid": "Hybride",
+      "engineElectric": "Électrique",
+      "addDialog": {
+        "title": "Ajouter un véhicule",
+        "submit": "Ajouter",
+        "cancel": "Annuler"
+      },
+      "vinDecode": "Décoder le VIN",
+      "vinDecoding": "Décodage...",
+      "vinDecoded": "Infos véhicule chargées depuis le VIN",
+      "vinError": "Impossible de décoder le VIN",
+      "searchMake": "Tapez pour rechercher...",
+      "deleteConfirm": "Supprimer ce véhicule ?",
+      "deleted": "Véhicule supprimé"
+    },
+    "settings": {
+      "title": "Paramètres",
+      "profile": {
+        "title": "Profil",
+        "name": "Nom complet",
+        "email": "Email",
+        "language": "Langue",
+        "theme": "Thème",
+        "themeLight": "Clair",
+        "themeDark": "Sombre",
+        "save": "Enregistrer",
+        "saved": "Paramètres enregistrés"
+      },
+      "tariff": {
+        "title": "Abonnement",
+        "currentPlan": "Plan actuel",
+        "freePlan": "Gratuit",
+        "freePlanDesc": "Fonctionnalités de base pour usage personnel",
+        "upgrade": "Améliorer"
+      }
+    }
   }
 }

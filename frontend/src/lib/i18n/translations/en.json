@@ -91,5 +91,79 @@
       "ru": "Russian",
       "fr": "French"
     }
+  },
+  "dashboard": {
+    "sidebar": {
+      "dashboard": "Dashboard",
+      "vehicles": "Vehicles",
+      "settings": "Settings",
+      "logout": "Log Out"
+    },
+    "overview": {
+      "welcome": "Welcome back",
+      "totalVehicles": "Total Vehicles",
+      "lastDiagnostic": "Last Diagnostic",
+      "noDiagnostics": "No diagnostics yet",
+      "accountStatus": "Account Status",
+      "freePlan": "Free Plan",
+      "addVehicle": "Add Vehicle"
+    },
+    "vehicles": {
+      "title": "My Vehicles",
+      "searchPlaceholder": "Search vehicles...",
+      "sortBy": "Sort by",
+      "sortBrand": "Brand",
+      "sortYear": "Year",
+      "sortDate": "Date Added",
+      "addVehicle": "Add Vehicle",
+      "emptyTitle": "No vehicles yet",
+      "emptyDescription": "Add your first vehicle to get started",
+      "brand": "Brand",
+      "model": "Model",
+      "year": "Year",
+      "engineType": "Engine Type",
+      "vin": "VIN",
+      "mileage": "Mileage",
+      "color": "Color",
+      "licensePlate": "License Plate",
+      "km": "km",
+      "enginePetrol": "Petrol",
+      "engineDiesel": "Diesel",
+      "engineHybrid": "Hybrid",
+      "engineElectric": "Electric",
+      "addDialog": {
+        "title": "Add New Vehicle",
+        "submit": "Add",
+        "cancel": "Cancel"
+      },
+      "vinDecode": "Decode VIN",
+      "vinDecoding": "Decoding...",
+      "vinDecoded": "Vehicle info loaded from VIN",
+      "vinError": "Could not decode VIN",
+      "searchMake": "Type to search...",
+      "deleteConfirm": "Delete this vehicle?",
+      "deleted": "Vehicle deleted"
+    },
+    "settings": {
+      "title": "Settings",
+      "profile": {
+        "title": "Profile",
+        "name": "Full Name",
+        "email": "Email",
+        "language": "Language",
+        "theme": "Theme",
+        "themeLight": "Light",
+        "themeDark": "Dark",
+        "save": "Save Changes",
+        "saved": "Settings saved"
+      },
+      "tariff": {
+        "title": "Subscription",
+        "currentPlan": "Current Plan",
+        "freePlan": "Free",
+        "freePlanDesc": "Basic features for personal use",
+        "upgrade": "Upgrade"
+      }
+    }
   }
 }
