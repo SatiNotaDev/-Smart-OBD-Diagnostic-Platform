@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { LoginForm } from "./login-form";
 import { RegisterForm } from "./register-form";
 import { MfaForm } from "./mfa-form";
@@ -13,28 +13,34 @@ interface FlipCardProps {
 
 export function FlipCard({ onForgotPassword }: FlipCardProps) {
   const [view, setView] = useState<CardView>("login");
+  const [displayedView, setDisplayedView] = useState<CardView>("login");
+  const [isAnimating, setIsAnimating] = useState(false);
   const [mfaCreds, setMfaCreds] = useState({ email: "", password: "" });
+  const cardRef = useRef<HTMLDivElement>(null);
 
-  const isFlipped = view === "register";
+  const switchView = (next: CardView) => {
+    if (isAnimating || next === view) return;
+    setIsAnimating(true);
+
+    cardRef.current?.classList.add("card-flip-out");
+
+    setTimeout(() => {
+      setDisplayedView(next);
+      setView(next);
+      cardRef.current?.classList.remove("card-flip-out");
+      cardRef.current?.classList.add("card-flip-in");
+
+      setTimeout(() => {
+        cardRef.current?.classList.remove("card-flip-in");
+        setIsAnimating(false);
+      }, 300);
+    }, 300);
+  };
 
   const handleMfaRequired = (email: string, password: string) => {
     setMfaCreds({ email, password });
-    setView("mfa");
+    switchView("mfa");
   };
-
-  if (view === "mfa") {
-    return (
-      <div className="w-full max-w-xl">
-        <div className="rounded-2xl border border-border bg-card/80 backdrop-blur-sm p-10 shadow-2xl">
-          <MfaForm
-            email={mfaCreds.email}
-            password={mfaCreds.password}
-            onBack={() => setView("login")}
-          />
-        </div>
-      </div>
-    );
-  }
 
   return (
     <div className="w-full max-w-xl">
@@ -48,27 +54,28 @@ export function FlipCard({ onForgotPassword }: FlipCardProps) {
         </span>
       </div>
 
-      {/* Flip Card */}
-      <div className="flip-card">
-        <div className={`flip-card-inner relative ${isFlipped ? "flipped" : ""}`}>
-          {/* Front — Login */}
-          <div className="flip-card-front">
-            <div className="rounded-2xl border border-border bg-card/80 backdrop-blur-sm p-10 shadow-2xl">
-              <LoginForm
-                onFlip={() => setView("register")}
-                onForgotPassword={onForgotPassword}
-                onMfaRequired={handleMfaRequired}
-              />
-            </div>
-          </div>
-
-          {/* Back — Register */}
-          <div className="flip-card-back absolute inset-0">
-            <div className="rounded-2xl border border-border bg-card/80 backdrop-blur-sm p-10 shadow-2xl">
-              <RegisterForm onFlip={() => setView("login")} />
-            </div>
-          </div>
-        </div>
+      {/* Card */}
+      <div
+        ref={cardRef}
+        className="rounded-2xl border border-border bg-card/80 backdrop-blur-sm p-10 shadow-2xl card-flip"
+      >
+        {displayedView === "login" && (
+          <LoginForm
+            onFlip={() => switchView("register")}
+            onForgotPassword={onForgotPassword}
+            onMfaRequired={handleMfaRequired}
+          />
+        )}
+        {displayedView === "register" && (
+          <RegisterForm onFlip={() => switchView("login")} />
+        )}
+        {displayedView === "mfa" && (
+          <MfaForm
+            email={mfaCreds.email}
+            password={mfaCreds.password}
+            onBack={() => switchView("login")}
+          />
+        )}
       </div>
     </div>
   );
