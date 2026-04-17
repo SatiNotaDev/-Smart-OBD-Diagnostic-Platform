@@ -2,6 +2,7 @@ import { Module, MiddlewareConsumer, NestModule } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { PrismaModule } from './modules/prisma/prisma.module';
 import { AuthModule } from './modules/auth/auth.module';
+import { VehiclesModule } from './modules/vehicles/vehicles.module';
 import { LoggerMiddleware } from './common/middleware/logger.middleware';
 import { SecurityMiddleware } from './common/middleware/security.middleware';
 
@@ -16,6 +17,8 @@ import { SecurityMiddleware } from './common/middleware/security.middleware';
     PrismaModule,
     // Auth Module
     AuthModule,
+    // Vehicles Module
+    VehiclesModule,
   ],
 })
 export class AppModule implements NestModule {
