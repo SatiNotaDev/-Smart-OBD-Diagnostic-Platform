@@ -1,0 +1,74 @@
+name: Deploy
+
+on:
+  push:
+    branches: [release]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment: production
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install SOPS
+        uses: mdgreenwald/mozilla-sops-action@v1.6.0
+
+      - name: Install age
+        run: |
+          sudo apt-get update && sudo apt-get install -y age
+
+      - name: Decrypt secrets
+        env:
+          SOPS_AGE_KEY: ${{ secrets.SOPS_AGE_KEY }}
+        run: |
+          echo "$SOPS_AGE_KEY" > /tmp/age-key.txt
+          export SOPS_AGE_KEY_FILE=/tmp/age-key.txt
+          sops --decrypt infra/sops/prod.enc.env > .env.prod
+          rm /tmp/age-key.txt
+
+      - name: Deploy to server
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          SERVER_IP: ${{ secrets.SERVER_IP }}
+        run: |
+          # Setup SSH
+          mkdir -p ~/.ssh
+          echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_ed25519
+          ssh-keyscan -H "$SERVER_IP" >> ~/.ssh/known_hosts
+
+          # Sync project files
+          rsync -avz --delete \
+            --exclude='node_modules' \
+            --exclude='.git' \
+            --exclude='.next' \
+            --exclude='dist' \
+            --exclude='coverage' \
+            --exclude='*.env.local' \
+            --exclude='terraform.tfstate*' \
+            --exclude='terraform.tfvars' \
+            --exclude='.terraform' \
+            ./ "root@$SERVER_IP:/opt/smart-obd/"
+
+          # Copy decrypted env
+          scp .env.prod "root@$SERVER_IP:/opt/smart-obd/.env"
+
+          # Build and restart
+          ssh "root@$SERVER_IP" << 'EOF'
+            cd /opt/smart-obd
+            docker compose -f docker-compose.prod.yml build --parallel
+            docker compose -f docker-compose.prod.yml up -d
+            docker compose -f docker-compose.prod.yml exec -T backend npx prisma migrate deploy
+            docker image prune -f
+          EOF
+
+      - name: Health check
+        env:
+          SERVER_IP: ${{ secrets.SERVER_IP }}
+        run: |
+          sleep 15
+          curl -f "http://$SERVER_IP:3000/api/health" || exit 1
+          echo "Deploy successful!"

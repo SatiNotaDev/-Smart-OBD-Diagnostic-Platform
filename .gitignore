@@ -36,6 +36,10 @@ infra/terraform/terraform.tfstate*
 infra/terraform/terraform.tfvars
 infra/terraform/.terraform.lock.hcl
 
+# Secrets (decrypted)
+.env.prod
+infra/sops/prod.env
+
 # Local planning/progress docs
 DOCKER_SETUP.md
 IMPLEMENTATION_PLAN.md
