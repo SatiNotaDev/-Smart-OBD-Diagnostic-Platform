@@ -8,7 +8,7 @@ import { Header } from "@/components/dashboard/header";
 import { useI18n } from "@/lib/i18n/i18n";
 
 const pageTitles: Record<string, string> = {
-  "/": "dashboard.sidebar.dashboard",
+  "/overview": "dashboard.sidebar.dashboard",
   "/vehicles": "dashboard.vehicles.title",
   "/settings": "dashboard.settings.title",
 };

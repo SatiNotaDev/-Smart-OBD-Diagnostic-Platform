@@ -13,7 +13,7 @@ interface SidebarProps {
 }
 
 const navItems = [
-  { href: "/", icon: LayoutDashboard, labelKey: "dashboard.sidebar.dashboard" },
+  { href: "/overview", icon: LayoutDashboard, labelKey: "dashboard.sidebar.dashboard" },
   { href: "/vehicles", icon: Car, labelKey: "dashboard.sidebar.vehicles" },
   { href: "/settings", icon: Settings, labelKey: "dashboard.sidebar.settings" },
 ] as const;
@@ -85,7 +85,7 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
         {/* Navigation */}
         <nav className="flex-1 px-3 py-4 space-y-1">
           {navItems.map(({ href, icon: Icon, labelKey }) => {
-            const isActive = href === "/" ? pathname === "/" : pathname.startsWith(href);
+            const isActive = pathname === href || pathname.startsWith(href + "/");
             return (
               <Link
                 key={href}
