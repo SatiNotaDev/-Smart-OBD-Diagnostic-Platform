@@ -19,6 +19,7 @@ import { Badge } from "@/components/ui/badge";
 import { useVehicle, useDeleteVehicle } from "@/lib/query/use-vehicles";
 import { EditVehicleDialog } from "@/components/vehicles/edit-vehicle-dialog";
 import { NotesSection } from "@/components/vehicles/notes-section";
+import { DiagnosticsSection } from "@/components/vehicles/diagnostics-section";
 import { useI18n } from "@/lib/i18n/i18n";
 
 const engineVariant: Record<string, "default" | "success" | "warning" | "error"> = {
@@ -139,6 +140,9 @@ export default function VehicleDetailPage() {
           )}
         </div>
       </div>
+
+      {/* Diagnostics */}
+      <DiagnosticsSection vehicleId={id} />
 
       {/* Notes */}
       <NotesSection vehicleId={id} />
