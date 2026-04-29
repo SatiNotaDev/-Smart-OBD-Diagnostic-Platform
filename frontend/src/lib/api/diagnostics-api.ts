@@ -41,7 +41,22 @@ export interface CreateSessionData {
   metrics?: Array<{ name: string; value: number; unit?: string }>;
 }
 
+export interface DashboardStats {
+  vehicleCount: number;
+  sessionCount: number;
+  dtcCount: number;
+  recentSessions: Array<{
+    id: string;
+    createdAt: string;
+    vehicle: { brand: string; model: string };
+    _count: { dtcs: number };
+  }>;
+  monthlyDiagnostics: Array<{ month: string; count: number }>;
+}
+
 export const diagnosticsApi = {
+  getStats: () => api.get<DashboardStats>("/diagnostics/stats"),
+
   listByVehicle: (vehicleId: string) =>
     api.get<DiagnosticSession[]>(`/diagnostics/vehicle/${vehicleId}`),
 

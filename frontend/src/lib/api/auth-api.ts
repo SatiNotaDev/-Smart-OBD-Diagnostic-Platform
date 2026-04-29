@@ -6,6 +6,7 @@ export interface User {
   name: string | null;
   avatar: string | null;
   role: string;
+  plan: string;
   isEmailVerified: boolean;
   mfaEnabled: boolean;
   preferredLanguage: string;

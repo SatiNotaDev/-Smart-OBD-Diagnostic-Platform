@@ -11,6 +11,57 @@ export class DiagnosticsService {
     private readonly aiAnalysis: AiAnalysisService,
   ) {}
 
+  async getStats(userId: string) {
+    const vehicles = await this.prisma.vehicle.findMany({
+      where: { userId },
+      select: { id: true },
+    });
+
+    const vehicleIds = vehicles.map((v) => v.id);
+
+    const [vehicleCount, sessionCount, dtcCount, recentSessions] = await Promise.all([
+      this.prisma.vehicle.count({ where: { userId } }),
+      this.prisma.diagnosticSession.count({ where: { vehicleId: { in: vehicleIds } } }),
+      this.prisma.dtcCode.count({
+        where: { session: { vehicleId: { in: vehicleIds } } },
+      }),
+      this.prisma.diagnosticSession.findMany({
+        where: { vehicleId: { in: vehicleIds } },
+        orderBy: { createdAt: 'desc' },
+        take: 5,
+        include: {
+          vehicle: { select: { brand: true, model: true } },
+          _count: { select: { dtcs: true } },
+        },
+      }),
+    ]);
+
+    const monthlyStats = await this.prisma.diagnosticSession.groupBy({
+      by: ['createdAt'],
+      where: {
+        vehicleId: { in: vehicleIds },
+        createdAt: { gte: new Date(Date.now() - 180 * 24 * 60 * 60 * 1000) },
+      },
+      _count: true,
+    });
+
+    const monthlyMap: Record<string, number> = {};
+    for (const entry of monthlyStats) {
+      const key = `${entry.createdAt.getFullYear()}-${String(entry.createdAt.getMonth() + 1).padStart(2, '0')}`;
+      monthlyMap[key] = (monthlyMap[key] || 0) + entry._count;
+    }
+
+    return {
+      vehicleCount,
+      sessionCount,
+      dtcCount,
+      recentSessions,
+      monthlyDiagnostics: Object.entries(monthlyMap)
+        .sort(([a], [b]) => a.localeCompare(b))
+        .map(([month, count]) => ({ month, count })),
+    };
+  }
+
   async findAll(vehicleId: string, userId: string) {
     await this.verifyVehicleOwnership(vehicleId, userId);
 

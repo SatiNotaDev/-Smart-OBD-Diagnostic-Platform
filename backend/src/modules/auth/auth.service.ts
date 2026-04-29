@@ -398,6 +398,7 @@ export class AuthService {
         name: user.name,
         avatar: user.avatar,
         role: user.role,
+        plan: user.plan,
         isEmailVerified: user.isEmailVerified,
         mfaEnabled: user.mfaEnabled,
         preferredLanguage: user.preferredLanguage,

@@ -118,9 +118,10 @@ export class VehiclesController {
   @HttpCode(HttpStatus.CREATED)
   async create(
     @CurrentUser('id') userId: string,
+    @CurrentUser('plan') userPlan: string,
     @Body() dto: CreateVehicleDto,
   ) {
-    return this.vehiclesService.create(userId, dto);
+    return this.vehiclesService.create(userId, dto, userPlan);
   }
 
   /**

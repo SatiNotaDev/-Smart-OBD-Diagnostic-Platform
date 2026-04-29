@@ -5,12 +5,21 @@ import {
   diagnosticsApi,
   type DiagnosticSession,
   type CreateSessionData,
+  type DashboardStats,
 } from "@/lib/api/diagnostics-api";
 
 const diagKeys = {
   all: (vehicleId: string) => ["diagnostics", vehicleId] as const,
   detail: (id: string) => ["diagnostic", id] as const,
+  stats: ["diagnostics", "stats"] as const,
 };
+
+export function useDashboardStats() {
+  return useQuery<DashboardStats>({
+    queryKey: diagKeys.stats,
+    queryFn: () => diagnosticsApi.getStats(),
+  });
+}
 
 export function useDiagnostics(vehicleId: string) {
   return useQuery<DiagnosticSession[]>({

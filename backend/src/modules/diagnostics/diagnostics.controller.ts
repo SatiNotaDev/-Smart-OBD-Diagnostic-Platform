@@ -22,6 +22,11 @@ export class DiagnosticsController {
     private readonly reportService: DiagnosticReportService,
   ) {}
 
+  @Get('stats')
+  async getStats(@CurrentUser('id') userId: string) {
+    return this.diagnosticsService.getStats(userId);
+  }
+
   @Get('vehicle/:vehicleId')
   async findAll(
     @Param('vehicleId') vehicleId: string,

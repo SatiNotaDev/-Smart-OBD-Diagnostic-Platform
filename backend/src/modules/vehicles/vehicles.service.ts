@@ -1,8 +1,14 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException, ForbiddenException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { CreateVehicleDto } from './dto/create-vehicle.dto';
 import { UpdateVehicleDto } from './dto/update-vehicle.dto';
 import { Prisma } from '@prisma/client';
+
+const PLAN_VEHICLE_LIMITS: Record<string, number> = {
+  FREE: 3,
+  PRO: 15,
+  BUSINESS: Infinity,
+};
 
 @Injectable()
 export class VehiclesService {
@@ -51,7 +57,18 @@ export class VehiclesService {
     return vehicle;
   }
 
-  async create(userId: string, dto: CreateVehicleDto) {
+  async create(userId: string, dto: CreateVehicleDto, userPlan?: string) {
+    const plan = userPlan || 'FREE';
+    const limit = PLAN_VEHICLE_LIMITS[plan] ?? PLAN_VEHICLE_LIMITS.FREE;
+
+    const currentCount = await this.prisma.vehicle.count({ where: { userId } });
+
+    if (currentCount >= limit) {
+      throw new ForbiddenException(
+        `Vehicle limit reached (${limit} for ${plan} plan). Upgrade your plan to add more vehicles.`,
+      );
+    }
+
     return this.prisma.vehicle.create({
       data: {
         ...dto,
