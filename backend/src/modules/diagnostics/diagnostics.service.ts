@@ -24,7 +24,7 @@ export class DiagnosticsService {
     const session = await this.prisma.diagnosticSession.findFirst({
       where: { id },
       include: {
-        vehicle: { select: { userId: true } },
+        vehicle: { select: { userId: true, brand: true, model: true, year: true, vin: true, mileage: true, engineType: true } },
         dtcs: true,
         metrics: true,
         result: true,

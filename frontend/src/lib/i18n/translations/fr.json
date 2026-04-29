@@ -170,6 +170,11 @@
         "categoryObservation": "Observation",
         "categoryReminder": "Rappel"
       },
+      "photos": {
+        "title": "Photos",
+        "upload": "Télécharger",
+        "empty": "Aucune photo. Téléchargez la première."
+      },
       "diagnostics": {
         "title": "Diagnostics",
         "newSession": "Nouveau scan",
@@ -180,7 +185,8 @@
         "empty": "Aucune session de diagnostic. Lancez votre premier scan.",
         "deleteConfirm": "Supprimer cette session ?",
         "expand": "Voir détails",
-        "collapse": "Masquer"
+        "collapse": "Masquer",
+        "chartTitle": "Historique des scans"
       },
       "chat": {
         "title": "Assistant IA",
@@ -205,12 +211,42 @@
         "save": "Enregistrer",
         "saved": "Paramètres enregistrés"
       },
+      "mfa": {
+        "title": "Authentification à deux facteurs",
+        "description": "Ajoutez une couche de sécurité supplémentaire",
+        "disabled": "2FA non activée. Votre compte est moins sécurisé.",
+        "enabled": "2FA active. Votre compte est protégé.",
+        "enable": "Activer 2FA",
+        "disableBtn": "Désactiver 2FA",
+        "scanQr": "Scannez ce QR code avec votre application d'authentification (Google Authenticator, Authy, etc.)",
+        "manualEntry": "Impossible de scanner ? Entrez cette clé manuellement :",
+        "enterCode": "Entrez le code à 6 chiffres",
+        "verify": "Vérifier et activer",
+        "cancel": "Annuler",
+        "activated": "2FA activée avec succès !",
+        "backupCodesTitle": "Codes de secours",
+        "backupCodesDesc": "Conservez ces codes en lieu sûr. Chacun est utilisable une seule fois en cas de perte d'accès.",
+        "copyAll": "Copier tout",
+        "copied": "Copié !",
+        "finish": "Terminé",
+        "disableDesc": "Entrez le code de votre application pour désactiver 2FA.",
+        "confirmDisable": "Désactiver 2FA",
+        "setupError": "Impossible de démarrer la configuration 2FA",
+        "invalidCode": "Code invalide. Réessayez."
+      },
       "tariff": {
         "title": "Abonnement",
-        "currentPlan": "Plan actuel",
-        "freePlan": "Gratuit",
-        "freePlanDesc": "Fonctionnalités de base pour usage personnel",
-        "upgrade": "Améliorer"
+        "current": "Actuel",
+        "freeName": "Gratuit",
+        "proName": "Pro",
+        "businessName": "Business",
+        "vehiclesLimit": "Jusqu'à {{count}} véhicules",
+        "unlimitedVehicles": "Véhicules illimités",
+        "scansLimit": "{{count}} scans/mois",
+        "unlimitedScans": "Scans illimités",
+        "aiChat": "Chat diagnostic IA",
+        "upgrade": "Améliorer",
+        "manage": "Gérer"
       }
     }
   }

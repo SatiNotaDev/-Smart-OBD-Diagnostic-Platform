@@ -76,4 +76,26 @@ export class VehiclesService {
       where: { id, userId },
     });
   }
+
+  async addPhoto(id: string, userId: string, photoUrl: string) {
+    const vehicle = await this.findOne(id, userId);
+
+    return this.prisma.vehicle.update({
+      where: { id, userId },
+      data: {
+        photos: { push: photoUrl },
+      },
+    });
+  }
+
+  async removePhoto(id: string, userId: string, photoUrl: string) {
+    const vehicle = await this.findOne(id, userId);
+
+    return this.prisma.vehicle.update({
+      where: { id, userId },
+      data: {
+        photos: vehicle.photos.filter((p) => p !== photoUrl),
+      },
+    });
+  }
 }

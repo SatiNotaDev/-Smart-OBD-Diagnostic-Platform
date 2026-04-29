@@ -10,6 +10,7 @@ export interface Vehicle {
   mileage: number | null;
   color: string | null;
   licensePlate: string | null;
+  photos: string[];
   createdAt: string;
 }
 

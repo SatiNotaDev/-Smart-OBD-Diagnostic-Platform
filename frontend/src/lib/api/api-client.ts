@@ -54,7 +54,8 @@ export const api = {
   patch: <T>(endpoint: string, body?: unknown) =>
     request<T>(endpoint, { method: "PATCH", body }),
 
-  del: <T>(endpoint: string) => request<T>(endpoint, { method: "DELETE" }),
+  del: <T>(endpoint: string, body?: unknown) =>
+    request<T>(endpoint, { method: "DELETE", body }),
 };
 
 export { ApiError };

@@ -68,7 +68,7 @@ export class AiChatService {
     }));
 
     // Generate AI response
-    const aiResponse = generateAiResponse(dto.message, {
+    const aiResponse = await generateAiResponse(dto.message, {
       vehicle: {
         brand: vehicle.brand,
         model: vehicle.model,

@@ -21,6 +21,7 @@ import { EditVehicleDialog } from "@/components/vehicles/edit-vehicle-dialog";
 import { NotesSection } from "@/components/vehicles/notes-section";
 import { DiagnosticsSection } from "@/components/vehicles/diagnostics-section";
 import { AiChatSection } from "@/components/vehicles/ai-chat-section";
+import { PhotoGallery } from "@/components/vehicles/photo-gallery";
 import { useI18n } from "@/lib/i18n/i18n";
 
 const engineVariant: Record<string, "default" | "success" | "warning" | "error"> = {
@@ -141,6 +142,9 @@ export default function VehicleDetailPage() {
           )}
         </div>
       </div>
+
+      {/* Photos */}
+      <PhotoGallery vehicleId={id} photos={vehicle.photos || []} />
 
       {/* Diagnostics */}
       <DiagnosticsSection vehicleId={id} />

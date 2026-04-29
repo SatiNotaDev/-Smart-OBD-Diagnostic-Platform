@@ -34,6 +34,12 @@ model User {
   mfaSecret         String?                 // TOTP secret
   mfaBackupCodes    String[]                // Backup codes
 
+  // Subscription
+  plan              Plan      @default(FREE)
+  stripeCustomerId  String?   @unique
+  stripeSubId       String?   @unique
+  planExpiresAt     DateTime?
+
   // Preferences
   preferredLanguage String    @default("en") // en, ru, fr
   theme             String    @default("light") // light, dark
@@ -59,6 +65,7 @@ model Vehicle {
   notes         Note[]
   diagnostics   DiagnosticSession[]
   aiChats       AiChat[]
+  reminders     Reminder[]
   createdAt     DateTime            @default(now())
   updatedAt     DateTime            @updatedAt
 }
@@ -173,4 +180,31 @@ enum MessageRole {
   USER
   ASSISTANT
   SYSTEM
+}
+
+model Reminder {
+  id          String         @id @default(uuid())
+  vehicleId   String
+  vehicle     Vehicle        @relation(fields: [vehicleId], references: [id], onDelete: Cascade)
+  title       String
+  description String?
+  type        ReminderType   @default(MILEAGE)
+  dueMileage  Int?
+  dueDate     DateTime?
+  isCompleted Boolean        @default(false)
+  completedAt DateTime?
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
+}
+
+enum ReminderType {
+  MILEAGE
+  DATE
+  BOTH
+}
+
+enum Plan {
+  FREE
+  PRO
+  BUSINESS
 }

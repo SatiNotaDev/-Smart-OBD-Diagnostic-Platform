@@ -10,12 +10,14 @@ import {
   ShieldAlert,
   Activity,
   X,
+  Download,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { useDiagnostics, useCreateDiagnostic, useDeleteDiagnostic } from "@/lib/query/use-diagnostics";
 import { useI18n } from "@/lib/i18n/i18n";
+import { DiagnosticsChart } from "@/components/vehicles/diagnostics-chart";
 import type { DiagnosticSession } from "@/lib/api/diagnostics-api";
 
 const severityConfig: Record<number, { icon: typeof Info; variant: "default" | "success" | "warning" | "error"; label: string }> = {
@@ -116,6 +118,13 @@ export function DiagnosticsSection({ vehicleId }: DiagnosticsSectionProps) {
         </form>
       )}
 
+      {/* Chart */}
+      {sessions && sessions.length >= 2 && (
+        <div className="mb-5">
+          <DiagnosticsChart sessions={sessions} />
+        </div>
+      )}
+
       {/* Sessions list */}
       {isLoading ? (
         <div className="flex justify-center py-6">
@@ -186,13 +195,22 @@ function SessionCard({
             {expanded ? t("dashboard.vehicles.diagnostics.collapse") : t("dashboard.vehicles.diagnostics.expand")}
           </button>
         </div>
-        <button
-          type="button"
-          onClick={() => onDelete(session.id)}
-          className="p-1.5 rounded text-muted hover:text-error hover:bg-error/10 transition-colors shrink-0"
-        >
-          <Trash2 size={14} />
-        </button>
+        <div className="flex gap-1 shrink-0">
+          <a
+            href={`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000/api"}/diagnostics/${session.id}/pdf`}
+            className="p-1.5 rounded text-muted hover:text-primary hover:bg-primary/10 transition-colors"
+            title="Export PDF"
+          >
+            <Download size={14} />
+          </a>
+          <button
+            type="button"
+            onClick={() => onDelete(session.id)}
+            className="p-1.5 rounded text-muted hover:text-error hover:bg-error/10 transition-colors"
+          >
+            <Trash2 size={14} />
+          </button>
+        </div>
       </div>
 
       {/* Expanded DTC list */}

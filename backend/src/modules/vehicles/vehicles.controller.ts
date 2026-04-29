@@ -9,13 +9,31 @@ import {
   Query,
   HttpCode,
   HttpStatus,
+  UseInterceptors,
+  UploadedFile,
+  BadRequestException,
 } from '@nestjs/common';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { diskStorage } from 'multer';
+import { extname, join } from 'path';
+import { randomUUID } from 'crypto';
 import { VehiclesService } from './vehicles.service';
 import { NhtsaService } from './services/nhtsa.service';
 import { CreateVehicleDto } from './dto/create-vehicle.dto';
 import { UpdateVehicleDto } from './dto/update-vehicle.dto';
 import { CurrentUser } from '../auth/decorators/current-user.decorator';
 import { Public } from '../auth/decorators/public.decorator';
+
+const ALLOWED_EXTENSIONS = ['.jpg', '.jpeg', '.png', '.webp'];
+const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
+
+const photoStorage = diskStorage({
+  destination: join(process.cwd(), 'uploads', 'vehicles'),
+  filename: (_req, file, cb) => {
+    const ext = extname(file.originalname).toLowerCase();
+    cb(null, `${randomUUID()}${ext}`);
+  },
+});
 
 @Controller('vehicles')
 export class VehiclesController {
@@ -129,5 +147,45 @@ export class VehiclesController {
     @CurrentUser('id') userId: string,
   ) {
     return this.vehiclesService.remove(id, userId);
+  }
+
+  /**
+   * POST /vehicles/:id/photo
+   * Upload a photo for a vehicle
+   */
+  @Post(':id/photo')
+  @UseInterceptors(
+    FileInterceptor('file', {
+      storage: photoStorage,
+      limits: { fileSize: MAX_FILE_SIZE },
+      fileFilter: (_req, file, cb) => {
+        const ext = extname(file.originalname).toLowerCase();
+        if (!ALLOWED_EXTENSIONS.includes(ext)) {
+          return cb(new BadRequestException('Only .jpg, .png, .webp files allowed'), false);
+        }
+        cb(null, true);
+      },
+    }),
+  )
+  async uploadPhoto(
+    @Param('id') id: string,
+    @CurrentUser('id') userId: string,
+    @UploadedFile() file: Express.Multer.File,
+  ) {
+    if (!file) throw new BadRequestException('No file provided');
+    return this.vehiclesService.addPhoto(id, userId, `/uploads/vehicles/${file.filename}`);
+  }
+
+  /**
+   * DELETE /vehicles/:id/photo
+   * Remove a photo from a vehicle
+   */
+  @Delete(':id/photo')
+  async removePhoto(
+    @Param('id') id: string,
+    @CurrentUser('id') userId: string,
+    @Body('url') url: string,
+  ) {
+    return this.vehiclesService.removePhoto(id, userId, url);
   }
 }

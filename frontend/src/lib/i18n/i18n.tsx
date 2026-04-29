@@ -13,7 +13,7 @@ const translations: Record<Locale, typeof en> = { en, ru, fr };
 interface I18nContextType {
   locale: Locale;
   setLocale: (locale: Locale) => void;
-  t: (key: string) => string;
+  t: (key: string, params?: Record<string, string | number>) => string;
 }
 
 const I18nContext = createContext<I18nContextType | null>(null);
@@ -41,7 +41,15 @@ export function I18nProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const t = useCallback(
-    (key: string): string => getNestedValue(translations[locale], key),
+    (key: string, params?: Record<string, string | number>): string => {
+      let value = getNestedValue(translations[locale], key);
+      if (params) {
+        Object.entries(params).forEach(([k, v]) => {
+          value = value.replace(new RegExp(`\\{\\{${k}\\}\\}`, 'g'), String(v));
+        });
+      }
+      return value;
+    },
     [locale]
   );
 

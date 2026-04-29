@@ -14,7 +14,7 @@ Smart OBD Diagnostic Platform — a decision support system for analyzing vehicl
 
 Key patterns: Strategy (diagnostic hypotheses), Specification (composable rule conditions), Pipeline/Chain of Responsibility (diagnostic processing), Lightweight CQRS, Adapter (AI provider abstraction), Anti-Corruption Layer (OBD data validation).
 
-AI is **interpretation-only**: explaining results, prioritizing issues, suggesting inspection steps. Never makes diagnostic decisions or overrides rule logic.
+AI chat uses **Claude API** (Anthropic SDK) for real conversational diagnostics. Falls back to rule-based responses if `ANTHROPIC_API_KEY` is not set. AI is interpretation-only: explaining results, prioritizing issues, suggesting inspection steps. Never makes diagnostic decisions or overrides rule logic.
 
 ## Tech Stack
 

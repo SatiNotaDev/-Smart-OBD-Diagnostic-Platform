@@ -8,6 +8,8 @@ import { useAuth } from "@/lib/auth/auth-context";
 import { useI18n, type Locale } from "@/lib/i18n/i18n";
 import { useTheme } from "next-themes";
 import { Check } from "lucide-react";
+import { MfaSetupSection } from "@/components/settings/mfa-setup-section";
+import { SubscriptionSection } from "@/components/settings/subscription-section";
 
 export default function SettingsPage() {
   const { user } = useAuth();
@@ -78,27 +80,11 @@ export default function SettingsPage() {
         </div>
       </div>
 
-      {/* Tariff */}
-      <div className="rounded-2xl border border-border bg-card p-6 shadow-sm">
-        <h3 className="text-lg font-semibold text-foreground mb-4">
-          {t("dashboard.settings.tariff.title")}
-        </h3>
+      {/* MFA */}
+      <MfaSetupSection />
 
-        <div className="flex items-center justify-between rounded-[var(--radius)] border border-border bg-surface p-4">
-          <div>
-            <p className="text-sm text-muted">{t("dashboard.settings.tariff.currentPlan")}</p>
-            <p className="text-lg font-bold text-foreground">
-              {t("dashboard.settings.tariff.freePlan")}
-            </p>
-            <p className="text-xs text-muted mt-1">
-              {t("dashboard.settings.tariff.freePlanDesc")}
-            </p>
-          </div>
-          <Button variant="outline" disabled>
-            {t("dashboard.settings.tariff.upgrade")}
-          </Button>
-        </div>
-      </div>
+      {/* Subscription */}
+      <SubscriptionSection />
     </div>
   );
 }

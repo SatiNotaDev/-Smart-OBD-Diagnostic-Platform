@@ -170,6 +170,11 @@
         "categoryObservation": "Observation",
         "categoryReminder": "Reminder"
       },
+      "photos": {
+        "title": "Photos",
+        "upload": "Upload",
+        "empty": "No photos yet. Upload one to get started."
+      },
       "diagnostics": {
         "title": "Diagnostics",
         "newSession": "New Scan",
@@ -180,7 +185,8 @@
         "empty": "No diagnostic sessions yet. Run your first scan.",
         "deleteConfirm": "Delete this diagnostic session?",
         "expand": "Show details",
-        "collapse": "Hide details"
+        "collapse": "Hide details",
+        "chartTitle": "Scan History"
       },
       "chat": {
         "title": "AI Assistant",
@@ -205,12 +211,42 @@
         "save": "Save Changes",
         "saved": "Settings saved"
       },
+      "mfa": {
+        "title": "Two-Factor Authentication",
+        "description": "Add an extra layer of security to your account",
+        "disabled": "2FA is not enabled. Your account is less secure.",
+        "enabled": "2FA is active. Your account is protected.",
+        "enable": "Enable 2FA",
+        "disableBtn": "Disable 2FA",
+        "scanQr": "Scan this QR code with your authenticator app (Google Authenticator, Authy, etc.)",
+        "manualEntry": "Can't scan? Enter this key manually:",
+        "enterCode": "Enter 6-digit code",
+        "verify": "Verify & Activate",
+        "cancel": "Cancel",
+        "activated": "2FA has been successfully activated!",
+        "backupCodesTitle": "Backup Codes",
+        "backupCodesDesc": "Save these codes in a safe place. Each can be used once if you lose access to your authenticator.",
+        "copyAll": "Copy All",
+        "copied": "Copied!",
+        "finish": "Done",
+        "disableDesc": "Enter your authenticator code to disable 2FA.",
+        "confirmDisable": "Disable 2FA",
+        "setupError": "Failed to start MFA setup",
+        "invalidCode": "Invalid code. Try again."
+      },
       "tariff": {
         "title": "Subscription",
-        "currentPlan": "Current Plan",
-        "freePlan": "Free",
-        "freePlanDesc": "Basic features for personal use",
-        "upgrade": "Upgrade"
+        "current": "Current",
+        "freeName": "Free",
+        "proName": "Pro",
+        "businessName": "Business",
+        "vehiclesLimit": "Up to {{count}} vehicles",
+        "unlimitedVehicles": "Unlimited vehicles",
+        "scansLimit": "{{count}} scans/month",
+        "unlimitedScans": "Unlimited scans",
+        "aiChat": "AI diagnostic chat",
+        "upgrade": "Upgrade",
+        "manage": "Manage"
       }
     }
   }

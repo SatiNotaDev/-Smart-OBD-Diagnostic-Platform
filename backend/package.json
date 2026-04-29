@@ -19,6 +19,7 @@
     "prisma:seed": "ts-node prisma/seed.ts"
   },
   "dependencies": {
+    "@anthropic-ai/sdk": "^0.91.1",
     "@nestjs/common": "^10.3.0",
     "@nestjs/config": "^3.2.0",
     "@nestjs/core": "^10.3.0",
@@ -26,18 +27,24 @@
     "@nestjs/mapped-types": "^2.1.1",
     "@nestjs/passport": "^10.0.3",
     "@nestjs/platform-express": "^10.3.0",
+    "@nestjs/throttler": "^6.5.0",
     "@prisma/client": "^5.18.0",
+    "@types/multer": "^2.1.0",
     "bcrypt": "^5.1.1",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.1",
     "cookie-parser": "^1.4.6",
+    "multer": "^2.1.1",
     "passport": "^0.7.0",
     "passport-google-oauth20": "^2.0.0",
     "passport-jwt": "^4.0.1",
+    "pdfkit": "^0.18.0",
     "qrcode": "^1.5.3",
     "reflect-metadata": "^0.2.2",
+    "resend": "^6.12.2",
     "rxjs": "^7.8.2",
-    "speakeasy": "^2.0.0"
+    "speakeasy": "^2.0.0",
+    "stripe": "^22.1.0"
   },
   "devDependencies": {
     "@nestjs/cli": "^10.3.0",
@@ -50,6 +57,7 @@
     "@types/node": "^25.2.2",
     "@types/passport-google-oauth20": "^2.0.16",
     "@types/passport-jwt": "^4.0.1",
+    "@types/pdfkit": "^0.17.6",
     "@types/qrcode": "^1.5.5",
     "@types/speakeasy": "^2.0.10",
     "@types/supertest": "^6.0.2",
