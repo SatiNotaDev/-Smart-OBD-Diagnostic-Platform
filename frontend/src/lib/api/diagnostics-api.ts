@@ -51,4 +51,7 @@ export const diagnosticsApi = {
     api.post<DiagnosticSession>("/diagnostics", data),
 
   delete: (id: string) => api.del(`/diagnostics/${id}`),
+
+  reanalyze: (id: string) =>
+    api.post<DiagnosticSession>(`/diagnostics/${id}/reanalyze`),
 };

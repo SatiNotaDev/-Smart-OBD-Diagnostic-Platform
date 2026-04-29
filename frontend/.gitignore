@@ -32,3 +32,4 @@ Thumbs.db
 
 # Misc
 next-env.d.ts
+frontend/tsconfig.tsbuildinfo

@@ -11,11 +11,12 @@ import {
   Activity,
   X,
   Download,
+  RefreshCw,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
-import { useDiagnostics, useCreateDiagnostic, useDeleteDiagnostic } from "@/lib/query/use-diagnostics";
+import { useDiagnostics, useCreateDiagnostic, useDeleteDiagnostic, useReanalyzeDiagnostic } from "@/lib/query/use-diagnostics";
 import { useI18n } from "@/lib/i18n/i18n";
 import { DiagnosticsChart } from "@/components/vehicles/diagnostics-chart";
 import type { DiagnosticSession } from "@/lib/api/diagnostics-api";
@@ -140,6 +141,7 @@ export function DiagnosticsSection({ vehicleId }: DiagnosticsSectionProps) {
             <SessionCard
               key={session.id}
               session={session}
+              vehicleId={vehicleId}
               onDelete={handleDelete}
               t={t}
             />
@@ -152,14 +154,17 @@ export function DiagnosticsSection({ vehicleId }: DiagnosticsSectionProps) {
 
 function SessionCard({
   session,
+  vehicleId,
   onDelete,
   t,
 }: {
   session: DiagnosticSession;
+  vehicleId: string;
   onDelete: (id: string) => void;
   t: (key: string) => string;
 }) {
   const [expanded, setExpanded] = useState(false);
+  const reanalyze = useReanalyzeDiagnostic(vehicleId);
   const maxSeverity = Math.max(...session.dtcs.map((d) => d.severity), 1);
   const config = severityConfig[maxSeverity] || severityConfig[1];
   const Icon = config.icon;
@@ -213,9 +218,9 @@ function SessionCard({
         </div>
       </div>
 
-      {/* Expanded DTC list */}
+      {/* Expanded DTC list + analysis */}
       {expanded && (
-        <div className="mt-3 pt-3 border-t border-border">
+        <div className="mt-3 pt-3 border-t border-border space-y-3">
           <div className="grid gap-2">
             {session.dtcs.map((dtc) => {
               const sev = severityConfig[dtc.severity] || severityConfig[1];
@@ -229,6 +234,42 @@ function SessionCard({
               );
             })}
           </div>
+
+          {/* AI Analysis */}
+          {session.result && (
+            <div className="p-3 rounded-[var(--radius)] bg-accent/50 border border-border">
+              <div className="flex items-center justify-between mb-2">
+                <span className="text-xs font-medium text-foreground">
+                  {t("dashboard.vehicles.diagnostics.analysis")}
+                </span>
+                <button
+                  type="button"
+                  onClick={() => reanalyze.mutate(session.id)}
+                  disabled={reanalyze.isPending}
+                  className="flex items-center gap-1 text-[10px] text-primary hover:underline disabled:opacity-50"
+                >
+                  <RefreshCw size={10} className={reanalyze.isPending ? "animate-spin" : ""} />
+                  {t("dashboard.vehicles.diagnostics.reanalyze")}
+                </button>
+              </div>
+              <p className="text-xs text-muted whitespace-pre-line leading-relaxed">
+                {session.result.summary}
+              </p>
+              {session.result.confidence > 0 && (
+                <div className="mt-2 flex items-center gap-2">
+                  <div className="flex-1 h-1.5 rounded-full bg-border overflow-hidden">
+                    <div
+                      className="h-full rounded-full bg-primary"
+                      style={{ width: `${Math.round(session.result.confidence * 100)}%` }}
+                    />
+                  </div>
+                  <span className="text-[10px] text-muted">
+                    {Math.round(session.result.confidence * 100)}%
+                  </span>
+                </div>
+              )}
+            </div>
+          )}
         </div>
       )}
     </div>

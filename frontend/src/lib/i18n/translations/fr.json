@@ -186,7 +186,9 @@
         "deleteConfirm": "Supprimer cette session ?",
         "expand": "Voir détails",
         "collapse": "Masquer",
-        "chartTitle": "Historique des scans"
+        "chartTitle": "Historique des scans",
+        "analysis": "Analyse IA",
+        "reanalyze": "Réanalyser"
       },
       "chat": {
         "title": "Assistant IA",

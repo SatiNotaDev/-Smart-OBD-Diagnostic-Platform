@@ -186,7 +186,9 @@
         "deleteConfirm": "Delete this diagnostic session?",
         "expand": "Show details",
         "collapse": "Hide details",
-        "chartTitle": "Scan History"
+        "chartTitle": "Scan History",
+        "analysis": "AI Analysis",
+        "reanalyze": "Re-analyze"
       },
       "chat": {
         "title": "AI Assistant",
