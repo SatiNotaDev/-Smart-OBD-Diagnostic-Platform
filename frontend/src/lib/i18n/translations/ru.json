@@ -186,7 +186,9 @@
         "deleteConfirm": "Удалить сессию диагностики?",
         "expand": "Подробнее",
         "collapse": "Скрыть",
-        "chartTitle": "История сканов"
+        "chartTitle": "История сканов",
+        "analysis": "AI Анализ",
+        "reanalyze": "Переанализировать"
       },
       "chat": {
         "title": "AI Ассистент",

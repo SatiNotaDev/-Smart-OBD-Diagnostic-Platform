@@ -47,6 +47,14 @@ export class DiagnosticsController {
     return this.diagnosticsService.create(userId, dto);
   }
 
+  @Post(':id/reanalyze')
+  async reanalyze(
+    @Param('id') id: string,
+    @CurrentUser('id') userId: string,
+  ) {
+    return this.diagnosticsService.reanalyze(id, userId);
+  }
+
   @Get(':id/pdf')
   async exportPdf(
     @Param('id') id: string,

@@ -2,10 +2,14 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { CreateSessionDto } from './dto/create-session.dto';
 import { enrichDtcCode } from './services/dtc-database';
+import { AiAnalysisService } from './services/ai-analysis.service';
 
 @Injectable()
 export class DiagnosticsService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly aiAnalysis: AiAnalysisService,
+  ) {}
 
   async findAll(vehicleId: string, userId: string) {
     await this.verifyVehicleOwnership(vehicleId, userId);
@@ -74,57 +78,81 @@ export class DiagnosticsService {
       },
     });
 
-    // Generate summary
-    const maxSeverity = Math.max(...enrichedDtcs.map((d) => d.severity));
-    const systems = [...new Set(enrichedDtcs.map((d) => d.system))];
+    // AI-powered analysis
+    const vehicle = await this.prisma.vehicle.findFirst({
+      where: { id: dto.vehicleId },
+      select: { brand: true, model: true, year: true, engineType: true, mileage: true },
+    });
+
+    const aiResult = await this.aiAnalysis.analyze(enrichedDtcs, {
+      brand: vehicle!.brand,
+      model: vehicle!.model,
+      year: vehicle!.year,
+      engineType: vehicle!.engineType,
+      mileage: vehicle!.mileage,
+    });
+
+    const fullSummary = [
+      aiResult.summary,
+      aiResult.rootCause ? `\nRoot cause: ${aiResult.rootCause}` : '',
+      aiResult.correlations.length > 0 ? `\nCorrelations:\n${aiResult.correlations.map((c) => `• ${c}`).join('\n')}` : '',
+      aiResult.actionPlan.length > 0 ? `\nAction plan:\n${aiResult.actionPlan.map((s, i) => `${i + 1}. ${s}`).join('\n')}` : '',
+      aiResult.estimatedCost ? `\nEstimated cost: ${aiResult.estimatedCost}` : '',
+    ].filter(Boolean).join('');
 
     await this.prisma.analysisResult.create({
       data: {
         sessionId: session.id,
-        summary: this.generateSummary(enrichedDtcs, systems, maxSeverity),
-        confidence: this.calculateConfidence(enrichedDtcs),
+        summary: fullSummary,
+        confidence: aiResult.confidence,
       },
     });
 
     return this.findOne(session.id, userId);
   }
 
+  async reanalyze(id: string, userId: string) {
+    const session = await this.findOne(id, userId);
+
+    const vehicle = await this.prisma.vehicle.findFirst({
+      where: { id: session.vehicleId },
+      select: { brand: true, model: true, year: true, engineType: true, mileage: true },
+    });
+
+    const dtcsWithSystem = session.dtcs.map((d) => {
+      const enriched = enrichDtcCode(d.code, d.description, d.severity);
+      return enriched;
+    });
+
+    const aiResult = await this.aiAnalysis.analyze(dtcsWithSystem, {
+      brand: vehicle!.brand,
+      model: vehicle!.model,
+      year: vehicle!.year,
+      engineType: vehicle!.engineType,
+      mileage: vehicle!.mileage,
+    });
+
+    const fullSummary = [
+      aiResult.summary,
+      aiResult.rootCause ? `\nRoot cause: ${aiResult.rootCause}` : '',
+      aiResult.correlations.length > 0 ? `\nCorrelations:\n${aiResult.correlations.map((c) => `• ${c}`).join('\n')}` : '',
+      aiResult.actionPlan.length > 0 ? `\nAction plan:\n${aiResult.actionPlan.map((s, i) => `${i + 1}. ${s}`).join('\n')}` : '',
+      aiResult.estimatedCost ? `\nEstimated cost: ${aiResult.estimatedCost}` : '',
+    ].filter(Boolean).join('');
+
+    // Upsert the analysis result
+    await this.prisma.analysisResult.upsert({
+      where: { sessionId: id },
+      update: { summary: fullSummary, confidence: aiResult.confidence },
+      create: { sessionId: id, summary: fullSummary, confidence: aiResult.confidence },
+    });
+
+    return this.findOne(id, userId);
+  }
+
   async remove(id: string, userId: string) {
     await this.findOne(id, userId);
     return this.prisma.diagnosticSession.delete({ where: { id } });
-  }
-
-  private generateSummary(
-    dtcs: Array<{ code: string; description: string; severity: number; system: string }>,
-    systems: string[],
-    maxSeverity: number,
-  ): string {
-    const count = dtcs.length;
-    const critical = dtcs.filter((d) => d.severity >= 4).length;
-
-    let urgency = 'low';
-    if (maxSeverity >= 5) urgency = 'critical';
-    else if (maxSeverity >= 4) urgency = 'high';
-    else if (maxSeverity >= 3) urgency = 'moderate';
-
-    const parts = [
-      `Found ${count} DTC code${count > 1 ? 's' : ''}.`,
-      `Affected systems: ${systems.join(', ')}.`,
-    ];
-
-    if (critical > 0) {
-      parts.push(`${critical} critical/high severity issue${critical > 1 ? 's' : ''} requiring immediate attention.`);
-    }
-
-    parts.push(`Overall urgency: ${urgency}.`);
-    return parts.join(' ');
-  }
-
-  private calculateConfidence(
-    dtcs: Array<{ code: string; description: string; severity: number; system: string }>,
-  ): number {
-    const knownCount = dtcs.filter((d) => d.description !== 'Unknown DTC code').length;
-    return dtcs.length > 0 ? knownCount / dtcs.length : 0;
   }
 
   private async verifyVehicleOwnership(vehicleId: string, userId: string) {

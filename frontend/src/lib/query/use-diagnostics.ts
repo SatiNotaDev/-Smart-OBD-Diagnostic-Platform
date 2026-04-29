@@ -47,3 +47,13 @@ export function useDeleteDiagnostic(vehicleId: string) {
     },
   });
 }
+
+export function useReanalyzeDiagnostic(vehicleId: string) {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: (id: string) => diagnosticsApi.reanalyze(id),
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: diagKeys.all(vehicleId) });
+    },
+  });
+}
