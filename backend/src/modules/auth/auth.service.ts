@@ -49,6 +49,9 @@ export class AuthService {
     const emailVerifyToken = this.tokenService.generateRandomToken();
     const emailVerifyExpiry = new Date(Date.now() + 24 * 60 * 60 * 1000); // 24 hours
 
+    // Определение роли (auto-promote admin)
+    const isAdmin = process.env.ADMIN_EMAIL && dto.email.toLowerCase() === process.env.ADMIN_EMAIL.toLowerCase();
+
     // Создание пользователя
     const user = await this.prisma.user.create({
       data: {
@@ -58,6 +61,7 @@ export class AuthService {
         preferredLanguage: dto.preferredLanguage || 'en',
         emailVerifyToken,
         emailVerifyExpiry,
+        ...(isAdmin && { role: 'ADMIN' }),
       },
     });
 
