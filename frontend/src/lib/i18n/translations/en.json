@@ -181,6 +181,15 @@
         "deleteConfirm": "Delete this diagnostic session?",
         "expand": "Show details",
         "collapse": "Hide details"
+      },
+      "chat": {
+        "title": "AI Assistant",
+        "newChat": "New Chat",
+        "noChats": "No conversations yet",
+        "selectOrCreate": "Select a chat or create a new one",
+        "startConversation": "Ask about diagnostics, maintenance, or repairs",
+        "placeholder": "Ask about your vehicle...",
+        "deleteConfirm": "Delete this conversation?"
       }
     },
     "settings": {
