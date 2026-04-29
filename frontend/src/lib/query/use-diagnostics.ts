@@ -66,3 +66,14 @@ export function useReanalyzeDiagnostic(vehicleId: string) {
     },
   });
 }
+
+export function useUploadDiagnosticFile(vehicleId: string) {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: (file: File) => diagnosticsApi.uploadFile(vehicleId, file),
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: diagKeys.all(vehicleId) });
+      qc.invalidateQueries({ queryKey: diagKeys.stats });
+    },
+  });
+}

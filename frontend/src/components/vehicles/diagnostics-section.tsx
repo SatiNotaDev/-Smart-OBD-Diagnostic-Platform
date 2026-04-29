@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef, useCallback } from "react";
 import {
   Plus,
   Trash2,
@@ -12,12 +12,15 @@ import {
   X,
   Download,
   RefreshCw,
+  Upload,
+  FileText,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
-import { useDiagnostics, useCreateDiagnostic, useDeleteDiagnostic, useReanalyzeDiagnostic } from "@/lib/query/use-diagnostics";
+import { useDiagnostics, useCreateDiagnostic, useDeleteDiagnostic, useReanalyzeDiagnostic, useUploadDiagnosticFile } from "@/lib/query/use-diagnostics";
 import { useI18n } from "@/lib/i18n/i18n";
+import { useToast } from "@/components/ui/toast";
 import { DiagnosticsChart } from "@/components/vehicles/diagnostics-chart";
 import type { DiagnosticSession } from "@/lib/api/diagnostics-api";
 
@@ -35,13 +38,18 @@ interface DiagnosticsSectionProps {
 
 export function DiagnosticsSection({ vehicleId }: DiagnosticsSectionProps) {
   const { t } = useI18n();
+  const { success: showSuccess, error: showError } = useToast();
   const { data: sessions, isLoading } = useDiagnostics(vehicleId);
   const createDiag = useCreateDiagnostic(vehicleId);
   const deleteDiag = useDeleteDiagnostic(vehicleId);
+  const uploadFile = useUploadDiagnosticFile(vehicleId);
 
   const [showForm, setShowForm] = useState(false);
+  const [showUpload, setShowUpload] = useState(false);
+  const [dragOver, setDragOver] = useState(false);
   const [codes, setCodes] = useState("");
   const [error, setError] = useState("");
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -77,16 +85,59 @@ export function DiagnosticsSection({ vehicleId }: DiagnosticsSectionProps) {
     deleteDiag.mutate(id);
   };
 
+  const handleFileUpload = useCallback((file: File) => {
+    const ext = file.name.split('.').pop()?.toLowerCase();
+    if (!['json', 'csv', 'txt'].includes(ext || '')) {
+      showError("Only .json, .csv, and .txt files are supported");
+      return;
+    }
+    if (file.size > 5 * 1024 * 1024) {
+      showError("File is too large (max 5MB)");
+      return;
+    }
+    uploadFile.mutate(file, {
+      onSuccess: () => {
+        showSuccess("OBD data uploaded and analyzed successfully");
+        setShowUpload(false);
+      },
+      onError: (err: any) => {
+        showError(err?.message || "Failed to process file");
+      },
+    });
+  }, [uploadFile, showSuccess, showError]);
+
+  const handleDrop = useCallback((e: React.DragEvent) => {
+    e.preventDefault();
+    setDragOver(false);
+    const file = e.dataTransfer.files[0];
+    if (file) handleFileUpload(file);
+  }, [handleFileUpload]);
+
+  const handleDragOver = useCallback((e: React.DragEvent) => {
+    e.preventDefault();
+    setDragOver(true);
+  }, []);
+
+  const handleDragLeave = useCallback(() => {
+    setDragOver(false);
+  }, []);
+
   return (
     <div className="rounded-xl border border-border bg-card p-6">
       <div className="flex items-center justify-between mb-4">
         <h3 className="text-lg font-semibold text-foreground">
           {t("dashboard.vehicles.diagnostics.title")}
         </h3>
-        <Button onClick={() => setShowForm(true)} className="h-8 text-xs">
-          <Plus size={14} className="mr-1" />
-          {t("dashboard.vehicles.diagnostics.newSession")}
-        </Button>
+        <div className="flex gap-2">
+          <Button variant="outline" onClick={() => setShowUpload(!showUpload)} className="h-8 text-xs">
+            <Upload size={14} className="mr-1" />
+            Upload OBD File
+          </Button>
+          <Button onClick={() => setShowForm(true)} className="h-8 text-xs">
+            <Plus size={14} className="mr-1" />
+            {t("dashboard.vehicles.diagnostics.newSession")}
+          </Button>
+        </div>
       </div>
 
       {/* Input form */}
@@ -117,6 +168,61 @@ export function DiagnosticsSection({ vehicleId }: DiagnosticsSectionProps) {
             </Button>
           </div>
         </form>
+      )}
+
+      {/* File upload drop zone */}
+      {showUpload && (
+        <div className="mb-5">
+          <div
+            onDrop={handleDrop}
+            onDragOver={handleDragOver}
+            onDragLeave={handleDragLeave}
+            onClick={() => fileInputRef.current?.click()}
+            className={`relative flex flex-col items-center justify-center gap-3 p-8 rounded-xl border-2 border-dashed cursor-pointer transition-all ${
+              dragOver
+                ? "border-primary bg-primary/5 scale-[1.01]"
+                : "border-border hover:border-primary/50 hover:bg-accent/50"
+            }`}
+          >
+            {uploadFile.isPending ? (
+              <>
+                <div className="h-8 w-8 animate-spin rounded-full border-2 border-primary border-t-transparent" />
+                <p className="text-sm text-muted">Processing OBD data...</p>
+              </>
+            ) : (
+              <>
+                <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10">
+                  <FileText size={24} className="text-primary" />
+                </div>
+                <div className="text-center">
+                  <p className="text-sm font-medium text-foreground">
+                    Drop OBD file here or click to browse
+                  </p>
+                  <p className="text-xs text-muted mt-1">
+                    Supports .json, .csv, .txt from OBD scanners (ELM327, OBDLink, Torque, etc.)
+                  </p>
+                </div>
+              </>
+            )}
+            <input
+              ref={fileInputRef}
+              type="file"
+              accept=".json,.csv,.txt"
+              className="hidden"
+              onChange={(e) => {
+                const file = e.target.files?.[0];
+                if (file) handleFileUpload(file);
+                e.target.value = "";
+              }}
+            />
+          </div>
+          <div className="mt-2 flex flex-wrap gap-2">
+            <span className="text-[10px] px-2 py-0.5 rounded-full bg-accent text-muted">JSON</span>
+            <span className="text-[10px] px-2 py-0.5 rounded-full bg-accent text-muted">CSV</span>
+            <span className="text-[10px] px-2 py-0.5 rounded-full bg-accent text-muted">TXT</span>
+            <span className="text-[10px] text-muted ml-1 self-center">Max 5MB</span>
+          </div>
+        </div>
       )}
 
       {/* Chart */}
