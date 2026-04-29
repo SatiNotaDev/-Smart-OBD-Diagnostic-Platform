@@ -1,0 +1,5 @@
+hcloud_token   = "your-hetzner-api-token"
+ssh_public_key = "ssh-ed25519 AAAA... your-key"
+domain         = "smartobd.example.com"
+server_type    = "cx22"
+location       = "nbg1"

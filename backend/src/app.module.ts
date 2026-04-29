@@ -12,8 +12,10 @@ import { SubscriptionsModule } from './modules/subscriptions/subscriptions.modul
 import { RemindersModule } from './modules/reminders/reminders.module';
 import { LoggerMiddleware } from './common/middleware/logger.middleware';
 import { SecurityMiddleware } from './common/middleware/security.middleware';
+import { HealthController } from './health.controller';
 
 @Module({
+  controllers: [HealthController],
   providers: [
     { provide: APP_GUARD, useClass: ThrottlerGuard },
   ],
