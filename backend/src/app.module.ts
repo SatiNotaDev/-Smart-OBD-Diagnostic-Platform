@@ -13,8 +13,10 @@ import { RemindersModule } from './modules/reminders/reminders.module';
 import { AdminModule } from './modules/admin/admin.module';
 import { LoggerMiddleware } from './common/middleware/logger.middleware';
 import { SecurityMiddleware } from './common/middleware/security.middleware';
+import { HealthController } from './health.controller';
 
 @Module({
+  controllers: [HealthController],
   providers: [
     { provide: APP_GUARD, useClass: ThrottlerGuard },
   ],
