@@ -23,6 +23,7 @@ export interface CreateVehicleData {
   mileage?: number;
   color?: string;
   licensePlate?: string;
+  clientId?: string;
 }
 
 export interface UpdateVehicleData extends Partial<CreateVehicleData> {}

@@ -37,9 +37,10 @@ type FormValues = z.infer<typeof schema>;
 interface AddVehicleDialogProps {
   open: boolean;
   onClose: () => void;
+  clientId?: string;
 }
 
-export function AddVehicleDialog({ open, onClose }: AddVehicleDialogProps) {
+export function AddVehicleDialog({ open, onClose, clientId }: AddVehicleDialogProps) {
   const { t } = useI18n();
   const { success: showSuccess, error: showError } = useToast();
   const [error, setError] = useState("");
@@ -187,6 +188,7 @@ export function AddVehicleDialog({ open, onClose }: AddVehicleDialogProps) {
     if (values.mileage) data.mileage = Number(values.mileage);
     if (values.color) data.color = values.color;
     if (values.licensePlate) data.licensePlate = values.licensePlate;
+    if (clientId) data.clientId = clientId;
 
     createVehicle.mutate(data, {
       onSuccess: () => {

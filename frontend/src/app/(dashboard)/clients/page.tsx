@@ -1,6 +1,8 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 import {
   Plus,
   Search,
@@ -9,8 +11,6 @@ import {
   Mail,
   Car,
   ChevronRight,
-  X,
-  Calendar,
 } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -18,7 +18,6 @@ import { Badge } from "@/components/ui/badge";
 import { Dialog } from "@/components/ui/dialog";
 import {
   useClients,
-  useClient,
   useCreateClient,
   useDeleteClient,
 } from "@/lib/query/use-clients";
@@ -27,7 +26,7 @@ import type { Client } from "@/lib/api/clients-api";
 export default function ClientsPage() {
   const [search, setSearch] = useState("");
   const [showAdd, setShowAdd] = useState(false);
-  const [selectedClientId, setSelectedClientId] = useState<string | null>(null);
+  const router = useRouter();
 
   const { data: clients, isLoading } = useClients({
     search: search || undefined,
@@ -38,7 +37,6 @@ export default function ClientsPage() {
   const handleDelete = async (id: string) => {
     if (!confirm("Are you sure you want to delete this client?")) return;
     deleteClient.mutate(id);
-    if (selectedClientId === id) setSelectedClientId(null);
   };
 
   return (
@@ -87,20 +85,11 @@ export default function ClientsPage() {
             <ClientCard
               key={client.id}
               client={client}
-              isSelected={selectedClientId === client.id}
-              onSelect={() => setSelectedClientId(client.id)}
+              onSelect={() => router.push(`/clients/${client.id}`)}
               onDelete={() => handleDelete(client.id)}
             />
           ))}
         </div>
-      )}
-
-      {/* Client Detail Panel */}
-      {selectedClientId && (
-        <ClientDetailPanel
-          clientId={selectedClientId}
-          onClose={() => setSelectedClientId(null)}
-        />
       )}
 
       {/* Add dialog */}
@@ -113,22 +102,16 @@ export default function ClientsPage() {
 
 function ClientCard({
   client,
-  isSelected,
   onSelect,
   onDelete,
 }: {
   client: Client;
-  isSelected: boolean;
   onSelect: () => void;
   onDelete: () => void;
 }) {
   return (
     <div
-      className={`rounded-2xl border bg-card p-5 transition-all cursor-pointer hover:shadow-md ${
-        isSelected
-          ? "border-primary ring-2 ring-primary/20"
-          : "border-border"
-      }`}
+      className="rounded-2xl border border-border bg-card p-5 transition-all cursor-pointer hover:shadow-md hover:border-primary/30"
       onClick={onSelect}
     >
       <div className="flex items-start justify-between">
@@ -164,12 +147,14 @@ function ClientCard({
         <div className="mt-3 pt-3 border-t border-border">
           <div className="flex flex-wrap gap-2">
             {client.vehicles.slice(0, 3).map((v) => (
-              <span
+              <Link
                 key={v.id}
-                className="inline-flex items-center gap-1 rounded-full bg-accent px-2.5 py-1 text-xs text-foreground"
+                href={`/vehicles/${v.id}`}
+                onClick={(e) => e.stopPropagation()}
+                className="inline-flex items-center gap-1 rounded-full bg-accent px-2.5 py-1 text-xs text-foreground hover:bg-primary/10 hover:text-primary transition-colors"
               >
                 {v.brand} {v.model} {v.year}
-              </span>
+              </Link>
             ))}
             {client.vehicles.length > 3 && (
               <span className="inline-flex items-center rounded-full bg-accent px-2.5 py-1 text-xs text-muted">
@@ -190,133 +175,6 @@ function ClientCard({
         >
           Delete
         </button>
-      </div>
-    </div>
-  );
-}
-
-// ─── Client Detail Panel ─────────────────────────────────────────────────────
-
-function ClientDetailPanel({
-  clientId,
-  onClose,
-}: {
-  clientId: string;
-  onClose: () => void;
-}) {
-  const { data: client, isLoading } = useClient(clientId);
-
-  if (isLoading) {
-    return (
-      <div className="rounded-2xl border border-border bg-card p-6">
-        <div className="flex justify-center py-8">
-          <div className="h-6 w-6 animate-spin rounded-full border-2 border-primary border-t-transparent" />
-        </div>
-      </div>
-    );
-  }
-
-  if (!client) return null;
-
-  return (
-    <div className="rounded-2xl border border-border bg-card p-6">
-      <div className="flex items-start justify-between mb-6">
-        <div>
-          <h2 className="text-xl font-semibold text-foreground">
-            {client.name}
-          </h2>
-          <div className="mt-2 flex flex-wrap gap-4 text-sm text-muted">
-            {client.phone && (
-              <span className="flex items-center gap-1.5">
-                <Phone size={14} />
-                {client.phone}
-              </span>
-            )}
-            {client.email && (
-              <span className="flex items-center gap-1.5">
-                <Mail size={14} />
-                {client.email}
-              </span>
-            )}
-          </div>
-          {client.notes && (
-            <p className="mt-3 text-sm text-muted">{client.notes}</p>
-          )}
-        </div>
-        <button
-          onClick={onClose}
-          className="p-1 text-muted hover:text-foreground transition-colors cursor-pointer"
-        >
-          <X size={20} />
-        </button>
-      </div>
-
-      {/* Vehicles and Diagnostics */}
-      <div>
-        <h3 className="text-sm font-semibold text-foreground mb-3 flex items-center gap-2">
-          <Car size={16} />
-          Vehicles ({client.vehicles.length})
-        </h3>
-        {client.vehicles.length === 0 ? (
-          <p className="text-sm text-muted py-4">
-            No vehicles associated with this client.
-          </p>
-        ) : (
-          <div className="space-y-3">
-            {client.vehicles.map((vehicle) => (
-              <div
-                key={vehicle.id}
-                className="rounded-xl border border-border p-4"
-              >
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="font-medium text-foreground">
-                      {vehicle.brand} {vehicle.model} ({vehicle.year})
-                    </p>
-                    {vehicle.licensePlate && (
-                      <p className="text-xs text-muted mt-0.5">
-                        {vehicle.licensePlate}
-                      </p>
-                    )}
-                  </div>
-                  {vehicle.diagnostics.length > 0 && (
-                    <Badge variant="success">
-                      {vehicle.diagnostics.length} session
-                      {vehicle.diagnostics.length !== 1 ? "s" : ""}
-                    </Badge>
-                  )}
-                </div>
-
-                {vehicle.diagnostics.length > 0 && (
-                  <div className="mt-3 pt-3 border-t border-border space-y-2">
-                    {vehicle.diagnostics.map((diag) => (
-                      <div
-                        key={diag.id}
-                        className="flex items-center justify-between text-xs"
-                      >
-                        <span className="flex items-center gap-1.5 text-muted">
-                          <Calendar size={12} />
-                          {new Date(diag.createdAt).toLocaleDateString()}
-                        </span>
-                        <Badge
-                          variant={
-                            diag.status === "COMPLETED"
-                              ? "success"
-                              : diag.status === "FAILED"
-                                ? "error"
-                                : "default"
-                          }
-                        >
-                          {diag.status.toLowerCase()}
-                        </Badge>
-                      </div>
-                    ))}
-                  </div>
-                )}
-              </div>
-            ))}
-          </div>
-        )}
       </div>
     </div>
   );
@@ -424,3 +282,4 @@ function AddClientDialog({
     </Dialog>
   );
 }
+

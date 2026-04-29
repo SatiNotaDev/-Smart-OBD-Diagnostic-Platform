@@ -8,6 +8,7 @@ import {
   type UpdateVehicleData,
 } from "@/lib/api/vehicles-api";
 import { vehicleKeys } from "./vehicle-keys";
+import { clientKeys } from "./client-keys";
 
 export function useVehicles(params?: {
   search?: string;
@@ -36,8 +37,11 @@ export function useCreateVehicle() {
   const qc = useQueryClient();
   return useMutation({
     mutationFn: (data: CreateVehicleData) => vehiclesApi.create(data),
-    onSuccess: () => {
+    onSuccess: (_data, variables) => {
       qc.invalidateQueries({ queryKey: vehicleKeys.all });
+      if (variables.clientId) {
+        qc.invalidateQueries({ queryKey: clientKeys.all });
+      }
     },
   });
 }
