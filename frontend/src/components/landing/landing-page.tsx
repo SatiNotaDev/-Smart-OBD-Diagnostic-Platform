@@ -43,15 +43,15 @@ function Navbar() {
       initial={{ opacity: 0, y: -10 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
-      className="fixed top-0 left-0 right-0 z-50 border-b border-[#eaeaea] bg-white/80 backdrop-blur-md"
+      className="fixed top-0 left-0 right-0 z-50 border-b border-[#0070F3]/10 bg-white/80 backdrop-blur-md"
     >
       <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
         <div className="flex items-center gap-2 select-none">
           <div className="h-5 w-5 bg-[#0070F3] rounded-sm" />
-          <span className="text-sm font-semibold tracking-tight text-black">Smart OBD</span>
+          <span className="text-sm font-semibold tracking-tight text-[#0070F3]">Smart OBD</span>
         </div>
         <div className="flex items-center gap-6">
-          <Link href="/login" className="text-sm text-[#666] hover:text-black transition-colors">
+          <Link href="/login" className="text-sm text-[#4a6fa5] hover:text-[#0070F3] transition-colors">
             Log In
           </Link>
           <Link
@@ -68,11 +68,8 @@ function Navbar() {
 
 function Hero() {
   return (
-    <section className="relative min-h-screen flex items-center justify-center pt-16">
+    <section className="relative min-h-screen flex items-center justify-center pt-16 overflow-hidden">
       <HeroScene />
-
-      {/* Light radial fade — keeps text readable over 3D */}
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_20%,white_80%)]" />
 
       <div className="relative z-10 text-center px-6 max-w-4xl mx-auto">
         <motion.div
@@ -80,7 +77,7 @@ function Hero() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease }}
         >
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-[#eaeaea] bg-[#fafafa] text-xs text-[#666] mb-8">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-[#0070F3]/10 bg-[#f0f7ff] text-xs text-[#4a6fa5] mb-8">
             <span className="h-1.5 w-1.5 rounded-full bg-[#0070F3] animate-pulse" />
             AI-Powered Diagnostics Platform
           </div>
@@ -90,7 +87,7 @@ function Hero() {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1, duration: 0.8, ease }}
-          className="text-5xl sm:text-7xl lg:text-8xl font-bold tracking-tighter leading-[0.9] text-black"
+          className="text-5xl sm:text-7xl lg:text-8xl font-bold tracking-tighter leading-[0.9] text-[#0a2540]"
         >
           Your car,
           <br />
@@ -101,7 +98,7 @@ function Hero() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3, duration: 0.8 }}
-          className="mt-6 text-base sm:text-lg text-[#666] max-w-xl mx-auto leading-relaxed"
+          className="mt-6 text-base sm:text-lg text-[#4a6fa5] max-w-xl mx-auto leading-relaxed"
         >
           Smart OBD reads your vehicle&apos;s diagnostic codes, runs AI analysis,
           and gives you clear answers — no mechanic jargon.
@@ -122,7 +119,7 @@ function Hero() {
           </Link>
           <Link
             href="#features"
-            className="h-12 px-6 inline-flex items-center rounded-xl border border-[#eaeaea] text-sm text-[#666] hover:text-black hover:border-black transition-all"
+            className="h-12 px-6 inline-flex items-center rounded-xl border border-[#0070F3]/30 text-sm text-[#0070F3] hover:text-[#005BC4] hover:border-[#0070F3] transition-all"
           >
             See Features
             <ChevronRight size={14} className="ml-1" />
@@ -131,7 +128,7 @@ function Hero() {
       </div>
 
       {/* Bottom fade */}
-      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-white to-transparent" />
+      <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-white to-transparent z-20" />
     </section>
   );
 }
@@ -140,12 +137,12 @@ function LogoCloud() {
   const techs = ["Next.js", "NestJS", "PostgreSQL", "Claude AI", "Prisma", "TailwindCSS"];
 
   return (
-    <section className="py-12 border-t border-[#eaeaea]">
+    <section className="py-12 border-t border-[#0070F3]/10">
       <div className="max-w-6xl mx-auto px-6">
-        <p className="text-center text-xs uppercase tracking-widest text-[#999] mb-6">Built with</p>
-        <div className="flex flex-wrap items-center justify-center gap-8 text-sm text-[#666]">
+        <p className="text-center text-xs uppercase tracking-widest text-[#6b8db9] mb-6">Built with</p>
+        <div className="flex flex-wrap items-center justify-center gap-8 text-sm text-[#4a6fa5]">
           {techs.map((t) => (
-            <span key={t} className="hover:text-black transition-colors">{t}</span>
+            <span key={t} className="hover:text-[#0070F3] transition-colors">{t}</span>
           ))}
         </div>
       </div>
@@ -203,11 +200,11 @@ function Features() {
           transition={{ duration: 0.6 }}
           className="text-center mb-16"
         >
-          <h2 className="text-3xl sm:text-5xl font-bold tracking-tight text-black">
+          <h2 className="text-3xl sm:text-5xl font-bold tracking-tight text-[#0a2540]">
             Ship diagnostics,{" "}
             <span className="text-[#0070F3]">not guesswork</span>
           </h2>
-          <p className="mt-4 text-[#666] text-base max-w-lg mx-auto">
+          <p className="mt-4 text-[#4a6fa5] text-base max-w-lg mx-auto">
             Everything your vehicle needs, from error codes to AI-powered root cause analysis.
           </p>
         </motion.div>
@@ -220,13 +217,13 @@ function Features() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.08, duration: 0.5 }}
-              className="group relative rounded-xl border border-[#eaeaea] bg-white p-6 hover:border-[#0070F3]/30 hover:shadow-[0_8px_30px_rgba(0,112,243,0.08)] transition-all duration-300"
+              className="group relative rounded-xl border border-[#0070F3]/15 bg-white p-6 hover:border-[#0070F3]/30 hover:shadow-[0_8px_30px_rgba(0,112,243,0.08)] transition-all duration-300"
             >
               <div className={`inline-flex h-10 w-10 items-center justify-center rounded-lg bg-gradient-to-br ${feature.gradient} mb-4`}>
                 <feature.icon size={20} className="text-white" />
               </div>
-              <h3 className="text-sm font-semibold text-black mb-2">{feature.title}</h3>
-              <p className="text-sm text-[#666] leading-relaxed">{feature.description}</p>
+              <h3 className="text-sm font-semibold text-[#0a2540] mb-2">{feature.title}</h3>
+              <p className="text-sm text-[#4a6fa5] leading-relaxed">{feature.description}</p>
             </motion.div>
           ))}
         </div>
@@ -243,13 +240,13 @@ const steps = [
 
 function HowItWorks() {
   return (
-    <section className="py-24 px-6 bg-[#fafafa] border-t border-[#eaeaea]">
+    <section className="py-24 px-6 bg-[#f0f7ff] border-t border-[#0070F3]/10">
       <div className="max-w-6xl mx-auto">
         <motion.h2
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-3xl sm:text-4xl font-bold tracking-tight text-black mb-16"
+          className="text-3xl sm:text-4xl font-bold tracking-tight text-[#0a2540] mb-16"
         >
           Three steps to clarity
         </motion.h2>
@@ -264,8 +261,8 @@ function HowItWorks() {
               transition={{ delay: i * 0.1 }}
             >
               <span className="text-5xl font-bold text-[#0070F3]/20 block mb-4">{step.num}</span>
-              <h3 className="text-lg font-semibold text-black mb-2">{step.title}</h3>
-              <p className="text-sm text-[#666] leading-relaxed">{step.desc}</p>
+              <h3 className="text-lg font-semibold text-[#0a2540] mb-2">{step.title}</h3>
+              <p className="text-sm text-[#4a6fa5] leading-relaxed">{step.desc}</p>
             </motion.div>
           ))}
         </div>
@@ -303,7 +300,7 @@ const plans = [
 
 function Pricing() {
   return (
-    <section className="py-24 px-6 border-t border-[#eaeaea]">
+    <section className="py-24 px-6 border-t border-[#0070F3]/10">
       <div className="max-w-6xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -311,10 +308,10 @@ function Pricing() {
           viewport={{ once: true }}
           className="text-center mb-16"
         >
-          <h2 className="text-3xl sm:text-5xl font-bold tracking-tight text-black">
+          <h2 className="text-3xl sm:text-5xl font-bold tracking-tight text-[#0a2540]">
             Predictable pricing
           </h2>
-          <p className="mt-4 text-[#666]">Start free. Scale as you grow.</p>
+          <p className="mt-4 text-[#4a6fa5]">Start free. Scale as you grow.</p>
         </motion.div>
 
         <div className="grid gap-4 md:grid-cols-3 max-w-4xl mx-auto">
@@ -328,7 +325,7 @@ function Pricing() {
               className={`relative rounded-xl border p-6 ${
                 plan.highlighted
                   ? "border-[#0070F3] bg-white shadow-[0_8px_30px_rgba(0,112,243,0.1)]"
-                  : "border-[#eaeaea] bg-white"
+                  : "border-[#0070F3]/15 bg-white"
               }`}
             >
               {plan.highlighted && (
@@ -336,14 +333,14 @@ function Pricing() {
                   Popular
                 </div>
               )}
-              <h3 className="text-sm font-medium text-[#666]">{plan.name}</h3>
+              <h3 className="text-sm font-medium text-[#4a6fa5]">{plan.name}</h3>
               <div className="mt-2 flex items-baseline gap-1">
-                <span className="text-4xl font-bold text-black">{plan.price}</span>
-                <span className="text-sm text-[#999]">{plan.period}</span>
+                <span className="text-4xl font-bold text-[#0a2540]">{plan.price}</span>
+                <span className="text-sm text-[#6b8db9]">{plan.period}</span>
               </div>
               <ul className="mt-6 space-y-3">
                 {plan.features.map((f) => (
-                  <li key={f} className="flex items-center gap-2 text-sm text-[#666]">
+                  <li key={f} className="flex items-center gap-2 text-sm text-[#4a6fa5]">
                     <CheckCircle2 size={14} className="text-[#0070F3] shrink-0" />
                     {f}
                   </li>
@@ -354,7 +351,7 @@ function Pricing() {
                 className={`mt-6 h-10 w-full inline-flex items-center justify-center rounded-lg text-sm font-medium transition-all ${
                   plan.highlighted
                     ? "bg-[#0070F3] text-white hover:bg-[#005BC4]"
-                    : "border border-[#eaeaea] text-black hover:border-black"
+                    : "border border-[#0070F3]/30 text-[#0a2540] hover:border-[#0070F3] hover:text-[#0070F3]"
                 }`}
               >
                 {plan.cta}
@@ -376,15 +373,15 @@ function CTA() {
         viewport={{ once: true }}
         className="max-w-4xl mx-auto text-center"
       >
-        <div className="relative rounded-2xl border border-[#eaeaea] bg-[#fafafa] p-16 overflow-hidden">
+        <div className="relative rounded-2xl border border-[#0070F3]/10 bg-[#f0f7ff] p-16 overflow-hidden">
           {/* Gradient blobs */}
           <div className="absolute top-0 left-1/4 w-96 h-96 bg-[#0070F3]/5 rounded-full blur-[120px]" />
           <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-[#7928CA]/5 rounded-full blur-[120px]" />
 
-          <h2 className="relative text-3xl sm:text-5xl font-bold tracking-tight text-black mb-4">
+          <h2 className="relative text-3xl sm:text-5xl font-bold tracking-tight text-[#0a2540] mb-4">
             Ready to ship?
           </h2>
-          <p className="relative text-[#666] mb-8 max-w-md mx-auto">
+          <p className="relative text-[#4a6fa5] mb-8 max-w-md mx-auto">
             Deploy your diagnostic workflow in minutes, not weeks.
           </p>
           <Link
@@ -402,13 +399,13 @@ function CTA() {
 
 function Footer() {
   return (
-    <footer className="border-t border-[#eaeaea] py-8 px-6">
+    <footer className="border-t border-[#0070F3]/10 py-8 px-6">
       <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
         <div className="flex items-center gap-2 select-none">
           <div className="h-4 w-4 bg-[#0070F3] rounded-sm" />
-          <span className="text-xs font-medium text-black">Smart OBD</span>
+          <span className="text-xs font-medium text-[#0070F3]">Smart OBD</span>
         </div>
-        <span className="text-xs text-[#999]">&copy; {new Date().getFullYear()} Smart OBD Platform. All rights reserved.</span>
+        <span className="text-xs text-[#6b8db9]">&copy; {new Date().getFullYear()} Smart OBD Platform. All rights reserved.</span>
       </div>
     </footer>
   );

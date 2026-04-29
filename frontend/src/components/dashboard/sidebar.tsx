@@ -36,7 +36,7 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
   return (
     <>
       {isOpen && (
-        <div className="fixed inset-0 z-40 bg-black/60 lg:hidden" onClick={onClose} />
+        <div className="fixed inset-0 z-40 bg-[#0a2540]/60 lg:hidden" onClick={onClose} />
       )}
 
       <aside

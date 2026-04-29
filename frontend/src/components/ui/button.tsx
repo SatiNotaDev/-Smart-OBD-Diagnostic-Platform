@@ -22,7 +22,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
               variant === "outline",
             "bg-transparent text-foreground hover:bg-accent":
               variant === "ghost",
-            "bg-white text-black border border-[#eaeaea] hover:bg-[#fafafa] shadow-sm dark:bg-[#111] dark:text-white dark:border-[#333] dark:hover:bg-[#222]":
+            "bg-white text-[#0a2540] border border-[rgba(0,112,243,0.15)] hover:bg-[#f0f7ff] shadow-sm dark:bg-[#0d1f36] dark:text-[#e0ecff] dark:border-[rgba(0,112,243,0.2)] dark:hover:bg-[#0a1929]":
               variant === "google",
           },
           {

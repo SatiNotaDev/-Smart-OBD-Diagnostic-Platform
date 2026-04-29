@@ -6,28 +6,28 @@
  */
 
 :root {
-  /* Primary — Vercel Blue */
+  /* Primary — Premium Blue */
   --primary: #0070F3;
   --primary-hover: #005BC4;
-  --primary-light: #EBF5FF;
+  --primary-light: #e8f4ff;
   --primary-foreground: #ffffff;
 
   /* Accent */
-  --accent: #FAFAFA;
-  --accent-foreground: #171717;
+  --accent: #f0f7ff;
+  --accent-foreground: #0a2540;
 
   /* Backgrounds */
   --background: #ffffff;
-  --surface: #FAFAFA;
+  --surface: #f0f7ff;
   --card: #ffffff;
 
   /* Text */
-  --foreground: #000000;
-  --muted: #666666;
-  --muted-foreground: #888888;
+  --foreground: #0a2540;
+  --muted: #4a6fa5;
+  --muted-foreground: #6b8db9;
 
   /* Borders */
-  --border: #EAEAEA;
+  --border: rgba(0, 112, 243, 0.15);
   --ring: #0070F3;
 
   /* Semantic */
@@ -48,28 +48,28 @@
 }
 
 .dark {
-  /* Primary — Blue stays blue */
+  /* Primary — Premium Blue */
   --primary: #0070F3;
   --primary-hover: #3291FF;
-  --primary-light: #0D2847;
+  --primary-light: #0a1f3d;
   --primary-foreground: #ffffff;
 
   /* Accent */
-  --accent: #111111;
-  --accent-foreground: #EDEDED;
+  --accent: #0a1929;
+  --accent-foreground: #e0ecff;
 
   /* Backgrounds */
-  --background: #000000;
-  --surface: #0A0A0A;
-  --card: #111111;
+  --background: #020c1b;
+  --surface: #0a1929;
+  --card: #0d1f36;
 
   /* Text */
-  --foreground: #EDEDED;
-  --muted: #888888;
-  --muted-foreground: #666666;
+  --foreground: #e0ecff;
+  --muted: #6b8db9;
+  --muted-foreground: #4a6fa5;
 
   /* Borders */
-  --border: #222222;
+  --border: rgba(0, 112, 243, 0.2);
   --ring: #0070F3;
 
   /* Semantic */

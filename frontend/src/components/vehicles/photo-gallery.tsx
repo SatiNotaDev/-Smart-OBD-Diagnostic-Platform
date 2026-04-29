@@ -96,7 +96,7 @@ export function PhotoGallery({ vehicleId, photos }: PhotoGalleryProps) {
               <button
                 type="button"
                 onClick={() => handleDelete(url)}
-                className="absolute top-1 right-1 p-1 rounded bg-black/60 text-white opacity-0 group-hover:opacity-100 transition-opacity"
+                className="absolute top-1 right-1 p-1 rounded bg-[#0a2540]/70 text-white opacity-0 group-hover:opacity-100 transition-opacity"
               >
                 <Trash2 size={12} />
               </button>
@@ -108,7 +108,7 @@ export function PhotoGallery({ vehicleId, photos }: PhotoGalleryProps) {
       {/* Lightbox */}
       {preview && (
         <div
-          className="fixed inset-0 z-50 bg-black/80 flex items-center justify-center p-4"
+          className="fixed inset-0 z-50 bg-[#0a2540]/85 flex items-center justify-center p-4"
           onClick={() => setPreview(null)}
         >
           <button
