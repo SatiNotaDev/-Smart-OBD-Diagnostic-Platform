@@ -48,7 +48,7 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
         {/* Logo */}
         <div className="flex h-16 items-center justify-between px-5 border-b border-border">
           <div className="flex items-center gap-2 select-none">
-            <div className="h-4 w-4 bg-foreground rounded-sm" />
+            <div className="h-4 w-4 bg-primary rounded-sm" />
             <span className="text-sm font-semibold tracking-tight text-foreground">Smart OBD</span>
           </div>
           <button onClick={onClose} className="lg:hidden p-1 text-muted hover:text-foreground cursor-pointer">
@@ -58,7 +58,7 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
 
         {/* User */}
         <div className="flex items-center gap-2.5 px-5 py-4 border-b border-border">
-          <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-foreground text-background text-xs font-medium">
+          <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-primary text-primary-foreground text-xs font-medium">
             {initials}
           </div>
           <p className="truncate text-sm text-foreground">{user?.name || user?.email}</p>

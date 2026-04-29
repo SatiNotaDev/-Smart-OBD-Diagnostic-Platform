@@ -6,10 +6,10 @@
  */
 
 :root {
-  /* Primary */
-  --primary: #000000;
-  --primary-hover: #171717;
-  --primary-light: #EDEDED;
+  /* Primary — Vercel Blue */
+  --primary: #0070F3;
+  --primary-hover: #005BC4;
+  --primary-light: #EBF5FF;
   --primary-foreground: #ffffff;
 
   /* Accent */
@@ -28,7 +28,7 @@
 
   /* Borders */
   --border: #EAEAEA;
-  --ring: #000000;
+  --ring: #0070F3;
 
   /* Semantic */
   --success: #0070F3;
@@ -36,7 +36,7 @@
   --error: #EE0000;
   --info: #0070F3;
 
-  /* Vercel blue */
+  /* Palette */
   --blue: #0070F3;
   --purple: #7928CA;
   --cyan: #50E3C2;
@@ -48,11 +48,11 @@
 }
 
 .dark {
-  /* Primary */
-  --primary: #ffffff;
-  --primary-hover: #EDEDED;
-  --primary-light: #1A1A1A;
-  --primary-foreground: #000000;
+  /* Primary — Blue stays blue */
+  --primary: #0070F3;
+  --primary-hover: #3291FF;
+  --primary-light: #0D2847;
+  --primary-foreground: #ffffff;
 
   /* Accent */
   --accent: #111111;
@@ -70,7 +70,7 @@
 
   /* Borders */
   --border: #222222;
-  --ring: #ffffff;
+  --ring: #0070F3;
 
   /* Semantic */
   --success: #0070F3;
@@ -78,7 +78,7 @@
   --error: #FF0000;
   --info: #0070F3;
 
-  /* Vercel colors stay same */
+  /* Palette */
   --blue: #0070F3;
   --purple: #7928CA;
   --cyan: #50E3C2;

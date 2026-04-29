@@ -47,7 +47,7 @@ function Navbar() {
     >
       <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
         <div className="flex items-center gap-2 select-none">
-          <div className="h-5 w-5 bg-white rounded-sm" />
+          <div className="h-5 w-5 bg-blue rounded-sm" />
           <span className="text-sm font-semibold tracking-tight">Smart OBD</span>
         </div>
         <div className="flex items-center gap-6">
@@ -56,7 +56,7 @@ function Navbar() {
           </Link>
           <Link
             href="/login"
-            className="h-9 px-4 inline-flex items-center rounded-lg bg-white text-black text-sm font-medium hover:bg-white/90 transition-all"
+            className="h-9 px-4 inline-flex items-center rounded-lg bg-blue text-white text-sm font-medium hover:opacity-90 transition-all"
           >
             Sign Up
           </Link>
@@ -115,7 +115,7 @@ function Hero() {
         >
           <Link
             href="/login"
-            className="group h-12 px-6 inline-flex items-center rounded-xl bg-white text-black text-sm font-medium hover:shadow-[0_0_30px_4px_rgba(0,112,243,0.3)] transition-all duration-300"
+            className="group h-12 px-6 inline-flex items-center rounded-xl bg-blue text-white text-sm font-medium hover:shadow-[0_0_30px_4px_rgba(0,112,243,0.4)] transition-all duration-300"
           >
             Start Building
             <ArrowRight size={16} className="ml-2 group-hover:translate-x-0.5 transition-transform" />
@@ -351,7 +351,7 @@ function Pricing() {
                 href="/login"
                 className={`mt-6 h-10 w-full inline-flex items-center justify-center rounded-lg text-sm font-medium transition-all ${
                   plan.highlighted
-                    ? "bg-white text-black hover:opacity-90"
+                    ? "bg-blue text-white hover:opacity-90"
                     : "border border-white/20 text-white hover:bg-white/5"
                 }`}
               >
@@ -387,7 +387,7 @@ function CTA() {
           </p>
           <Link
             href="/login"
-            className="relative h-12 px-8 inline-flex items-center rounded-xl bg-white text-black text-sm font-medium hover:shadow-[0_0_30px_4px_rgba(0,112,243,0.3)] transition-all duration-300"
+            className="relative h-12 px-8 inline-flex items-center rounded-xl bg-blue text-white text-sm font-medium hover:shadow-[0_0_30px_4px_rgba(0,112,243,0.4)] transition-all duration-300"
           >
             Get Started Free
             <ArrowRight size={16} className="ml-2" />
@@ -403,7 +403,7 @@ function Footer() {
     <footer className="border-t border-white/5 py-8 px-6">
       <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
         <div className="flex items-center gap-2 select-none">
-          <div className="h-4 w-4 bg-white rounded-sm" />
+          <div className="h-4 w-4 bg-blue rounded-sm" />
           <span className="text-xs font-medium">Smart OBD</span>
         </div>
         <span className="text-xs text-[#666]">&copy; {new Date().getFullYear()} Smart OBD Platform. All rights reserved.</span>

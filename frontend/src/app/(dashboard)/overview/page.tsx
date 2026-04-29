@@ -78,7 +78,7 @@ export default function DashboardPage() {
             </p>
             <Link
               href="/vehicles"
-              className="inline-flex h-9 items-center rounded-lg bg-foreground px-4 text-sm font-medium text-background hover:opacity-90 transition-opacity"
+              className="inline-flex h-9 items-center rounded-lg bg-primary px-4 text-sm font-medium text-primary-foreground hover:bg-primary-hover transition-colors"
             >
               <Car size={14} className="mr-2" />
               {t("dashboard.overview.addVehicle")}
