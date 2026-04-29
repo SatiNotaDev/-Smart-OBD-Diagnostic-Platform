@@ -50,7 +50,7 @@ export default function VehicleDetailPage() {
 
   if (isLoading) {
     return (
-      <div className="space-y-4 max-w-4xl">
+      <div className="space-y-4">
         <SkeletonCard />
         <SkeletonCard />
       </div>
@@ -59,7 +59,7 @@ export default function VehicleDetailPage() {
 
   if (!vehicle) {
     return (
-      <div className="flex flex-col items-center gap-3 py-16 text-center">
+      <div className="flex flex-col items-center gap-4 py-20 text-center">
         <p className="text-sm text-muted">{t("dashboard.vehicles.detail.notFound")}</p>
         <Button variant="outline" onClick={() => router.push("/vehicles")}>
           <ArrowLeft size={14} className="mr-1.5" />
@@ -83,18 +83,18 @@ export default function VehicleDetailPage() {
   ];
 
   return (
-    <PageTransition className="space-y-6 max-w-4xl">
+    <PageTransition className="space-y-6">
       {/* Header */}
       <div className="flex items-center gap-3">
         <button
           onClick={() => router.push("/vehicles")}
-          className="p-1 text-muted hover:text-foreground transition-colors cursor-pointer"
+          className="p-1.5 rounded-lg text-muted hover:text-foreground hover:bg-accent transition-colors cursor-pointer"
         >
           <ArrowLeft size={18} />
         </button>
         <div className="flex-1">
-          <div className="flex items-center gap-2">
-            <h2 className="text-lg font-semibold text-foreground">
+          <div className="flex items-center gap-2.5">
+            <h2 className="text-xl font-bold text-foreground tracking-tight">
               {vehicle.brand} {vehicle.model}
             </h2>
             <Badge variant={engineVariant[vehicle.engineType] || "default"}>
@@ -107,28 +107,28 @@ export default function VehicleDetailPage() {
         </div>
         <div className="flex gap-2">
           <Button variant="outline" size="sm" onClick={() => setShowEdit(true)}>
-            <Pencil size={13} className="mr-1" />
+            <Pencil size={13} className="mr-1.5" />
             {t("dashboard.vehicles.detail.edit")}
           </Button>
           <Button
             variant="outline"
             size="sm"
             onClick={handleDelete}
-            className="text-error hover:bg-error/5 hover:border-error/30"
+            className="text-error hover:bg-error/10 hover:border-error/30"
           >
-            <Trash2 size={13} className="mr-1" />
+            <Trash2 size={13} className="mr-1.5" />
             {t("dashboard.vehicles.detail.delete")}
           </Button>
         </div>
       </div>
 
       {/* Info card */}
-      <div className="rounded-lg border border-border bg-card p-5">
-        <div className="flex items-center gap-2.5 mb-5">
-          <div className="flex h-8 w-8 items-center justify-center rounded-md bg-primary/8">
-            <Car size={16} className="text-primary" />
+      <div className="rounded-xl border border-border bg-card p-6">
+        <div className="flex items-center gap-3 mb-5">
+          <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-accent">
+            <Car size={18} className="text-muted" />
           </div>
-          <h3 className="text-sm font-medium text-foreground">
+          <h3 className="text-sm font-semibold text-foreground">
             {t("dashboard.vehicles.detail.specifications")}
           </h3>
         </div>
@@ -136,7 +136,7 @@ export default function VehicleDetailPage() {
         <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
           {infoItems.map(({ icon: Icon, label, value }) =>
             value ? (
-              <div key={label} className="flex items-start gap-2.5 p-3 rounded-md bg-surface">
+              <div key={label} className="flex items-start gap-3 p-3 rounded-lg bg-accent/50">
                 <Icon size={15} className="text-muted mt-0.5 shrink-0" />
                 <div>
                   <p className="text-xs text-muted">{label}</p>
@@ -154,11 +154,7 @@ export default function VehicleDetailPage() {
       <AiChatSection vehicleId={id} />
 
       {showEdit && (
-        <EditVehicleDialog
-          vehicle={vehicle}
-          open={showEdit}
-          onClose={() => setShowEdit(false)}
-        />
+        <EditVehicleDialog vehicle={vehicle} open={showEdit} onClose={() => setShowEdit(false)} />
       )}
     </PageTransition>
   );

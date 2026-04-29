@@ -82,7 +82,7 @@ export function MfaSetupSection() {
   const mfaEnabled = user?.mfaEnabled || false;
 
   return (
-    <div className="rounded-lg border border-border bg-card p-5">
+    <div className="rounded-xl border border-border bg-card p-6">
       <div className="flex items-center gap-3 mb-5">
         <div className="flex h-10 w-10 items-center justify-center rounded-[var(--radius)] bg-primary/10">
           <Shield size={20} className="text-primary" />

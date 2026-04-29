@@ -30,7 +30,7 @@ export function AiChatSection({ vehicleId }: AiChatSectionProps) {
   };
 
   return (
-    <div className="rounded-lg border border-border bg-card overflow-hidden">
+    <div className="rounded-xl border border-border bg-card overflow-hidden">
       <div className="flex items-center justify-between p-4 border-b border-border">
         <h3 className="text-lg font-semibold text-foreground flex items-center gap-2">
           <Bot size={20} className="text-primary" />

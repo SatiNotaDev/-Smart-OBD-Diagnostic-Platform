@@ -15,9 +15,9 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
     const inputType = isPassword && showPassword ? "text" : type;
 
     return (
-      <div className="w-full space-y-1">
+      <div className="w-full space-y-1.5">
         {label && (
-          <label className="block text-xs font-medium text-muted uppercase tracking-wide">
+          <label className="block text-sm font-medium text-foreground">
             {label}
           </label>
         )}
@@ -31,12 +31,12 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
             ref={ref}
             type={inputType}
             className={cn(
-              "flex h-9 w-full rounded-md border border-border bg-background px-3 text-sm text-foreground placeholder:text-muted-foreground transition-colors",
-              "focus:border-primary focus:ring-1 focus:ring-primary/30 focus:outline-none",
+              "flex h-10 w-full rounded-lg border border-border bg-background px-3 text-sm text-foreground placeholder:text-muted-foreground transition-colors",
+              "focus:border-foreground focus:ring-0 focus:outline-none",
               "disabled:cursor-not-allowed disabled:opacity-50",
               icon && "pl-9",
-              isPassword && "pr-9",
-              error && "border-error focus:border-error focus:ring-error/30",
+              isPassword && "pr-10",
+              error && "border-error focus:border-error",
               className
             )}
             {...props}

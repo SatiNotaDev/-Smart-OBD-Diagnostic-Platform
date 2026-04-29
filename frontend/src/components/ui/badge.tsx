@@ -9,12 +9,12 @@ function Badge({ className, variant = "default", ...props }: BadgeProps) {
   return (
     <span
       className={cn(
-        "inline-flex items-center rounded px-1.5 py-0.5 text-xs font-medium",
+        "inline-flex items-center rounded-md px-2 py-0.5 text-xs font-medium border",
         {
-          "bg-primary/8 text-primary": variant === "default",
-          "bg-success/8 text-success": variant === "success",
-          "bg-warning/8 text-warning": variant === "warning",
-          "bg-error/8 text-error": variant === "error",
+          "border-border bg-accent text-foreground": variant === "default",
+          "border-success/20 bg-success/10 text-success": variant === "success",
+          "border-warning/20 bg-warning/10 text-warning": variant === "warning",
+          "border-error/20 bg-error/10 text-error": variant === "error",
         },
         className
       )}

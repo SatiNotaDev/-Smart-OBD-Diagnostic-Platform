@@ -20,30 +20,24 @@ export default function DashboardPage() {
       icon: Car,
       label: t("dashboard.overview.totalVehicles"),
       value: String(vehicleCount),
-      color: "text-primary",
-      bg: "bg-primary/8",
     },
     {
       icon: Activity,
       label: t("dashboard.overview.lastDiagnostic"),
       value: t("dashboard.overview.noDiagnostics"),
-      color: "text-success",
-      bg: "bg-success/8",
     },
     {
       icon: CreditCard,
       label: t("dashboard.overview.accountStatus"),
       value: t("dashboard.overview.freePlan"),
-      color: "text-warning",
-      bg: "bg-warning/8",
     },
   ];
 
   return (
-    <PageTransition className="space-y-8 max-w-4xl">
+    <PageTransition className="space-y-8">
       {/* Welcome */}
       <div>
-        <h2 className="text-xl font-semibold text-foreground">
+        <h2 className="text-2xl font-bold text-foreground tracking-tight">
           {t("dashboard.overview.welcome")}, {user?.name || user?.email}
         </h2>
         <p className="text-sm text-muted mt-1">
@@ -58,16 +52,14 @@ export default function DashboardPage() {
         </div>
       ) : (
         <StaggerContainer className="grid gap-4 sm:grid-cols-3">
-          {stats.map(({ icon: Icon, label, value, color, bg }) => (
+          {stats.map(({ icon: Icon, label, value }) => (
             <StaggerItem key={label}>
-              <div className="rounded-lg border border-border bg-card p-5">
-                <div className="flex items-center gap-3 mb-3">
-                  <div className={`flex h-8 w-8 items-center justify-center rounded-md ${bg}`}>
-                    <Icon size={16} className={color} />
-                  </div>
-                  <span className="text-xs text-muted uppercase tracking-wide">{label}</span>
+              <div className="rounded-xl border border-border bg-card p-5">
+                <div className="flex items-center justify-between mb-4">
+                  <span className="text-xs text-muted uppercase tracking-wider">{label}</span>
+                  <Icon size={16} className="text-muted" />
                 </div>
-                <p className="text-2xl font-semibold text-foreground">{value}</p>
+                <p className="text-3xl font-bold text-foreground tracking-tight">{value}</p>
               </div>
             </StaggerItem>
           ))}
@@ -77,20 +69,20 @@ export default function DashboardPage() {
       {/* Quick action */}
       <StaggerContainer>
         <StaggerItem>
-          <div className="rounded-lg border border-border bg-card p-6">
-            <h3 className="text-sm font-medium text-foreground mb-1">
+          <div className="rounded-xl border border-border bg-card p-6">
+            <h3 className="text-sm font-semibold text-foreground mb-1">
               {t("dashboard.overview.addVehicle")}
             </h3>
-            <p className="text-sm text-muted mb-4">
+            <p className="text-sm text-muted mb-5">
               Add your first vehicle to start tracking diagnostics
             </p>
             <Link
               href="/vehicles"
-              className="inline-flex h-8 items-center rounded-md bg-primary px-3 text-sm font-medium text-primary-foreground hover:bg-primary-hover transition-colors"
+              className="inline-flex h-9 items-center rounded-lg bg-foreground px-4 text-sm font-medium text-background hover:opacity-90 transition-opacity"
             >
-              <Car size={14} className="mr-1.5" />
+              <Car size={14} className="mr-2" />
               {t("dashboard.overview.addVehicle")}
-              <ArrowRight size={12} className="ml-1.5" />
+              <ArrowRight size={14} className="ml-2" />
             </Link>
           </div>
         </StaggerItem>

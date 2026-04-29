@@ -38,10 +38,10 @@ export default function VehiclesPage() {
   };
 
   return (
-    <PageTransition className="space-y-5 max-w-4xl">
+    <PageTransition className="space-y-6">
       {/* Controls */}
       <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
-        <div className="flex flex-1 gap-2">
+        <div className="flex flex-1 gap-3">
           <div className="flex-1 max-w-xs">
             <Input
               placeholder={t("dashboard.vehicles.searchPlaceholder")}
@@ -50,7 +50,7 @@ export default function VehiclesPage() {
               onChange={(e) => setSearch(e.target.value)}
             />
           </div>
-          <div className="w-36">
+          <div className="w-40">
             <Select
               options={sortOptions}
               value={sortBy}
@@ -59,34 +59,34 @@ export default function VehiclesPage() {
           </div>
         </div>
         <Button onClick={() => setShowAdd(true)}>
-          <Plus size={14} className="mr-1" />
+          <Plus size={14} className="mr-1.5" />
           {t("dashboard.vehicles.addVehicle")}
         </Button>
       </div>
 
       {/* List */}
       {isLoading ? (
-        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {[1, 2, 3, 4, 5, 6].map((i) => <SkeletonCard key={i} />)}
         </div>
       ) : !vehicles || vehicles.length === 0 ? (
-        <div className="flex flex-col items-center gap-3 py-16 text-center">
-          <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-primary/8">
-            <Car size={24} className="text-primary" />
+        <div className="flex flex-col items-center gap-4 py-20 text-center">
+          <div className="flex h-14 w-14 items-center justify-center rounded-xl bg-accent">
+            <Car size={28} className="text-muted" />
           </div>
-          <h3 className="text-sm font-medium text-foreground">
+          <h3 className="text-base font-semibold text-foreground">
             {t("dashboard.vehicles.emptyTitle")}
           </h3>
-          <p className="text-xs text-muted max-w-sm">
+          <p className="text-sm text-muted max-w-sm">
             {t("dashboard.vehicles.emptyDescription")}
           </p>
-          <Button onClick={() => setShowAdd(true)} size="sm">
-            <Plus size={14} className="mr-1" />
+          <Button onClick={() => setShowAdd(true)}>
+            <Plus size={14} className="mr-1.5" />
             {t("dashboard.vehicles.addVehicle")}
           </Button>
         </div>
       ) : (
-        <StaggerContainer className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+        <StaggerContainer className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {vehicles.map((v) => (
             <StaggerItem key={v.id}>
               <VehicleCard vehicle={v} onDelete={handleDelete} />
@@ -95,10 +95,7 @@ export default function VehiclesPage() {
         </StaggerContainer>
       )}
 
-      <AddVehicleDialog
-        open={showAdd}
-        onClose={() => setShowAdd(false)}
-      />
+      <AddVehicleDialog open={showAdd} onClose={() => setShowAdd(false)} />
     </PageTransition>
   );
 }

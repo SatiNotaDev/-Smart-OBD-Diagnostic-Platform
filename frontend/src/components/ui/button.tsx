@@ -14,21 +14,21 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         ref={ref}
         disabled={disabled || isLoading}
         className={cn(
-          "inline-flex items-center justify-center gap-2 rounded-md font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 cursor-pointer",
+          "inline-flex items-center justify-center gap-2 rounded-lg font-medium transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 cursor-pointer",
           {
-            "bg-primary text-primary-foreground hover:bg-primary-hover":
+            "bg-foreground text-background hover:opacity-90 shadow-[0_4px_14px_0_rgba(0,0,0,0.1)]":
               variant === "primary",
             "border border-border bg-background text-foreground hover:bg-accent":
               variant === "outline",
             "bg-transparent text-foreground hover:bg-accent":
               variant === "ghost",
-            "bg-white text-gray-700 border border-gray-200 hover:bg-gray-50 shadow-sm dark:bg-card dark:text-foreground dark:border-border dark:hover:bg-accent":
+            "bg-white text-black border border-[#eaeaea] hover:bg-[#fafafa] shadow-sm dark:bg-[#111] dark:text-white dark:border-[#333] dark:hover:bg-[#222]":
               variant === "google",
           },
           {
-            "h-8 px-3 text-sm": size === "sm",
-            "h-9 px-4 text-sm": size === "md",
-            "h-10 px-5 text-sm": size === "lg",
+            "h-8 px-3 text-xs": size === "sm",
+            "h-10 px-4 text-sm": size === "md",
+            "h-12 px-6 text-sm": size === "lg",
           },
           className
         )}

@@ -57,7 +57,7 @@ export function FlipCard({ onForgotPassword }: FlipCardProps) {
       {/* Card */}
       <div
         ref={cardRef}
-        className="rounded-lg border border-border bg-card p-8 shadow-sm card-flip"
+        className="rounded-xl border border-border bg-card p-8 shadow-2xl card-flip"
       >
         {displayedView === "login" && (
           <LoginForm

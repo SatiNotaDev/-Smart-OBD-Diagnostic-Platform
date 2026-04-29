@@ -1,75 +1,89 @@
 @import "tailwindcss";
 
 /*
- * Notion-inspired Theme — Smart OBD Platform
- * Clean, warm, minimal with blue accent
+ * Vercel-inspired Theme — Smart OBD Platform
+ * Pure black/white with sharp gradients
  */
 
 :root {
-  /* Primary — Notion Blue */
-  --primary: #2383E2;
-  --primary-hover: #1B6EC2;
-  --primary-light: #E8F0FE;
+  /* Primary */
+  --primary: #000000;
+  --primary-hover: #171717;
+  --primary-light: #EDEDED;
   --primary-foreground: #ffffff;
 
   /* Accent */
-  --accent: #F1F1EF;
-  --accent-foreground: #37352F;
+  --accent: #FAFAFA;
+  --accent-foreground: #171717;
 
   /* Backgrounds */
   --background: #ffffff;
-  --surface: #F7F7F5;
+  --surface: #FAFAFA;
   --card: #ffffff;
 
   /* Text */
-  --foreground: #37352F;
-  --muted: #787774;
-  --muted-foreground: #9B9A97;
+  --foreground: #000000;
+  --muted: #666666;
+  --muted-foreground: #888888;
 
   /* Borders */
-  --border: #E9E9E7;
-  --ring: #2383E2;
+  --border: #EAEAEA;
+  --ring: #000000;
 
   /* Semantic */
-  --success: #0F7B0F;
-  --warning: #D9730D;
-  --error: #E03E3E;
-  --info: #2383E2;
+  --success: #0070F3;
+  --warning: #F5A623;
+  --error: #EE0000;
+  --info: #0070F3;
+
+  /* Vercel blue */
+  --blue: #0070F3;
+  --purple: #7928CA;
+  --cyan: #50E3C2;
+  --pink: #FF0080;
+  --orange: #F5A623;
 
   /* Radius */
-  --radius: 0.375rem;
+  --radius: 0.5rem;
 }
 
 .dark {
   /* Primary */
-  --primary: #529CCA;
-  --primary-hover: #6DB3D9;
-  --primary-light: #143A52;
-  --primary-foreground: #ffffff;
+  --primary: #ffffff;
+  --primary-hover: #EDEDED;
+  --primary-light: #1A1A1A;
+  --primary-foreground: #000000;
 
   /* Accent */
-  --accent: #2F2F2F;
-  --accent-foreground: #E8E8E3;
+  --accent: #111111;
+  --accent-foreground: #EDEDED;
 
   /* Backgrounds */
-  --background: #191919;
-  --surface: #202020;
-  --card: #202020;
+  --background: #000000;
+  --surface: #0A0A0A;
+  --card: #111111;
 
   /* Text */
-  --foreground: #E8E8E3;
-  --muted: #9B9A97;
-  --muted-foreground: #6B6B6B;
+  --foreground: #EDEDED;
+  --muted: #888888;
+  --muted-foreground: #666666;
 
   /* Borders */
-  --border: #2F2F2F;
-  --ring: #529CCA;
+  --border: #222222;
+  --ring: #ffffff;
 
   /* Semantic */
-  --success: #4DAB4D;
-  --warning: #E9A04F;
-  --error: #EB5757;
-  --info: #529CCA;
+  --success: #0070F3;
+  --warning: #F5A623;
+  --error: #FF0000;
+  --info: #0070F3;
+
+  /* Vercel colors stay same */
+  --blue: #0070F3;
+  --purple: #7928CA;
+  --cyan: #50E3C2;
+  --pink: #FF0080;
+  --orange: #F5A623;
 }
 
 @theme inline {
@@ -91,6 +105,11 @@
   --color-warning: var(--warning);
   --color-error: var(--error);
   --color-info: var(--info);
+  --color-blue: var(--blue);
+  --color-purple: var(--purple);
+  --color-cyan: var(--cyan);
+  --color-pink: var(--pink);
+  --color-orange: var(--orange);
   --radius-theme: var(--radius);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
@@ -102,31 +121,71 @@ body {
   font-family: var(--font-sans, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif);
 }
 
-/* Focus ring */
 *:focus-visible {
   outline: 2px solid var(--ring);
   outline-offset: 2px;
 }
 
-/* Skeleton pulse */
+/* Gradient text utility */
+.gradient-text {
+  background: linear-gradient(180deg, #fff 0%, rgba(255,255,255,0.6) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.gradient-text-color {
+  background: linear-gradient(to right, var(--blue), var(--purple), var(--pink));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Vercel-style border gradient */
+.border-gradient {
+  position: relative;
+}
+
+.border-gradient::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(to bottom, rgba(255,255,255,0.1), rgba(255,255,255,0));
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  -webkit-mask-composite: xor;
+  pointer-events: none;
+}
+
+/* Skeleton */
 @keyframes shimmer {
   0% { background-position: -200% 0; }
   100% { background-position: 200% 0; }
 }
 
 .skeleton {
-  background: linear-gradient(
-    90deg,
-    var(--accent) 25%,
-    color-mix(in srgb, var(--accent) 60%, var(--border)) 50%,
-    var(--accent) 75%
-  );
+  background: linear-gradient(90deg, var(--accent) 25%, var(--border) 50%, var(--accent) 75%);
   background-size: 200% 100%;
   animation: shimmer 1.5s ease-in-out infinite;
   border-radius: var(--radius);
 }
 
-/* Card flip animation (auth) */
+/* Grid background pattern */
+.grid-pattern {
+  background-image:
+    linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+  background-size: 64px 64px;
+}
+
+/* Glow effect */
+.glow {
+  box-shadow: 0 0 80px 20px rgba(0, 112, 243, 0.1);
+}
+
+/* Card flip (auth) */
 @keyframes flipOut {
   0% { transform: perspective(800px) rotateY(0deg); opacity: 1; }
   100% { transform: perspective(800px) rotateY(90deg); opacity: 0; }
@@ -137,10 +196,5 @@ body {
   100% { transform: perspective(800px) rotateY(0deg); opacity: 1; }
 }
 
-.card-flip-out {
-  animation: flipOut 0.3s ease-in forwards;
-}
-
-.card-flip-in {
-  animation: flipIn 0.3s ease-out forwards;
-}
+.card-flip-out { animation: flipOut 0.3s ease-in forwards; }
+.card-flip-in { animation: flipIn 0.3s ease-out forwards; }

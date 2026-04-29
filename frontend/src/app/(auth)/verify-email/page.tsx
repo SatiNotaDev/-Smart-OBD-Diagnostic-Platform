@@ -37,7 +37,7 @@ function VerifyEmailContent() {
         </span>
       </div>
 
-      <div className="rounded-lg border border-border bg-card p-8 shadow-sm">
+      <div className="rounded-xl border border-border bg-card p-8 shadow-2xl">
         <div className="flex flex-col items-center gap-4 py-4 text-center">
           {status === "loading" && (
             <>

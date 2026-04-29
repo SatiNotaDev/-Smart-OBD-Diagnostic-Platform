@@ -35,14 +35,14 @@ export default function SettingsPage() {
   };
 
   return (
-    <PageTransition className="max-w-xl space-y-6">
+    <PageTransition className="max-w-2xl space-y-6">
       {/* Profile */}
-      <div className="rounded-lg border border-border bg-card p-5">
-        <h3 className="text-sm font-medium text-foreground mb-4">
+      <div className="rounded-xl border border-border bg-card p-6">
+        <h3 className="text-base font-semibold text-foreground mb-5">
           {t("dashboard.settings.profile.title")}
         </h3>
 
-        <div className="space-y-3">
+        <div className="space-y-4">
           <Input
             label={t("dashboard.settings.profile.name")}
             value={user?.name || ""}
@@ -68,7 +68,7 @@ export default function SettingsPage() {
           />
 
           <div className="flex items-center gap-3 pt-2">
-            <Button onClick={handleSave} size="sm">
+            <Button onClick={handleSave}>
               {t("dashboard.settings.profile.save")}
             </Button>
             {saved && (

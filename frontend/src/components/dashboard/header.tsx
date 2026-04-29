@@ -11,11 +11,11 @@ interface HeaderProps {
 
 export function Header({ title, onMenuToggle }: HeaderProps) {
   return (
-    <header className="flex h-11 shrink-0 items-center justify-between border-b border-border px-4">
-      <div className="flex items-center gap-2">
+    <header className="flex h-14 shrink-0 items-center justify-between border-b border-border px-6">
+      <div className="flex items-center gap-3">
         <button
           onClick={onMenuToggle}
-          className="lg:hidden p-1 text-muted hover:text-foreground transition-colors cursor-pointer"
+          className="lg:hidden p-1.5 rounded-lg text-muted hover:text-foreground hover:bg-accent transition-colors cursor-pointer"
         >
           <Menu size={18} />
         </button>
