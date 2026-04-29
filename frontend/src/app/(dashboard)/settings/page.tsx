@@ -10,6 +10,7 @@ import { useTheme } from "next-themes";
 import { Check } from "lucide-react";
 import { MfaSetupSection } from "@/components/settings/mfa-setup-section";
 import { SubscriptionSection } from "@/components/settings/subscription-section";
+import { PageTransition } from "@/components/ui/page-transition";
 
 export default function SettingsPage() {
   const { user } = useAuth();
@@ -34,14 +35,14 @@ export default function SettingsPage() {
   };
 
   return (
-    <div className="max-w-2xl space-y-8">
+    <PageTransition className="max-w-xl space-y-6">
       {/* Profile */}
-      <div className="rounded-2xl border border-border bg-card p-6 shadow-sm">
-        <h3 className="text-lg font-semibold text-foreground mb-5">
+      <div className="rounded-lg border border-border bg-card p-5">
+        <h3 className="text-sm font-medium text-foreground mb-4">
           {t("dashboard.settings.profile.title")}
         </h3>
 
-        <div className="space-y-4">
+        <div className="space-y-3">
           <Input
             label={t("dashboard.settings.profile.name")}
             value={user?.name || ""}
@@ -67,12 +68,12 @@ export default function SettingsPage() {
           />
 
           <div className="flex items-center gap-3 pt-2">
-            <Button onClick={handleSave}>
+            <Button onClick={handleSave} size="sm">
               {t("dashboard.settings.profile.save")}
             </Button>
             {saved && (
-              <span className="flex items-center gap-1 text-sm text-success">
-                <Check size={16} />
+              <span className="flex items-center gap-1 text-xs text-success">
+                <Check size={14} />
                 {t("dashboard.settings.profile.saved")}
               </span>
             )}
@@ -80,11 +81,8 @@ export default function SettingsPage() {
         </div>
       </div>
 
-      {/* MFA */}
       <MfaSetupSection />
-
-      {/* Subscription */}
       <SubscriptionSection />
-    </div>
+    </PageTransition>
   );
 }

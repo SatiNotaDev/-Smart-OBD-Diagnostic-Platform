@@ -63,7 +63,7 @@ export function SubscriptionSection() {
 
   if (loading) {
     return (
-      <div className="rounded-2xl border border-border bg-card p-6 shadow-sm flex justify-center">
+      <div className="rounded-lg border border-border bg-card p-5 flex justify-center">
         <Loader2 size={20} className="animate-spin text-muted" />
       </div>
     );
@@ -72,7 +72,7 @@ export function SubscriptionSection() {
   const currentPlan = planInfo?.plan || "FREE";
 
   return (
-    <div className="rounded-2xl border border-border bg-card p-6 shadow-sm">
+    <div className="rounded-lg border border-border bg-card p-5">
       <h3 className="text-lg font-semibold text-foreground mb-5">
         {t("dashboard.settings.tariff.title")}
       </h3>

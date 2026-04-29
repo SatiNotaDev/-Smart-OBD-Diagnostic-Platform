@@ -52,7 +52,7 @@ export function DiagnosticsChart({ sessions }: DiagnosticsChartProps) {
   if (chartData.length < 2) return null;
 
   return (
-    <div className="rounded-2xl border border-border bg-card p-6 shadow-sm">
+    <div className="rounded-lg border border-border bg-card p-5">
       <h3 className="text-lg font-semibold text-foreground flex items-center gap-2 mb-4">
         <TrendingUp size={20} className="text-primary" />
         {t("dashboard.vehicles.diagnostics.chartTitle")}

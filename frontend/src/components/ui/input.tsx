@@ -15,9 +15,9 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
     const inputType = isPassword && showPassword ? "text" : type;
 
     return (
-      <div className="w-full space-y-1.5">
+      <div className="w-full space-y-1">
         {label && (
-          <label className="block text-sm font-medium text-foreground">
+          <label className="block text-xs font-medium text-muted uppercase tracking-wide">
             {label}
           </label>
         )}
@@ -31,12 +31,12 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
             ref={ref}
             type={inputType}
             className={cn(
-              "flex h-11 w-full rounded-[var(--radius)] border border-border bg-background px-4 text-sm text-foreground placeholder:text-muted-foreground transition-colors duration-200",
-              "focus:border-primary focus:ring-2 focus:ring-primary/20 focus:outline-none",
+              "flex h-9 w-full rounded-md border border-border bg-background px-3 text-sm text-foreground placeholder:text-muted-foreground transition-colors",
+              "focus:border-primary focus:ring-1 focus:ring-primary/30 focus:outline-none",
               "disabled:cursor-not-allowed disabled:opacity-50",
-              icon && "pl-10",
-              isPassword && "pr-10",
-              error && "border-error focus:border-error focus:ring-error/20",
+              icon && "pl-9",
+              isPassword && "pr-9",
+              error && "border-error focus:border-error focus:ring-error/30",
               className
             )}
             {...props}
@@ -48,7 +48,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
               onClick={() => setShowPassword(!showPassword)}
               className="absolute right-3 top-1/2 -translate-y-1/2 text-muted hover:text-foreground transition-colors cursor-pointer"
             >
-              {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+              {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
             </button>
           )}
         </div>

@@ -28,18 +28,18 @@ export function VehicleCard({ vehicle, onDelete }: VehicleCardProps) {
   return (
     <Link
       href={`/vehicles/${vehicle.id}`}
-      className="block rounded-2xl border border-border bg-card p-5 shadow-sm hover:shadow-md hover:border-primary/30 transition-all"
+      className="group block rounded-lg border border-border bg-card p-4 hover:bg-accent/50 transition-colors"
     >
       <div className="flex items-start justify-between gap-3">
         <div className="flex items-center gap-3">
-          <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-[var(--radius)] bg-primary/10">
-            <Car size={20} className="text-primary" />
+          <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-md bg-primary/8">
+            <Car size={16} className="text-primary" />
           </div>
           <div>
-            <h3 className="font-semibold text-foreground">
+            <h3 className="text-sm font-medium text-foreground">
               {vehicle.brand} {vehicle.model}
             </h3>
-            <p className="text-sm text-muted">{vehicle.year}</p>
+            <p className="text-xs text-muted">{vehicle.year}</p>
           </div>
         </div>
         <div className="flex items-center gap-2">
@@ -50,29 +50,29 @@ export function VehicleCard({ vehicle, onDelete }: VehicleCardProps) {
             <button
               type="button"
               onClick={(e) => { e.preventDefault(); onDelete(vehicle.id); }}
-              className="p-1.5 rounded-[var(--radius)] text-muted hover:text-error hover:bg-error/10 transition-colors"
+              className="p-1 rounded text-muted hover:text-error transition-colors opacity-0 group-hover:opacity-100"
             >
-              <Trash2 size={15} />
+              <Trash2 size={14} />
             </button>
           )}
         </div>
       </div>
 
-      <div className="mt-4 flex flex-wrap gap-x-5 gap-y-1 text-sm text-muted">
+      <div className="mt-3 flex flex-wrap gap-x-4 gap-y-1 text-xs text-muted">
         {vehicle.vin && (
-          <span className="flex items-center gap-1.5">
-            <Hash size={14} />
+          <span className="flex items-center gap-1">
+            <Hash size={12} />
             {vehicle.vin}
           </span>
         )}
         {vehicle.mileage != null && (
-          <span className="flex items-center gap-1.5">
-            <Gauge size={14} />
+          <span className="flex items-center gap-1">
+            <Gauge size={12} />
             {vehicle.mileage.toLocaleString()} {t("dashboard.vehicles.km")}
           </span>
         )}
         {vehicle.licensePlate && (
-          <span className="font-mono text-xs bg-accent px-2 py-0.5 rounded">
+          <span className="font-mono bg-accent px-1.5 py-0.5 rounded text-xs">
             {vehicle.licensePlate}
           </span>
         )}

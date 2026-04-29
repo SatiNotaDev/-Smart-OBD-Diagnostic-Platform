@@ -50,7 +50,7 @@ export function PhotoGallery({ vehicleId, photos }: PhotoGalleryProps) {
   };
 
   return (
-    <div className="rounded-2xl border border-border bg-card p-6 shadow-sm">
+    <div className="rounded-lg border border-border bg-card p-5">
       <div className="flex items-center justify-between mb-4">
         <h3 className="text-lg font-semibold text-foreground flex items-center gap-2">
           <Camera size={20} className="text-primary" />

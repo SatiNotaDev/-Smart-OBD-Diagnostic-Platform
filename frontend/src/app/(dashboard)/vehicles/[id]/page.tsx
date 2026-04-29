@@ -23,6 +23,8 @@ import { DiagnosticsSection } from "@/components/vehicles/diagnostics-section";
 import { AiChatSection } from "@/components/vehicles/ai-chat-section";
 import { PhotoGallery } from "@/components/vehicles/photo-gallery";
 import { useI18n } from "@/lib/i18n/i18n";
+import { PageTransition } from "@/components/ui/page-transition";
+import { SkeletonCard } from "@/components/ui/skeleton";
 
 const engineVariant: Record<string, "default" | "success" | "warning" | "error"> = {
   petrol: "default",
@@ -48,18 +50,19 @@ export default function VehicleDetailPage() {
 
   if (isLoading) {
     return (
-      <div className="flex justify-center py-20">
-        <div className="h-8 w-8 animate-spin rounded-full border-2 border-primary border-t-transparent" />
+      <div className="space-y-4 max-w-4xl">
+        <SkeletonCard />
+        <SkeletonCard />
       </div>
     );
   }
 
   if (!vehicle) {
     return (
-      <div className="flex flex-col items-center gap-4 py-20 text-center">
-        <p className="text-muted">{t("dashboard.vehicles.detail.notFound")}</p>
+      <div className="flex flex-col items-center gap-3 py-16 text-center">
+        <p className="text-sm text-muted">{t("dashboard.vehicles.detail.notFound")}</p>
         <Button variant="outline" onClick={() => router.push("/vehicles")}>
-          <ArrowLeft size={16} className="mr-1.5" />
+          <ArrowLeft size={14} className="mr-1.5" />
           {t("dashboard.vehicles.detail.backToList")}
         </Button>
       </div>
@@ -80,59 +83,61 @@ export default function VehicleDetailPage() {
   ];
 
   return (
-    <div className="space-y-6">
+    <PageTransition className="space-y-6 max-w-4xl">
       {/* Header */}
       <div className="flex items-center gap-3">
-        <Button variant="outline" onClick={() => router.push("/vehicles")} className="h-9 w-9 p-0">
+        <button
+          onClick={() => router.push("/vehicles")}
+          className="p-1 text-muted hover:text-foreground transition-colors cursor-pointer"
+        >
           <ArrowLeft size={18} />
-        </Button>
+        </button>
         <div className="flex-1">
-          <div className="flex items-center gap-3">
-            <h2 className="text-2xl font-bold text-foreground">
+          <div className="flex items-center gap-2">
+            <h2 className="text-lg font-semibold text-foreground">
               {vehicle.brand} {vehicle.model}
             </h2>
             <Badge variant={engineVariant[vehicle.engineType] || "default"}>
               {engineLabel}
             </Badge>
           </div>
-          <p className="text-sm text-muted mt-0.5">
+          <p className="text-xs text-muted mt-0.5">
             {t("dashboard.vehicles.detail.addedOn")} {new Date(vehicle.createdAt).toLocaleDateString()}
           </p>
         </div>
         <div className="flex gap-2">
-          <Button variant="outline" onClick={() => setShowEdit(true)}>
-            <Pencil size={15} className="mr-1.5" />
+          <Button variant="outline" size="sm" onClick={() => setShowEdit(true)}>
+            <Pencil size={13} className="mr-1" />
             {t("dashboard.vehicles.detail.edit")}
           </Button>
           <Button
             variant="outline"
+            size="sm"
             onClick={handleDelete}
-            className="text-error hover:bg-error/10 hover:border-error"
+            className="text-error hover:bg-error/5 hover:border-error/30"
           >
-            <Trash2 size={15} className="mr-1.5" />
+            <Trash2 size={13} className="mr-1" />
             {t("dashboard.vehicles.detail.delete")}
           </Button>
         </div>
       </div>
 
       {/* Info card */}
-      <div className="rounded-2xl border border-border bg-card p-6 shadow-sm">
-        <div className="flex items-center gap-3 mb-6">
-          <div className="flex h-12 w-12 items-center justify-center rounded-[var(--radius)] bg-primary/10">
-            <Car size={24} className="text-primary" />
+      <div className="rounded-lg border border-border bg-card p-5">
+        <div className="flex items-center gap-2.5 mb-5">
+          <div className="flex h-8 w-8 items-center justify-center rounded-md bg-primary/8">
+            <Car size={16} className="text-primary" />
           </div>
-          <div>
-            <h3 className="text-lg font-semibold text-foreground">
-              {t("dashboard.vehicles.detail.specifications")}
-            </h3>
-          </div>
+          <h3 className="text-sm font-medium text-foreground">
+            {t("dashboard.vehicles.detail.specifications")}
+          </h3>
         </div>
 
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
           {infoItems.map(({ icon: Icon, label, value }) =>
             value ? (
-              <div key={label} className="flex items-start gap-3 p-3 rounded-[var(--radius)] bg-accent/50">
-                <Icon size={18} className="text-muted mt-0.5 shrink-0" />
+              <div key={label} className="flex items-start gap-2.5 p-3 rounded-md bg-surface">
+                <Icon size={15} className="text-muted mt-0.5 shrink-0" />
                 <div>
                   <p className="text-xs text-muted">{label}</p>
                   <p className="text-sm font-medium text-foreground mt-0.5">{value}</p>
@@ -143,19 +148,11 @@ export default function VehicleDetailPage() {
         </div>
       </div>
 
-      {/* Photos */}
       <PhotoGallery vehicleId={id} photos={vehicle.photos || []} />
-
-      {/* Diagnostics */}
       <DiagnosticsSection vehicleId={id} />
-
-      {/* Notes */}
       <NotesSection vehicleId={id} />
-
-      {/* AI Chat */}
       <AiChatSection vehicleId={id} />
 
-      {/* Edit dialog */}
       {showEdit && (
         <EditVehicleDialog
           vehicle={vehicle}
@@ -163,6 +160,6 @@ export default function VehicleDetailPage() {
           onClose={() => setShowEdit(false)}
         />
       )}
-    </div>
+    </PageTransition>
   );
 }

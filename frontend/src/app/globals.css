@@ -1,77 +1,75 @@
 @import "tailwindcss";
 
 /*
- * Bosch Blue Theme — Smart OBD Platform
- * Primary: #007BC0 (Bosch Professional Blue)
- * Dark variant: #005A8F
- * Light variant: #4DA6D6
+ * Notion-inspired Theme — Smart OBD Platform
+ * Clean, warm, minimal with blue accent
  */
 
 :root {
-  /* Primary — Bosch Blue */
-  --primary: #007BC0;
-  --primary-hover: #005A8F;
-  --primary-light: #4DA6D6;
+  /* Primary — Notion Blue */
+  --primary: #2383E2;
+  --primary-hover: #1B6EC2;
+  --primary-light: #E8F0FE;
   --primary-foreground: #ffffff;
 
   /* Accent */
-  --accent: #F0F7FC;
-  --accent-foreground: #007BC0;
+  --accent: #F1F1EF;
+  --accent-foreground: #37352F;
 
   /* Backgrounds */
   --background: #ffffff;
-  --surface: #F8FAFC;
+  --surface: #F7F7F5;
   --card: #ffffff;
 
   /* Text */
-  --foreground: #0F172A;
-  --muted: #64748B;
-  --muted-foreground: #94A3B8;
+  --foreground: #37352F;
+  --muted: #787774;
+  --muted-foreground: #9B9A97;
 
   /* Borders */
-  --border: #E2E8F0;
-  --ring: #007BC0;
+  --border: #E9E9E7;
+  --ring: #2383E2;
 
   /* Semantic */
-  --success: #16A34A;
-  --warning: #F59E0B;
-  --error: #DC2626;
-  --info: #007BC0;
+  --success: #0F7B0F;
+  --warning: #D9730D;
+  --error: #E03E3E;
+  --info: #2383E2;
 
   /* Radius */
-  --radius: 0.75rem;
+  --radius: 0.375rem;
 }
 
 .dark {
-  /* Primary — lighter blue for contrast on dark */
-  --primary: #4DA6D6;
-  --primary-hover: #6BB8E0;
-  --primary-light: #007BC0;
+  /* Primary */
+  --primary: #529CCA;
+  --primary-hover: #6DB3D9;
+  --primary-light: #143A52;
   --primary-foreground: #ffffff;
 
   /* Accent */
-  --accent: #1E293B;
-  --accent-foreground: #4DA6D6;
+  --accent: #2F2F2F;
+  --accent-foreground: #E8E8E3;
 
   /* Backgrounds */
-  --background: #0B1120;
-  --surface: #111827;
-  --card: #1E293B;
+  --background: #191919;
+  --surface: #202020;
+  --card: #202020;
 
   /* Text */
-  --foreground: #F1F5F9;
-  --muted: #94A3B8;
-  --muted-foreground: #64748B;
+  --foreground: #E8E8E3;
+  --muted: #9B9A97;
+  --muted-foreground: #6B6B6B;
 
   /* Borders */
-  --border: #334155;
-  --ring: #4DA6D6;
+  --border: #2F2F2F;
+  --ring: #529CCA;
 
   /* Semantic */
-  --success: #22C55E;
-  --warning: #FBBF24;
-  --error: #EF4444;
-  --info: #4DA6D6;
+  --success: #4DAB4D;
+  --warning: #E9A04F;
+  --error: #EB5757;
+  --info: #529CCA;
 }
 
 @theme inline {
@@ -101,8 +99,7 @@
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-sans, system-ui, -apple-system, sans-serif);
-  transition: background-color 0.3s ease, color 0.3s ease;
+  font-family: var(--font-sans, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif);
 }
 
 /* Focus ring */
@@ -111,19 +108,25 @@ body {
   outline-offset: 2px;
 }
 
-/* Card flip animation (scaleX squeeze) */
-.card-flip {
-  transform-origin: center center;
+/* Skeleton pulse */
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
 }
 
-.card-flip-out {
-  animation: flipOut 0.3s ease-in forwards;
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    var(--accent) 25%,
+    color-mix(in srgb, var(--accent) 60%, var(--border)) 50%,
+    var(--accent) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s ease-in-out infinite;
+  border-radius: var(--radius);
 }
 
-.card-flip-in {
-  animation: flipIn 0.3s ease-out forwards;
-}
-
+/* Card flip animation (auth) */
 @keyframes flipOut {
   0% { transform: perspective(800px) rotateY(0deg); opacity: 1; }
   100% { transform: perspective(800px) rotateY(90deg); opacity: 0; }
@@ -132,4 +135,12 @@ body {
 @keyframes flipIn {
   0% { transform: perspective(800px) rotateY(-90deg); opacity: 0; }
   100% { transform: perspective(800px) rotateY(0deg); opacity: 1; }
+}
+
+.card-flip-out {
+  animation: flipOut 0.3s ease-in forwards;
+}
+
+.card-flip-in {
+  animation: flipIn 0.3s ease-out forwards;
 }
