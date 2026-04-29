@@ -3,10 +3,14 @@ import { PrismaService } from '../prisma/prisma.service';
 import { CreateChatDto } from './dto/create-chat.dto';
 import { SendMessageDto } from './dto/send-message.dto';
 import { generateAiResponse } from './services/ai-engine';
+import { ChatLimiterService } from './services/chat-limiter.service';
 
 @Injectable()
 export class AiChatService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly limiter: ChatLimiterService,
+  ) {}
 
   async findAll(vehicleId: string, userId: string) {
     await this.verifyVehicleOwnership(vehicleId, userId);
@@ -46,7 +50,12 @@ export class AiChatService {
     });
   }
 
+  async getUsage(userId: string) {
+    return this.limiter.getUsage(userId);
+  }
+
   async sendMessage(chatId: string, userId: string, dto: SendMessageDto) {
+    await this.limiter.checkLimit(userId);
     const chat = await this.findOne(chatId, userId);
 
     // Save user message

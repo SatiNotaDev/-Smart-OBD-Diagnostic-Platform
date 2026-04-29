@@ -3,7 +3,7 @@
 import { useState, useRef, useEffect } from "react";
 import { MessageSquare, Plus, Send, Trash2, Bot, User, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { useAiChats, useAiChat, useCreateAiChat, useSendMessage, useDeleteAiChat } from "@/lib/query/use-ai-chat";
+import { useAiChats, useAiChat, useCreateAiChat, useSendMessage, useDeleteAiChat, useChatUsage } from "@/lib/query/use-ai-chat";
 import { useI18n } from "@/lib/i18n/i18n";
 
 interface AiChatSectionProps {
@@ -13,6 +13,7 @@ interface AiChatSectionProps {
 export function AiChatSection({ vehicleId }: AiChatSectionProps) {
   const { t } = useI18n();
   const { data: chats, isLoading: chatsLoading } = useAiChats(vehicleId);
+  const { data: usage } = useChatUsage();
   const createChat = useCreateAiChat(vehicleId);
   const deleteChat = useDeleteAiChat(vehicleId);
   const [activeChatId, setActiveChatId] = useState<string | null>(null);
@@ -32,10 +33,19 @@ export function AiChatSection({ vehicleId }: AiChatSectionProps) {
   return (
     <div className="rounded-xl border border-border bg-card overflow-hidden">
       <div className="flex items-center justify-between p-4 border-b border-border">
-        <h3 className="text-lg font-semibold text-foreground flex items-center gap-2">
-          <Bot size={20} className="text-primary" />
-          {t("dashboard.vehicles.chat.title")}
-        </h3>
+        <div className="flex items-center gap-3">
+          <h3 className="text-lg font-semibold text-foreground flex items-center gap-2">
+            <Bot size={20} className="text-primary" />
+            {t("dashboard.vehicles.chat.title")}
+          </h3>
+          {usage && usage.limit !== -1 && (
+            <span className={`text-[11px] px-2 py-0.5 rounded-full ${
+              usage.used >= usage.limit ? "bg-error/10 text-error" : "bg-accent text-muted"
+            }`}>
+              {usage.used}/{usage.limit}
+            </span>
+          )}
+        </div>
         <Button onClick={handleNewChat} className="h-8 text-xs" isLoading={createChat.isPending}>
           <Plus size={14} className="mr-1" />
           {t("dashboard.vehicles.chat.newChat")}

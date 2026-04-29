@@ -11,10 +11,13 @@ import { AiChatModule } from './modules/ai-chat/ai-chat.module';
 import { SubscriptionsModule } from './modules/subscriptions/subscriptions.module';
 import { RemindersModule } from './modules/reminders/reminders.module';
 import { ClientsModule } from './modules/clients/clients.module';
+import { AdminModule } from './modules/admin/admin.module';
 import { LoggerMiddleware } from './common/middleware/logger.middleware';
 import { SecurityMiddleware } from './common/middleware/security.middleware';
+import { HealthController } from './health.controller';
 
 @Module({
+  controllers: [HealthController],
   providers: [
     { provide: APP_GUARD, useClass: ThrottlerGuard },
   ],
@@ -47,6 +50,8 @@ import { SecurityMiddleware } from './common/middleware/security.middleware';
     RemindersModule,
     // Clients Module
     ClientsModule,
+    // Admin Module
+    AdminModule,
   ],
 })
 export class AppModule implements NestModule {
