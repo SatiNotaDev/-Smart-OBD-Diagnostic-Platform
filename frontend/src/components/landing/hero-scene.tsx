@@ -51,10 +51,10 @@ function ParticleField() {
         />
       </bufferGeometry>
       <pointsMaterial
-        size={0.02}
+        size={0.035}
         vertexColors
         transparent
-        opacity={0.8}
+        opacity={0.9}
         sizeAttenuation
       />
     </points>
@@ -78,7 +78,7 @@ function GlowingSphere() {
           color="#0070F3"
           wireframe
           transparent
-          opacity={0.15}
+          opacity={0.3}
         />
       </mesh>
     </Float>
@@ -97,8 +97,8 @@ function GradientRing() {
 
   return (
     <mesh ref={mesh} position={[0, 0, -1]}>
-      <torusGeometry args={[2.5, 0.01, 16, 100]} />
-      <meshBasicMaterial color="#7928CA" transparent opacity={0.4} />
+      <torusGeometry args={[2.5, 0.02, 16, 100]} />
+      <meshBasicMaterial color="#7928CA" transparent opacity={0.6} />
     </mesh>
   );
 }

@@ -71,8 +71,8 @@ function Hero() {
     <section className="relative min-h-screen flex items-center justify-center pt-16">
       <HeroScene />
 
-      {/* Light radial fade so 3D is subtle */}
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_0%,white_70%)]" />
+      {/* Light radial fade — keeps text readable over 3D */}
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_20%,white_80%)]" />
 
       <div className="relative z-10 text-center px-6 max-w-4xl mx-auto">
         <motion.div
