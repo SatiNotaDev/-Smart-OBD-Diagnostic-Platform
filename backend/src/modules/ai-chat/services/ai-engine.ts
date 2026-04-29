@@ -24,6 +24,77 @@ function getClient(): Anthropic | null {
   return anthropicClient;
 }
 
+// --- DTC Response Cache ---
+const dtcCache = new Map<string, { response: string; timestamp: number }>();
+const CACHE_TTL = 24 * 60 * 60 * 1000; // 24 hours
+
+function getCacheKey(message: string, vehicleSig: string): string | null {
+  const normalized = message.trim().toLowerCase();
+  const dtcMatch = normalized.match(/^(?:what is|что такое|explain|объясни|код)\s*([pbcu]\d{4})[\s?!.]*$/i);
+  if (dtcMatch) {
+    return `dtc:${dtcMatch[1].toUpperCase()}:${vehicleSig}`;
+  }
+  return null;
+}
+
+function getFromCache(key: string): string | null {
+  const entry = dtcCache.get(key);
+  if (!entry) return null;
+  if (Date.now() - entry.timestamp > CACHE_TTL) {
+    dtcCache.delete(key);
+    return null;
+  }
+  return entry.response;
+}
+
+function setCache(key: string, response: string): void {
+  if (dtcCache.size > 500) {
+    const oldest = [...dtcCache.entries()].sort((a, b) => a[1].timestamp - b[1].timestamp)[0];
+    if (oldest) dtcCache.delete(oldest[0]);
+  }
+  dtcCache.set(key, { response, timestamp: Date.now() });
+}
+
+// --- Model Routing ---
+type ModelId = 'claude-haiku-4-5-20251001' | 'claude-sonnet-4-6-20250514';
+
+function selectModel(userMessage: string, context: ChatContext): ModelId {
+  const msg = userMessage.toLowerCase();
+
+  const isSimple =
+    /^(?:what is|что такое|explain|объясни|расскажи про|what does|как расшифровать)\s+[pbcu]\d{4}/i.test(msg) ||
+    /^(?:how much|сколько стоит|cost|price|цена)/i.test(msg) ||
+    msg.length < 60;
+
+  const isComplex =
+    context.recentDtcs.length > 3 ||
+    /(?:correlat|связ|причин|root cause|взаимосвяз|together|вместе|analyze|анализ)/i.test(msg) ||
+    context.messageHistory.length > 6;
+
+  if (isComplex) return 'claude-sonnet-4-6-20250514';
+  if (isSimple) return 'claude-haiku-4-5-20251001';
+  return 'claude-haiku-4-5-20251001';
+}
+
+// --- History Truncation ---
+const MAX_HISTORY_MESSAGES = 10;
+
+function truncateHistory(
+  history: Array<{ role: string; content: string }>,
+): Array<{ role: 'user' | 'assistant'; content: string }> {
+  const recent = history.slice(-MAX_HISTORY_MESSAGES);
+
+  // Ensure first message is from user (API requirement)
+  const startIdx = recent.findIndex((m) => m.role === 'USER');
+  const trimmed = startIdx > 0 ? recent.slice(startIdx) : recent;
+
+  return trimmed.map((m) => ({
+    role: m.role === 'USER' ? 'user' as const : 'assistant' as const,
+    content: m.content,
+  }));
+}
+
+// --- System Prompt ---
 function buildSystemPrompt(context: ChatContext): string {
   const { vehicle, recentDtcs } = context;
 
@@ -54,6 +125,7 @@ Rules:
   return systemPrompt;
 }
 
+// --- Main Entry Point ---
 export async function generateAiResponse(
   userMessage: string,
   context: ChatContext,
@@ -64,28 +136,40 @@ export async function generateAiResponse(
     return generateFallbackResponse(userMessage, context);
   }
 
-  const messages: Array<{ role: 'user' | 'assistant'; content: string }> = [];
-
-  for (const msg of context.messageHistory) {
-    messages.push({
-      role: msg.role === 'USER' ? 'user' : 'assistant',
-      content: msg.content,
-    });
+  // Check cache for simple DTC lookups
+  const vehicleSig = `${context.vehicle.brand}-${context.vehicle.model}-${context.vehicle.year}`;
+  const cacheKey = getCacheKey(userMessage, vehicleSig);
+  if (cacheKey) {
+    const cached = getFromCache(cacheKey);
+    if (cached) return cached;
   }
 
+  // Truncate history to last N messages
+  const messages = truncateHistory(context.messageHistory);
   messages.push({ role: 'user', content: userMessage });
 
+  // Route to appropriate model
+  const model = selectModel(userMessage, context);
+
   const response = await client.messages.create({
-    model: 'claude-sonnet-4-6-20250514',
-    max_tokens: 1024,
+    model,
+    max_tokens: model.includes('haiku') ? 512 : 1024,
     system: buildSystemPrompt(context),
     messages,
   });
 
   const textBlock = response.content.find((block) => block.type === 'text');
-  return textBlock?.text || 'Sorry, I could not generate a response.';
+  const result = textBlock?.text || 'Sorry, I could not generate a response.';
+
+  // Cache if it was a simple DTC question
+  if (cacheKey) {
+    setCache(cacheKey, result);
+  }
+
+  return result;
 }
 
+// --- Fallback (no API key) ---
 function generateFallbackResponse(userMessage: string, context: ChatContext): string {
   const msg = userMessage.toLowerCase();
 

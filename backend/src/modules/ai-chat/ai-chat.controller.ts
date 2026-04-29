@@ -17,6 +17,11 @@ import { CurrentUser } from '../auth/decorators/current-user.decorator';
 export class AiChatController {
   constructor(private readonly aiChatService: AiChatService) {}
 
+  @Get('usage')
+  async getUsage(@CurrentUser('id') userId: string) {
+    return this.aiChatService.getUsage(userId);
+  }
+
   @Get('vehicle/:vehicleId')
   async findAll(
     @Param('vehicleId') vehicleId: string,

@@ -1,11 +1,12 @@
 "use client";
 
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { aiChatApi, type AiChat } from "@/lib/api/ai-chat-api";
+import { aiChatApi, type AiChat, type ChatUsage } from "@/lib/api/ai-chat-api";
 
 const chatKeys = {
   all: (vehicleId: string) => ["ai-chats", vehicleId] as const,
   detail: (id: string) => ["ai-chat", id] as const,
+  usage: ["ai-chat-usage"] as const,
 };
 
 export function useAiChats(vehicleId: string) {
@@ -34,12 +35,20 @@ export function useCreateAiChat(vehicleId: string) {
   });
 }
 
+export function useChatUsage() {
+  return useQuery<ChatUsage>({
+    queryKey: chatKeys.usage,
+    queryFn: () => aiChatApi.getUsage(),
+  });
+}
+
 export function useSendMessage(chatId: string) {
   const qc = useQueryClient();
   return useMutation({
     mutationFn: (message: string) => aiChatApi.sendMessage(chatId, message),
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: chatKeys.detail(chatId) });
+      qc.invalidateQueries({ queryKey: chatKeys.usage });
     },
   });
 }
