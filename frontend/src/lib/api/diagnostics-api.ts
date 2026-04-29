@@ -45,13 +45,20 @@ export interface DashboardStats {
   vehicleCount: number;
   sessionCount: number;
   dtcCount: number;
+  healthScore: number;
   recentSessions: Array<{
     id: string;
     createdAt: string;
     vehicle: { brand: string; model: string };
+    dtcs: Array<{ code: string; severity: number }>;
+    result?: { confidence: number } | null;
     _count: { dtcs: number };
   }>;
   monthlyDiagnostics: Array<{ month: string; count: number }>;
+  severityDistribution: number[];
+  topDtcs: Array<{ code: string; count: number }>;
+  systemBreakdown: { P: number; B: number; C: number; U: number };
+  vehicleActivity: Array<{ vehicle: string; sessions: number }>;
 }
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000/api";

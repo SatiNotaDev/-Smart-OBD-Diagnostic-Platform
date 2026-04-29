@@ -14,12 +14,12 @@ export class DiagnosticsService {
   async getStats(userId: string) {
     const vehicles = await this.prisma.vehicle.findMany({
       where: { userId },
-      select: { id: true },
+      select: { id: true, brand: true, model: true },
     });
 
     const vehicleIds = vehicles.map((v) => v.id);
 
-    const [vehicleCount, sessionCount, dtcCount, recentSessions] = await Promise.all([
+    const [vehicleCount, sessionCount, dtcCount, recentSessions, allDtcs] = await Promise.all([
       this.prisma.vehicle.count({ where: { userId } }),
       this.prisma.diagnosticSession.count({ where: { vehicleId: { in: vehicleIds } } }),
       this.prisma.dtcCode.count({
@@ -28,19 +28,27 @@ export class DiagnosticsService {
       this.prisma.diagnosticSession.findMany({
         where: { vehicleId: { in: vehicleIds } },
         orderBy: { createdAt: 'desc' },
-        take: 5,
+        take: 10,
         include: {
           vehicle: { select: { brand: true, model: true } },
+          dtcs: { select: { code: true, severity: true } },
+          result: { select: { confidence: true } },
           _count: { select: { dtcs: true } },
         },
       }),
+      this.prisma.dtcCode.findMany({
+        where: { session: { vehicleId: { in: vehicleIds } } },
+        select: { code: true, severity: true },
+      }),
     ]);
 
+    // Monthly diagnostics (last 6 months)
+    const sixMonthsAgo = new Date(Date.now() - 180 * 24 * 60 * 60 * 1000);
     const monthlyStats = await this.prisma.diagnosticSession.groupBy({
       by: ['createdAt'],
       where: {
         vehicleId: { in: vehicleIds },
-        createdAt: { gte: new Date(Date.now() - 180 * 24 * 60 * 60 * 1000) },
+        createdAt: { gte: sixMonthsAgo },
       },
       _count: true,
     });
@@ -51,14 +59,66 @@ export class DiagnosticsService {
       monthlyMap[key] = (monthlyMap[key] || 0) + entry._count;
     }
 
+    // Severity distribution
+    const severityDistribution = [0, 0, 0, 0, 0]; // severity 1-5
+    for (const dtc of allDtcs) {
+      const idx = Math.min(Math.max((dtc.severity || 1) - 1, 0), 4);
+      severityDistribution[idx]++;
+    }
+
+    // Top recurring DTC codes
+    const dtcFrequency: Record<string, number> = {};
+    for (const dtc of allDtcs) {
+      dtcFrequency[dtc.code] = (dtcFrequency[dtc.code] || 0) + 1;
+    }
+    const topDtcs = Object.entries(dtcFrequency)
+      .sort(([, a], [, b]) => b - a)
+      .slice(0, 5)
+      .map(([code, count]) => ({ code, count }));
+
+    // DTC by system category (P=Powertrain, B=Body, C=Chassis, U=Network)
+    const systemBreakdown = { P: 0, B: 0, C: 0, U: 0 };
+    for (const dtc of allDtcs) {
+      const prefix = dtc.code.charAt(0).toUpperCase() as keyof typeof systemBreakdown;
+      if (prefix in systemBreakdown) systemBreakdown[prefix]++;
+    }
+
+    // Health score (0-100): based on severity weighted DTCs relative to sessions
+    let healthScore = 100;
+    if (sessionCount > 0) {
+      const weightedSeverity = allDtcs.reduce((sum, d) => sum + (d.severity || 1), 0);
+      const avgSeverityPerSession = weightedSeverity / sessionCount;
+      healthScore = Math.max(0, Math.round(100 - avgSeverityPerSession * 8));
+    }
+
+    // Sessions per vehicle
+    const sessionsPerVehicle = await this.prisma.diagnosticSession.groupBy({
+      by: ['vehicleId'],
+      where: { vehicleId: { in: vehicleIds } },
+      _count: true,
+    });
+
+    const vehicleActivity = sessionsPerVehicle.map((s) => {
+      const v = vehicles.find((veh) => veh.id === s.vehicleId);
+      return {
+        vehicle: v ? `${v.brand} ${v.model}` : 'Unknown',
+        sessions: s._count,
+      };
+    }).sort((a, b) => b.sessions - a.sessions);
+
     return {
       vehicleCount,
       sessionCount,
       dtcCount,
+      healthScore,
       recentSessions,
       monthlyDiagnostics: Object.entries(monthlyMap)
         .sort(([a], [b]) => a.localeCompare(b))
         .map(([month, count]) => ({ month, count })),
+      severityDistribution,
+      topDtcs,
+      systemBreakdown,
+      vehicleActivity,
     };
   }
 
