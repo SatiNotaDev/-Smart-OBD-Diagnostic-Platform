@@ -169,6 +169,18 @@
         "categoryMaintenance": "ТО",
         "categoryObservation": "Наблюдение",
         "categoryReminder": "Напоминание"
+      },
+      "diagnostics": {
+        "title": "Диагностика",
+        "newSession": "Новый скан",
+        "enterCodes": "Введите коды DTC",
+        "codesHint": "OBD-II коды через запятую, точку с запятой или с новой строки (P0300, P0420)",
+        "analyze": "Анализировать",
+        "invalidCodes": "Не найдено валидных DTC кодов. Формат: P0300, B1000, C0035, U0100",
+        "empty": "Нет диагностических сессий. Запустите первый скан.",
+        "deleteConfirm": "Удалить сессию диагностики?",
+        "expand": "Подробнее",
+        "collapse": "Скрыть"
       }
     },
     "settings": {

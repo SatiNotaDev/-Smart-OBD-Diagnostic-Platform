@@ -4,6 +4,7 @@ import { PrismaModule } from './modules/prisma/prisma.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { VehiclesModule } from './modules/vehicles/vehicles.module';
 import { NotesModule } from './modules/notes/notes.module';
+import { DiagnosticsModule } from './modules/diagnostics/diagnostics.module';
 import { LoggerMiddleware } from './common/middleware/logger.middleware';
 import { SecurityMiddleware } from './common/middleware/security.middleware';
 
@@ -22,6 +23,8 @@ import { SecurityMiddleware } from './common/middleware/security.middleware';
     VehiclesModule,
     // Notes Module
     NotesModule,
+    // Diagnostics Module
+    DiagnosticsModule,
   ],
 })
 export class AppModule implements NestModule {

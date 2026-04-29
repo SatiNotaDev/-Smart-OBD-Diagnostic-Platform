@@ -169,6 +169,18 @@
         "categoryMaintenance": "Maintenance",
         "categoryObservation": "Observation",
         "categoryReminder": "Reminder"
+      },
+      "diagnostics": {
+        "title": "Diagnostics",
+        "newSession": "New Scan",
+        "enterCodes": "Enter DTC Codes",
+        "codesHint": "Enter OBD-II codes separated by commas, semicolons, or new lines (e.g. P0300, P0420)",
+        "analyze": "Analyze",
+        "invalidCodes": "No valid DTC codes found. Format: P0300, B1000, C0035, U0100",
+        "empty": "No diagnostic sessions yet. Run your first scan.",
+        "deleteConfirm": "Delete this diagnostic session?",
+        "expand": "Show details",
+        "collapse": "Hide details"
       }
     },
     "settings": {
