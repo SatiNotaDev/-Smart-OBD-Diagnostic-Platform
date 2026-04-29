@@ -153,6 +153,22 @@
         "editTitle": "Edit Vehicle",
         "save": "Save Changes",
         "saved": "Changes saved"
+      },
+      "notes": {
+        "title": "Notes",
+        "add": "Add Note",
+        "newNote": "New Note",
+        "editNote": "Edit Note",
+        "save": "Save",
+        "empty": "No notes yet. Add your first note.",
+        "titlePlaceholder": "Note title",
+        "contentPlaceholder": "Write your note here...",
+        "deleteConfirm": "Delete this note?",
+        "categoryGeneral": "General",
+        "categoryRepair": "Repair",
+        "categoryMaintenance": "Maintenance",
+        "categoryObservation": "Observation",
+        "categoryReminder": "Reminder"
       }
     },
     "settings": {

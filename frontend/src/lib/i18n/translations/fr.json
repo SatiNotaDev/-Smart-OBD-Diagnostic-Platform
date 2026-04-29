@@ -153,6 +153,22 @@
         "editTitle": "Modifier le véhicule",
         "save": "Enregistrer",
         "saved": "Modifications enregistrées"
+      },
+      "notes": {
+        "title": "Notes",
+        "add": "Ajouter",
+        "newNote": "Nouvelle note",
+        "editNote": "Modifier la note",
+        "save": "Enregistrer",
+        "empty": "Aucune note. Ajoutez la première.",
+        "titlePlaceholder": "Titre de la note",
+        "contentPlaceholder": "Écrivez votre note ici...",
+        "deleteConfirm": "Supprimer cette note ?",
+        "categoryGeneral": "Général",
+        "categoryRepair": "Réparation",
+        "categoryMaintenance": "Entretien",
+        "categoryObservation": "Observation",
+        "categoryReminder": "Rappel"
       }
     },
     "settings": {
