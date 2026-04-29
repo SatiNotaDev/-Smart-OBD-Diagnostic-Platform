@@ -96,6 +96,7 @@
     "sidebar": {
       "dashboard": "Панель",
       "vehicles": "Автомобили",
+      "clients": "Клиенты",
       "settings": "Настройки",
       "logout": "Выйти"
     },

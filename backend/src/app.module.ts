@@ -10,6 +10,7 @@ import { DiagnosticsModule } from './modules/diagnostics/diagnostics.module';
 import { AiChatModule } from './modules/ai-chat/ai-chat.module';
 import { SubscriptionsModule } from './modules/subscriptions/subscriptions.module';
 import { RemindersModule } from './modules/reminders/reminders.module';
+import { ClientsModule } from './modules/clients/clients.module';
 import { LoggerMiddleware } from './common/middleware/logger.middleware';
 import { SecurityMiddleware } from './common/middleware/security.middleware';
 
@@ -44,6 +45,8 @@ import { SecurityMiddleware } from './common/middleware/security.middleware';
     SubscriptionsModule,
     // Reminders Module
     RemindersModule,
+    // Clients Module
+    ClientsModule,
   ],
 })
 export class AppModule implements NestModule {

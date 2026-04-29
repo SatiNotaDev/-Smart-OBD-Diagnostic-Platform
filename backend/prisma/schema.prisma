@@ -45,14 +45,30 @@ model User {
   theme             String    @default("light") // light, dark
 
   vehicles          Vehicle[]
+  clients           Client[]
   createdAt         DateTime  @default(now())
   updatedAt         DateTime  @updatedAt
+}
+
+model Client {
+  id        String    @id @default(uuid())
+  userId    String
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  name      String
+  phone     String?
+  email     String?
+  notes     String?   @db.Text
+  vehicles  Vehicle[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
 }
 
 model Vehicle {
   id            String              @id @default(uuid())
   userId        String
   user          User                @relation(fields: [userId], references: [id], onDelete: Cascade)
+  clientId      String?
+  client        Client?             @relation(fields: [clientId], references: [id], onDelete: SetNull)
   brand         String
   model         String
   year          Int

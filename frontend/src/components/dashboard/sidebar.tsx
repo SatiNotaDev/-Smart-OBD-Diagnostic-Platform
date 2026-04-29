@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { LayoutDashboard, Car, Settings, LogOut, X } from "lucide-react";
+import { LayoutDashboard, Car, Users, Settings, LogOut, X } from "lucide-react";
 import { useAuth } from "@/lib/auth/auth-context";
 import { useI18n } from "@/lib/i18n/i18n";
 import { cn } from "@/lib/utils/cn";
@@ -15,6 +15,7 @@ interface SidebarProps {
 const navItems = [
   { href: "/overview", icon: LayoutDashboard, labelKey: "dashboard.sidebar.dashboard" },
   { href: "/vehicles", icon: Car, labelKey: "dashboard.sidebar.vehicles" },
+  { href: "/clients", icon: Users, labelKey: "dashboard.sidebar.clients" },
   { href: "/settings", icon: Settings, labelKey: "dashboard.sidebar.settings" },
 ] as const;
 

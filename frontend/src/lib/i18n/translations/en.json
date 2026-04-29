@@ -96,6 +96,7 @@
     "sidebar": {
       "dashboard": "Dashboard",
       "vehicles": "Vehicles",
+      "clients": "Clients",
       "settings": "Settings",
       "logout": "Log Out"
     },

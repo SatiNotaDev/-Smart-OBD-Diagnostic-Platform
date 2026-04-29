@@ -96,6 +96,7 @@
     "sidebar": {
       "dashboard": "Tableau de bord",
       "vehicles": "Véhicules",
+      "clients": "Clients",
       "settings": "Paramètres",
       "logout": "Déconnexion"
     },
