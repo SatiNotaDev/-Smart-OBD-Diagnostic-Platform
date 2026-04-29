@@ -117,4 +117,76 @@ export class ClientsService {
       where: { id },
     });
   }
+
+  async linkVehicle(clientId: string, vehicleId: string, userId: string) {
+    await this.findOne(clientId, userId);
+
+    const vehicle = await this.prisma.vehicle.findFirst({
+      where: { id: vehicleId, userId },
+    });
+
+    if (!vehicle) {
+      throw new NotFoundException('Vehicle not found');
+    }
+
+    return this.prisma.vehicle.update({
+      where: { id: vehicleId },
+      data: { clientId },
+    });
+  }
+
+  async unlinkVehicle(clientId: string, vehicleId: string, userId: string) {
+    await this.findOne(clientId, userId);
+
+    const vehicle = await this.prisma.vehicle.findFirst({
+      where: { id: vehicleId, userId, clientId },
+    });
+
+    if (!vehicle) {
+      throw new NotFoundException('Vehicle not found or not linked to this client');
+    }
+
+    return this.prisma.vehicle.update({
+      where: { id: vehicleId },
+      data: { clientId: null },
+    });
+  }
+
+  // ─── Client Notes CRUD ──────────────────────────────────────────────────────
+
+  async findNotes(clientId: string, userId: string) {
+    await this.findOne(clientId, userId);
+    return this.prisma.clientNote.findMany({
+      where: { clientId },
+      orderBy: { createdAt: 'desc' },
+    });
+  }
+
+  async createNote(clientId: string, userId: string, content: string) {
+    await this.findOne(clientId, userId);
+    return this.prisma.clientNote.create({
+      data: { clientId, content },
+    });
+  }
+
+  async updateNote(clientId: string, noteId: string, userId: string, content: string) {
+    await this.findOne(clientId, userId);
+    const note = await this.prisma.clientNote.findFirst({
+      where: { id: noteId, clientId },
+    });
+    if (!note) throw new NotFoundException('Note not found');
+    return this.prisma.clientNote.update({
+      where: { id: noteId },
+      data: { content },
+    });
+  }
+
+  async deleteNote(clientId: string, noteId: string, userId: string) {
+    await this.findOne(clientId, userId);
+    const note = await this.prisma.clientNote.findFirst({
+      where: { id: noteId, clientId },
+    });
+    if (!note) throw new NotFoundException('Note not found');
+    return this.prisma.clientNote.delete({ where: { id: noteId } });
+  }
 }

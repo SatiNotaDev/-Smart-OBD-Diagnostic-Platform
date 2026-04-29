@@ -39,4 +39,8 @@ export class CreateVehicleDto {
   @IsOptional()
   @MaxLength(20)
   licensePlate?: string;
+
+  @IsString()
+  @IsOptional()
+  clientId?: string;
 }

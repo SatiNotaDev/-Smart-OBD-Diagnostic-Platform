@@ -14,10 +14,14 @@ import { ClientsService } from './clients.service';
 import { CreateClientDto } from './dto/create-client.dto';
 import { UpdateClientDto } from './dto/update-client.dto';
 import { CurrentUser } from '../auth/decorators/current-user.decorator';
+import { ClientReportService } from './services/client-report.service';
 
 @Controller('clients')
 export class ClientsController {
-  constructor(private readonly clientsService: ClientsService) {}
+  constructor(
+    private readonly clientsService: ClientsService,
+    private readonly reportService: ClientReportService,
+  ) {}
 
   /**
    * GET /clients
@@ -80,5 +84,84 @@ export class ClientsController {
     @CurrentUser('id') userId: string,
   ) {
     return this.clientsService.remove(id, userId);
+  }
+
+  /**
+   * POST /clients/:id/link-vehicle
+   * Link an existing vehicle to this client
+   */
+  @Post(':id/link-vehicle')
+  async linkVehicle(
+    @Param('id') id: string,
+    @CurrentUser('id') userId: string,
+    @Body('vehicleId') vehicleId: string,
+  ) {
+    return this.clientsService.linkVehicle(id, vehicleId, userId);
+  }
+
+  /**
+   * Post /clients/:id/unlink-vehicle
+   * Remove a vehicle from this client
+   */
+  @Post(':id/unlink-vehicle')
+  async unlinkVehicle(
+    @Param('id') id: string,
+    @CurrentUser('id') userId: string,
+    @Body('vehicleId') vehicleId: string,
+  ) {
+    return this.clientsService.unlinkVehicle(id, vehicleId, userId);
+  }
+
+  /**
+   * POST /clients/:id/report
+   * Generate AI report for client based on selected diagnostic sessions
+   */
+  @Post(':id/report')
+  async generateReport(
+    @Param('id') id: string,
+    @CurrentUser('id') userId: string,
+    @Body('sessionIds') sessionIds: string[],
+  ) {
+    return this.reportService.generateReport(id, userId, sessionIds);
+  }
+
+  // ─── Client Notes ─────────────────────────────────────────────────────────
+
+  @Get(':id/notes')
+  async findNotes(
+    @Param('id') id: string,
+    @CurrentUser('id') userId: string,
+  ) {
+    return this.clientsService.findNotes(id, userId);
+  }
+
+  @Post(':id/notes')
+  @HttpCode(HttpStatus.CREATED)
+  async createNote(
+    @Param('id') id: string,
+    @CurrentUser('id') userId: string,
+    @Body('content') content: string,
+  ) {
+    return this.clientsService.createNote(id, userId, content);
+  }
+
+  @Patch(':id/notes/:noteId')
+  async updateNote(
+    @Param('id') id: string,
+    @Param('noteId') noteId: string,
+    @CurrentUser('id') userId: string,
+    @Body('content') content: string,
+  ) {
+    return this.clientsService.updateNote(id, noteId, userId, content);
+  }
+
+  @Delete(':id/notes/:noteId')
+  @HttpCode(HttpStatus.NO_CONTENT)
+  async deleteNote(
+    @Param('id') id: string,
+    @Param('noteId') noteId: string,
+    @CurrentUser('id') userId: string,
+  ) {
+    return this.clientsService.deleteNote(id, noteId, userId);
   }
 }

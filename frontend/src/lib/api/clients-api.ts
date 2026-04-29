@@ -41,6 +41,14 @@ export interface ClientDetail {
   updatedAt: string;
 }
 
+export interface ClientNote {
+  id: string;
+  clientId: string;
+  content: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
 export interface CreateClientData {
   name: string;
   phone?: string;
@@ -66,4 +74,29 @@ export const clientsApi = {
     api.patch<Client>(`/clients/${id}`, data),
 
   delete: (id: string) => api.del(`/clients/${id}`),
+
+  linkVehicle: (clientId: string, vehicleId: string) =>
+    api.post(`/clients/${clientId}/link-vehicle`, { vehicleId }),
+
+  unlinkVehicle: (clientId: string, vehicleId: string) =>
+    api.post(`/clients/${clientId}/unlink-vehicle`, { vehicleId }),
+
+  generateReport: (clientId: string, sessionIds: string[]) =>
+    api.post<{ report: string; generatedAt: string; sessionCount: number }>(
+      `/clients/${clientId}/report`,
+      { sessionIds }
+    ),
+
+  // Notes
+  getNotes: (clientId: string) =>
+    api.get<ClientNote[]>(`/clients/${clientId}/notes`),
+
+  createNote: (clientId: string, content: string) =>
+    api.post<ClientNote>(`/clients/${clientId}/notes`, { content }),
+
+  updateNote: (clientId: string, noteId: string, content: string) =>
+    api.patch<ClientNote>(`/clients/${clientId}/notes/${noteId}`, { content }),
+
+  deleteNote: (clientId: string, noteId: string) =>
+    api.del(`/clients/${clientId}/notes/${noteId}`),
 };
