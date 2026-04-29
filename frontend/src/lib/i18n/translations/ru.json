@@ -153,6 +153,22 @@
         "editTitle": "Редактировать автомобиль",
         "save": "Сохранить",
         "saved": "Изменения сохранены"
+      },
+      "notes": {
+        "title": "Заметки",
+        "add": "Добавить",
+        "newNote": "Новая заметка",
+        "editNote": "Редактировать заметку",
+        "save": "Сохранить",
+        "empty": "Заметок пока нет. Добавьте первую.",
+        "titlePlaceholder": "Заголовок заметки",
+        "contentPlaceholder": "Текст заметки...",
+        "deleteConfirm": "Удалить заметку?",
+        "categoryGeneral": "Общее",
+        "categoryRepair": "Ремонт",
+        "categoryMaintenance": "ТО",
+        "categoryObservation": "Наблюдение",
+        "categoryReminder": "Напоминание"
       }
     },
     "settings": {
