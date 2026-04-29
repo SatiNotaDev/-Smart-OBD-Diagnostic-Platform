@@ -44,19 +44,19 @@ function Dialog({ open, onClose, title, children, className }: DialogProps) {
     >
       {/* Backdrop */}
       <div
-        className="absolute inset-0 bg-black/50"
+        className="absolute inset-0 bg-[#0a2540]/60 backdrop-blur-sm"
         onClick={onClose}
       />
 
       {/* Panel */}
       <div
         className={cn(
-          "relative z-10 w-full max-w-lg bg-card rounded-2xl border border-border p-6 shadow-2xl",
+          "relative z-10 w-full max-w-lg bg-card rounded-xl border border-border p-6 shadow-2xl",
           className
         )}
       >
         {title && (
-          <h2 className="text-lg font-semibold text-foreground mb-4">
+          <h2 className="text-base font-semibold text-foreground mb-4">
             {title}
           </h2>
         )}

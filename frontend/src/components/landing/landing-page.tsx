@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
+import dynamic from "next/dynamic";
 import {
   Activity,
   Bot,
@@ -11,33 +12,22 @@ import {
   BarChart3,
   ArrowRight,
   CheckCircle2,
+  ChevronRight,
 } from "lucide-react";
 
-const ease = [0.22, 1, 0.36, 1] as [number, number, number, number];
+const HeroScene = dynamic(
+  () => import("./hero-scene").then((mod) => ({ default: mod.HeroScene })),
+  { ssr: false }
+);
 
-const fadeUp = {
-  hidden: { opacity: 0, y: 30 },
-  visible: (i: number) => ({
-    opacity: 1,
-    y: 0,
-    transition: { delay: i * 0.1, duration: 0.6, ease },
-  }),
-};
-
-const scaleIn = {
-  hidden: { opacity: 0, scale: 0.9 },
-  visible: (i: number) => ({
-    opacity: 1,
-    scale: 1,
-    transition: { delay: i * 0.15, duration: 0.5, ease },
-  }),
-};
+const ease = [0.16, 1, 0.3, 1] as [number, number, number, number];
 
 export function LandingPage() {
   return (
-    <div className="min-h-screen bg-background overflow-hidden">
+    <div className="min-h-screen bg-white overflow-hidden">
       <Navbar />
       <Hero />
+      <LogoCloud />
       <Features />
       <HowItWorks />
       <Pricing />
@@ -50,32 +40,25 @@ export function LandingPage() {
 function Navbar() {
   return (
     <motion.nav
-      initial={{ opacity: 0, y: -20 }}
+      initial={{ opacity: 0, y: -10 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
-      className="fixed top-0 left-0 right-0 z-50 backdrop-blur-xl bg-background/70 border-b border-border/50"
+      className="fixed top-0 left-0 right-0 z-50 border-b border-[#0070F3]/10 bg-white/80 backdrop-blur-md"
     >
       <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
-        <div className="flex items-center gap-1 select-none">
-          <span className="text-xl font-extralight tracking-wide text-foreground">
-            Smart
-          </span>
-          <span className="text-xl font-black tracking-tight text-primary uppercase">
-            OBD
-          </span>
+        <div className="flex items-center gap-2 select-none">
+          <div className="h-5 w-5 bg-[#0070F3] rounded-sm" />
+          <span className="text-sm font-semibold tracking-tight text-[#0070F3]">Smart OBD</span>
         </div>
-        <div className="flex items-center gap-3">
-          <Link
-            href="/login"
-            className="text-sm text-muted hover:text-foreground transition-colors"
-          >
-            Sign In
+        <div className="flex items-center gap-6">
+          <Link href="/login" className="text-sm text-[#4a6fa5] hover:text-[#0070F3] transition-colors">
+            Log In
           </Link>
           <Link
             href="/login"
-            className="h-9 px-4 inline-flex items-center rounded-full bg-primary text-primary-foreground text-sm font-medium hover:bg-primary-hover transition-all hover:shadow-lg hover:shadow-primary/25"
+            className="h-9 px-4 inline-flex items-center rounded-lg bg-[#0070F3] text-white text-sm font-medium hover:bg-[#005BC4] transition-colors"
           >
-            Get Started
+            Sign Up
           </Link>
         </div>
       </div>
@@ -85,119 +68,83 @@ function Navbar() {
 
 function Hero() {
   return (
-    <section className="relative pt-32 pb-20 px-6">
-      {/* Gradient background */}
-      <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute top-[-20%] left-[-10%] w-[600px] h-[600px] rounded-full bg-primary/5 blur-[120px]" />
-        <div className="absolute bottom-[-20%] right-[-10%] w-[500px] h-[500px] rounded-full bg-primary/8 blur-[100px]" />
-      </div>
+    <section className="relative min-h-screen flex items-center justify-center pt-16 overflow-hidden">
+      <HeroScene />
 
-      <div className="relative max-w-6xl mx-auto text-center">
+      <div className="relative z-10 text-center px-6 max-w-4xl mx-auto">
         <motion.div
-          initial={{ opacity: 0, scale: 0.95 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, ease }}
         >
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-border bg-card/50 backdrop-blur-sm text-sm text-muted mb-8">
-            <Zap size={14} className="text-primary" />
-            AI-Powered Vehicle Diagnostics
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-[#0070F3]/10 bg-[#f0f7ff] text-xs text-[#4a6fa5] mb-8">
+            <span className="h-1.5 w-1.5 rounded-full bg-[#0070F3] animate-pulse" />
+            AI-Powered Diagnostics Platform
           </div>
         </motion.div>
 
         <motion.h1
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2, duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-          className="text-5xl sm:text-6xl lg:text-7xl font-bold text-foreground leading-[1.1] tracking-tight"
+          transition={{ delay: 0.1, duration: 0.8, ease }}
+          className="text-5xl sm:text-7xl lg:text-8xl font-bold tracking-tighter leading-[0.9] text-[#0a2540]"
         >
-          Understand your car
+          Your car,
           <br />
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-primary/60">
-            like a pro mechanic
-          </span>
+          <span className="text-[#0070F3]">decoded.</span>
         </motion.h1>
 
         <motion.p
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.4, duration: 0.8 }}
-          className="mt-6 text-lg sm:text-xl text-muted max-w-2xl mx-auto leading-relaxed"
+          transition={{ delay: 0.3, duration: 0.8 }}
+          className="mt-6 text-base sm:text-lg text-[#4a6fa5] max-w-xl mx-auto leading-relaxed"
         >
-          Decode OBD-II error codes, get AI-powered diagnostics, and track your
-          vehicle health — all in one platform.
+          Smart OBD reads your vehicle&apos;s diagnostic codes, runs AI analysis,
+          and gives you clear answers — no mechanic jargon.
         </motion.p>
 
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.6, duration: 0.8 }}
+          transition={{ delay: 0.5, duration: 0.8 }}
           className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4"
         >
           <Link
             href="/login"
-            className="h-12 px-8 inline-flex items-center rounded-full bg-primary text-primary-foreground font-medium hover:bg-primary-hover transition-all hover:shadow-xl hover:shadow-primary/20 hover:scale-[1.02] active:scale-[0.98]"
+            className="group h-12 px-6 inline-flex items-center rounded-xl bg-[#0070F3] text-white text-sm font-medium hover:shadow-[0_0_30px_4px_rgba(0,112,243,0.3)] transition-all duration-300"
           >
-            Start Free
-            <ArrowRight size={18} className="ml-2" />
+            Start Building
+            <ArrowRight size={16} className="ml-2 group-hover:translate-x-0.5 transition-transform" />
           </Link>
-          <span className="text-sm text-muted">No credit card required</span>
+          <Link
+            href="#features"
+            className="h-12 px-6 inline-flex items-center rounded-xl border border-[#0070F3]/30 text-sm text-[#0070F3] hover:text-[#005BC4] hover:border-[#0070F3] transition-all"
+          >
+            See Features
+            <ChevronRight size={14} className="ml-1" />
+          </Link>
         </motion.div>
+      </div>
 
-        {/* Hero visual */}
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.8, duration: 1, ease: [0.22, 1, 0.36, 1] }}
-          className="mt-16 relative"
-        >
-          <div className="relative mx-auto max-w-4xl rounded-2xl border border-border bg-card/50 backdrop-blur-sm p-4 shadow-2xl shadow-primary/5">
-            <div className="rounded-xl bg-background border border-border overflow-hidden">
-              {/* Mock dashboard UI */}
-              <div className="flex h-[300px] sm:h-[400px]">
-                {/* Sidebar mock */}
-                <div className="hidden sm:flex w-48 border-r border-border bg-card/50 flex-col p-4 gap-3">
-                  <div className="h-8 w-24 rounded-lg bg-primary/10" />
-                  <div className="h-6 w-32 rounded bg-accent" />
-                  <div className="h-6 w-28 rounded bg-accent" />
-                  <div className="h-6 w-30 rounded bg-accent" />
-                </div>
-                {/* Content mock */}
-                <div className="flex-1 p-6 space-y-4">
-                  <div className="flex gap-4">
-                    <div className="flex-1 h-24 rounded-xl bg-gradient-to-br from-primary/10 to-primary/5 border border-primary/20 p-4">
-                      <div className="h-3 w-16 bg-primary/30 rounded mb-2" />
-                      <div className="h-6 w-10 bg-primary/50 rounded" />
-                    </div>
-                    <div className="flex-1 h-24 rounded-xl bg-accent border border-border p-4">
-                      <div className="h-3 w-20 bg-muted/30 rounded mb-2" />
-                      <div className="h-6 w-12 bg-muted/50 rounded" />
-                    </div>
-                    <div className="hidden lg:block flex-1 h-24 rounded-xl bg-accent border border-border p-4">
-                      <div className="h-3 w-14 bg-muted/30 rounded mb-2" />
-                      <div className="h-6 w-8 bg-muted/50 rounded" />
-                    </div>
-                  </div>
-                  <div className="h-40 rounded-xl bg-accent border border-border p-4">
-                    <div className="h-3 w-32 bg-muted/30 rounded mb-4" />
-                    <div className="flex gap-2 items-end h-24">
-                      {[40, 65, 45, 80, 55, 70, 90, 60, 75, 50].map((h, i) => (
-                        <motion.div
-                          key={i}
-                          initial={{ height: 0 }}
-                          animate={{ height: `${h}%` }}
-                          transition={{ delay: 1.2 + i * 0.05, duration: 0.5 }}
-                          className="flex-1 rounded-t bg-gradient-to-t from-primary/60 to-primary/20"
-                        />
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          {/* Glow under card */}
-          <div className="absolute inset-0 -z-10 top-1/2 mx-auto w-3/4 h-1/2 bg-primary/10 blur-[80px] rounded-full" />
-        </motion.div>
+      {/* Bottom fade */}
+      <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-white to-transparent z-20" />
+    </section>
+  );
+}
+
+function LogoCloud() {
+  const techs = ["Next.js", "NestJS", "PostgreSQL", "Claude AI", "Prisma", "TailwindCSS"];
+
+  return (
+    <section className="py-12 border-t border-[#0070F3]/10">
+      <div className="max-w-6xl mx-auto px-6">
+        <p className="text-center text-xs uppercase tracking-widest text-[#6b8db9] mb-6">Built with</p>
+        <div className="flex flex-wrap items-center justify-center gap-8 text-sm text-[#4a6fa5]">
+          {techs.map((t) => (
+            <span key={t} className="hover:text-[#0070F3] transition-colors">{t}</span>
+          ))}
+        </div>
       </div>
     </section>
   );
@@ -207,145 +154,118 @@ const features = [
   {
     icon: Activity,
     title: "DTC Code Analysis",
-    description:
-      "Decode any OBD-II error code instantly. P, B, C, U — we cover all categories with severity assessment.",
+    description: "Decode any OBD-II error code. P, B, C, U categories with AI severity assessment.",
+    gradient: "from-[#0070F3] to-[#50E3C2]",
   },
   {
     icon: Bot,
     title: "AI Diagnostic Chat",
-    description:
-      "Ask questions about your car in plain language. Claude AI explains issues, suggests fixes, and estimates costs.",
+    description: "Ask questions in plain language. Claude explains issues, suggests repairs, estimates costs.",
+    gradient: "from-[#7928CA] to-[#FF0080]",
   },
   {
     icon: BarChart3,
-    title: "Health Tracking",
-    description:
-      "Monitor diagnostic history over time. See trends, correlations between codes, and maintenance timelines.",
+    title: "Health Monitoring",
+    description: "Track diagnostic history. See trends, code correlations, and maintenance timelines.",
+    gradient: "from-[#F5A623] to-[#FF0080]",
   },
   {
     icon: Shield,
-    title: "Secure & Private",
-    description:
-      "End-to-end encryption, 2FA support, and your data never shared. You own your vehicle data.",
+    title: "Enterprise Security",
+    description: "End-to-end encryption, MFA, httpOnly cookies. Your data stays yours.",
+    gradient: "from-[#50E3C2] to-[#0070F3]",
   },
   {
     icon: Car,
-    title: "Multi-Vehicle",
-    description:
-      "Track all your vehicles in one place — cars, trucks, fleet. Each with its own diagnostic history.",
+    title: "Fleet Management",
+    description: "Track multiple vehicles. Each with its own diagnostic history and AI context.",
+    gradient: "from-[#FF0080] to-[#7928CA]",
   },
   {
     icon: Zap,
     title: "Instant Reports",
-    description:
-      "Export PDF diagnostic reports for your mechanic or insurance. Professional-grade documentation.",
+    description: "Export professional PDF reports for your mechanic or insurance provider.",
+    gradient: "from-[#0070F3] to-[#7928CA]",
   },
 ];
 
 function Features() {
   return (
-    <section className="py-24 px-6">
+    <section id="features" className="py-24 px-6">
       <div className="max-w-6xl mx-auto">
         <motion.div
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-100px" }}
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
           className="text-center mb-16"
         >
-          <motion.h2
-            variants={fadeUp}
-            custom={0}
-            className="text-3xl sm:text-4xl font-bold text-foreground"
-          >
-            Everything you need for
-            <br />
-            <span className="text-primary">vehicle diagnostics</span>
-          </motion.h2>
-          <motion.p
-            variants={fadeUp}
-            custom={1}
-            className="mt-4 text-muted text-lg max-w-xl mx-auto"
-          >
-            From error code lookup to AI-powered root cause analysis
-          </motion.p>
+          <h2 className="text-3xl sm:text-5xl font-bold tracking-tight text-[#0a2540]">
+            Ship diagnostics,{" "}
+            <span className="text-[#0070F3]">not guesswork</span>
+          </h2>
+          <p className="mt-4 text-[#4a6fa5] text-base max-w-lg mx-auto">
+            Everything your vehicle needs, from error codes to AI-powered root cause analysis.
+          </p>
         </motion.div>
 
-        <motion.div
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-50px" }}
-          className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3"
-        >
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {features.map((feature, i) => (
             <motion.div
               key={feature.title}
-              variants={scaleIn}
-              custom={i}
-              className="group relative rounded-2xl border border-border bg-card p-6 hover:border-primary/30 hover:shadow-lg hover:shadow-primary/5 transition-all duration-300"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: i * 0.08, duration: 0.5 }}
+              className="group relative rounded-xl border border-[#0070F3]/15 bg-white p-6 hover:border-[#0070F3]/30 hover:shadow-[0_8px_30px_rgba(0,112,243,0.08)] transition-all duration-300"
             >
-              <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-primary/10 text-primary mb-4 group-hover:scale-110 transition-transform duration-300">
-                <feature.icon size={22} />
+              <div className={`inline-flex h-10 w-10 items-center justify-center rounded-lg bg-gradient-to-br ${feature.gradient} mb-4`}>
+                <feature.icon size={20} className="text-white" />
               </div>
-              <h3 className="text-base font-semibold text-foreground mb-2">
-                {feature.title}
-              </h3>
-              <p className="text-sm text-muted leading-relaxed">
-                {feature.description}
-              </p>
+              <h3 className="text-sm font-semibold text-[#0a2540] mb-2">{feature.title}</h3>
+              <p className="text-sm text-[#4a6fa5] leading-relaxed">{feature.description}</p>
             </motion.div>
           ))}
-        </motion.div>
+        </div>
       </div>
     </section>
   );
 }
 
 const steps = [
-  { num: "01", title: "Add your vehicle", desc: "Enter brand, model, year — or decode VIN automatically" },
-  { num: "02", title: "Scan or enter codes", desc: "Use any OBD-II reader or type codes manually" },
-  { num: "03", title: "Get AI analysis", desc: "Instant interpretation with repair suggestions and cost estimates" },
+  { num: "01", title: "Connect", desc: "Add your vehicle — enter details or scan VIN. Takes 30 seconds." },
+  { num: "02", title: "Scan", desc: "Enter OBD-II codes from any reader, or type them manually." },
+  { num: "03", title: "Analyze", desc: "AI processes codes, identifies root causes, suggests next steps." },
 ];
 
 function HowItWorks() {
   return (
-    <section className="py-24 px-6 bg-accent/30">
+    <section className="py-24 px-6 bg-[#f0f7ff] border-t border-[#0070F3]/10">
       <div className="max-w-6xl mx-auto">
-        <motion.div
-          initial="hidden"
-          whileInView="visible"
+        <motion.h2
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-center mb-16"
+          className="text-3xl sm:text-4xl font-bold tracking-tight text-[#0a2540] mb-16"
         >
-          <motion.h2
-            variants={fadeUp}
-            custom={0}
-            className="text-3xl sm:text-4xl font-bold text-foreground"
-          >
-            How it works
-          </motion.h2>
-        </motion.div>
+          Three steps to clarity
+        </motion.h2>
 
-        <motion.div
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-          className="grid gap-8 md:grid-cols-3"
-        >
+        <div className="grid gap-12 md:grid-cols-3">
           {steps.map((step, i) => (
             <motion.div
               key={step.num}
-              variants={fadeUp}
-              custom={i}
-              className="text-center"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: i * 0.1 }}
             >
-              <div className="inline-flex h-14 w-14 items-center justify-center rounded-full bg-primary/10 text-primary text-xl font-bold mb-4">
-                {step.num}
-              </div>
-              <h3 className="text-lg font-semibold text-foreground mb-2">{step.title}</h3>
-              <p className="text-sm text-muted">{step.desc}</p>
+              <span className="text-5xl font-bold text-[#0070F3]/20 block mb-4">{step.num}</span>
+              <h3 className="text-lg font-semibold text-[#0a2540] mb-2">{step.title}</h3>
+              <p className="text-sm text-[#4a6fa5] leading-relaxed">{step.desc}</p>
             </motion.div>
           ))}
-        </motion.div>
+        </div>
       </div>
     </section>
   );
@@ -353,105 +273,92 @@ function HowItWorks() {
 
 const plans = [
   {
-    name: "Free",
+    name: "Hobby",
     price: "$0",
     period: "forever",
-    features: ["3 vehicles", "10 AI messages/day", "Basic DTC lookup", "Diagnostic history"],
+    features: ["3 vehicles", "10 AI messages/day", "Basic DTC lookup", "7-day history"],
     cta: "Start Free",
     highlighted: false,
   },
   {
     name: "Pro",
-    price: "$9.99",
+    price: "$9",
     period: "/month",
-    features: ["10 vehicles", "100 AI messages/day", "Deep analysis", "PDF reports", "Priority support"],
-    cta: "Go Pro",
+    features: ["10 vehicles", "100 AI messages/day", "Deep analysis", "PDF reports", "Priority support", "Unlimited history"],
+    cta: "Get Pro",
     highlighted: true,
   },
   {
-    name: "Business",
-    price: "$29.99",
+    name: "Enterprise",
+    price: "$29",
     period: "/month",
-    features: ["Unlimited vehicles", "Unlimited AI", "Fleet management", "API access", "Custom branding"],
-    cta: "Contact Us",
+    features: ["Unlimited vehicles", "Unlimited AI", "Fleet dashboard", "API access", "Custom branding", "SSO"],
+    cta: "Contact Sales",
     highlighted: false,
   },
 ];
 
 function Pricing() {
   return (
-    <section className="py-24 px-6">
+    <section className="py-24 px-6 border-t border-[#0070F3]/10">
       <div className="max-w-6xl mx-auto">
         <motion.div
-          initial="hidden"
-          whileInView="visible"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           className="text-center mb-16"
         >
-          <motion.h2
-            variants={fadeUp}
-            custom={0}
-            className="text-3xl sm:text-4xl font-bold text-foreground"
-          >
-            Simple pricing
-          </motion.h2>
-          <motion.p
-            variants={fadeUp}
-            custom={1}
-            className="mt-4 text-muted text-lg"
-          >
-            Start free, upgrade when you need more
-          </motion.p>
+          <h2 className="text-3xl sm:text-5xl font-bold tracking-tight text-[#0a2540]">
+            Predictable pricing
+          </h2>
+          <p className="mt-4 text-[#4a6fa5]">Start free. Scale as you grow.</p>
         </motion.div>
 
-        <motion.div
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-          className="grid gap-6 md:grid-cols-3 max-w-4xl mx-auto"
-        >
+        <div className="grid gap-4 md:grid-cols-3 max-w-4xl mx-auto">
           {plans.map((plan, i) => (
             <motion.div
               key={plan.name}
-              variants={scaleIn}
-              custom={i}
-              className={`relative rounded-2xl border p-6 ${
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: i * 0.1 }}
+              className={`relative rounded-xl border p-6 ${
                 plan.highlighted
-                  ? "border-primary bg-card shadow-xl shadow-primary/10 scale-[1.02]"
-                  : "border-border bg-card"
+                  ? "border-[#0070F3] bg-white shadow-[0_8px_30px_rgba(0,112,243,0.1)]"
+                  : "border-[#0070F3]/15 bg-white"
               }`}
             >
               {plan.highlighted && (
-                <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-0.5 rounded-full bg-primary text-primary-foreground text-xs font-medium">
+                <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-0.5 rounded-full bg-[#0070F3] text-white text-xs font-medium">
                   Popular
                 </div>
               )}
-              <h3 className="text-lg font-semibold text-foreground">{plan.name}</h3>
-              <div className="mt-3 flex items-baseline gap-1">
-                <span className="text-3xl font-bold text-foreground">{plan.price}</span>
-                <span className="text-sm text-muted">{plan.period}</span>
+              <h3 className="text-sm font-medium text-[#4a6fa5]">{plan.name}</h3>
+              <div className="mt-2 flex items-baseline gap-1">
+                <span className="text-4xl font-bold text-[#0a2540]">{plan.price}</span>
+                <span className="text-sm text-[#6b8db9]">{plan.period}</span>
               </div>
               <ul className="mt-6 space-y-3">
                 {plan.features.map((f) => (
-                  <li key={f} className="flex items-center gap-2 text-sm text-muted">
-                    <CheckCircle2 size={15} className="text-primary shrink-0" />
+                  <li key={f} className="flex items-center gap-2 text-sm text-[#4a6fa5]">
+                    <CheckCircle2 size={14} className="text-[#0070F3] shrink-0" />
                     {f}
                   </li>
                 ))}
               </ul>
               <Link
                 href="/login"
-                className={`mt-6 h-10 w-full inline-flex items-center justify-center rounded-full text-sm font-medium transition-all ${
+                className={`mt-6 h-10 w-full inline-flex items-center justify-center rounded-lg text-sm font-medium transition-all ${
                   plan.highlighted
-                    ? "bg-primary text-primary-foreground hover:bg-primary-hover hover:shadow-lg hover:shadow-primary/25"
-                    : "border border-border text-foreground hover:bg-accent"
+                    ? "bg-[#0070F3] text-white hover:bg-[#005BC4]"
+                    : "border border-[#0070F3]/30 text-[#0a2540] hover:border-[#0070F3] hover:text-[#0070F3]"
                 }`}
               >
                 {plan.cta}
               </Link>
             </motion.div>
           ))}
-        </motion.div>
+        </div>
       </div>
     </section>
   );
@@ -461,31 +368,30 @@ function CTA() {
   return (
     <section className="py-24 px-6">
       <motion.div
-        initial="hidden"
-        whileInView="visible"
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
-        className="max-w-3xl mx-auto text-center"
+        className="max-w-4xl mx-auto text-center"
       >
-        <motion.div
-          variants={fadeUp}
-          custom={0}
-          className="relative rounded-3xl border border-border bg-gradient-to-br from-card to-accent/50 p-12 overflow-hidden"
-        >
-          <div className="absolute top-0 right-0 w-64 h-64 bg-primary/5 rounded-full blur-[80px] -translate-y-1/2 translate-x-1/2" />
-          <h2 className="relative text-3xl font-bold text-foreground mb-4">
-            Ready to understand your car better?
+        <div className="relative rounded-2xl border border-[#0070F3]/10 bg-[#f0f7ff] p-16 overflow-hidden">
+          {/* Gradient blobs */}
+          <div className="absolute top-0 left-1/4 w-96 h-96 bg-[#0070F3]/5 rounded-full blur-[120px]" />
+          <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-[#7928CA]/5 rounded-full blur-[120px]" />
+
+          <h2 className="relative text-3xl sm:text-5xl font-bold tracking-tight text-[#0a2540] mb-4">
+            Ready to ship?
           </h2>
-          <p className="relative text-muted mb-8">
-            Join thousands of car owners who save time and money with Smart OBD.
+          <p className="relative text-[#4a6fa5] mb-8 max-w-md mx-auto">
+            Deploy your diagnostic workflow in minutes, not weeks.
           </p>
           <Link
             href="/login"
-            className="relative h-12 px-8 inline-flex items-center rounded-full bg-primary text-primary-foreground font-medium hover:bg-primary-hover transition-all hover:shadow-xl hover:shadow-primary/20 hover:scale-[1.02] active:scale-[0.98]"
+            className="relative h-12 px-8 inline-flex items-center rounded-xl bg-[#0070F3] text-white text-sm font-medium hover:shadow-[0_0_30px_4px_rgba(0,112,243,0.3)] transition-all duration-300"
           >
-            Get Started — It's Free
-            <ArrowRight size={18} className="ml-2" />
+            Get Started Free
+            <ArrowRight size={16} className="ml-2" />
           </Link>
-        </motion.div>
+        </div>
       </motion.div>
     </section>
   );
@@ -493,15 +399,13 @@ function CTA() {
 
 function Footer() {
   return (
-    <footer className="border-t border-border py-8 px-6">
+    <footer className="border-t border-[#0070F3]/10 py-8 px-6">
       <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
-        <div className="flex items-center gap-1 select-none">
-          <span className="text-sm font-extralight text-muted">Smart</span>
-          <span className="text-sm font-black text-primary uppercase">OBD</span>
+        <div className="flex items-center gap-2 select-none">
+          <div className="h-4 w-4 bg-[#0070F3] rounded-sm" />
+          <span className="text-xs font-medium text-[#0070F3]">Smart OBD</span>
         </div>
-        <div className="flex gap-6 text-xs text-muted">
-          <span>&copy; {new Date().getFullYear()} Smart OBD Platform</span>
-        </div>
+        <span className="text-xs text-[#6b8db9]">&copy; {new Date().getFullYear()} Smart OBD Platform. All rights reserved.</span>
       </div>
     </footer>
   );

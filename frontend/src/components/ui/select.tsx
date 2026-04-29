@@ -24,10 +24,10 @@ const Select = forwardRef<HTMLSelectElement, SelectProps>(
         <select
           ref={ref}
           className={cn(
-            "flex h-11 w-full rounded-[var(--radius)] border border-border bg-background px-4 text-sm text-foreground transition-colors duration-200 appearance-none",
-            "focus:border-primary focus:ring-2 focus:ring-primary/20 focus:outline-none",
+            "flex h-10 w-full rounded-lg border border-border bg-background px-3 text-sm text-foreground transition-colors appearance-none",
+            "focus:border-foreground focus:ring-0 focus:outline-none",
             "disabled:cursor-not-allowed disabled:opacity-50",
-            error && "border-error focus:border-error focus:ring-error/20",
+            error && "border-error focus:border-error",
             className
           )}
           {...props}

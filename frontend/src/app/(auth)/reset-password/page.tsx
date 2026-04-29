@@ -53,15 +53,15 @@ function ResetPasswordContent() {
     <div className="w-full max-w-xl">
       {/* Logo */}
       <div className="mb-10 flex items-center justify-center gap-1 select-none">
-        <span className="text-3xl font-extralight tracking-wide text-foreground">
+        <span className="text-lg font-light text-muted">
           Smart
         </span>
-        <span className="text-3xl font-black tracking-tight text-primary uppercase">
+        <span className="text-lg font-bold text-foreground">
           OBD
         </span>
       </div>
 
-      <div className="rounded-2xl border border-border bg-card/80 backdrop-blur-sm p-10 shadow-2xl">
+      <div className="rounded-xl border border-border bg-card p-8 shadow-2xl">
         {done ? (
           <div className="flex flex-col items-center gap-4 py-4 text-center">
             <div className="flex h-16 w-16 items-center justify-center rounded-full bg-success/10">

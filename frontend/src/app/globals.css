@@ -1,77 +1,89 @@
 @import "tailwindcss";
 
 /*
- * Bosch Blue Theme — Smart OBD Platform
- * Primary: #007BC0 (Bosch Professional Blue)
- * Dark variant: #005A8F
- * Light variant: #4DA6D6
+ * Vercel-inspired Theme — Smart OBD Platform
+ * Pure black/white with sharp gradients
  */
 
 :root {
-  /* Primary — Bosch Blue */
-  --primary: #007BC0;
-  --primary-hover: #005A8F;
-  --primary-light: #4DA6D6;
+  /* Primary — Premium Blue */
+  --primary: #0070F3;
+  --primary-hover: #005BC4;
+  --primary-light: #e8f4ff;
   --primary-foreground: #ffffff;
 
   /* Accent */
-  --accent: #F0F7FC;
-  --accent-foreground: #007BC0;
+  --accent: #f0f7ff;
+  --accent-foreground: #0a2540;
 
   /* Backgrounds */
   --background: #ffffff;
-  --surface: #F8FAFC;
+  --surface: #f0f7ff;
   --card: #ffffff;
 
   /* Text */
-  --foreground: #0F172A;
-  --muted: #64748B;
-  --muted-foreground: #94A3B8;
+  --foreground: #0a2540;
+  --muted: #4a6fa5;
+  --muted-foreground: #6b8db9;
 
   /* Borders */
-  --border: #E2E8F0;
-  --ring: #007BC0;
+  --border: rgba(0, 112, 243, 0.15);
+  --ring: #0070F3;
 
   /* Semantic */
-  --success: #16A34A;
-  --warning: #F59E0B;
-  --error: #DC2626;
-  --info: #007BC0;
+  --success: #0070F3;
+  --warning: #F5A623;
+  --error: #EE0000;
+  --info: #0070F3;
+
+  /* Palette */
+  --blue: #0070F3;
+  --purple: #7928CA;
+  --cyan: #50E3C2;
+  --pink: #FF0080;
+  --orange: #F5A623;
 
   /* Radius */
-  --radius: 0.75rem;
+  --radius: 0.5rem;
 }
 
 .dark {
-  /* Primary — lighter blue for contrast on dark */
-  --primary: #4DA6D6;
-  --primary-hover: #6BB8E0;
-  --primary-light: #007BC0;
+  /* Primary — Premium Blue */
+  --primary: #0070F3;
+  --primary-hover: #3291FF;
+  --primary-light: #0a1f3d;
   --primary-foreground: #ffffff;
 
   /* Accent */
-  --accent: #1E293B;
-  --accent-foreground: #4DA6D6;
+  --accent: #0a1929;
+  --accent-foreground: #e0ecff;
 
   /* Backgrounds */
-  --background: #0B1120;
-  --surface: #111827;
-  --card: #1E293B;
+  --background: #020c1b;
+  --surface: #0a1929;
+  --card: #0d1f36;
 
   /* Text */
-  --foreground: #F1F5F9;
-  --muted: #94A3B8;
-  --muted-foreground: #64748B;
+  --foreground: #e0ecff;
+  --muted: #6b8db9;
+  --muted-foreground: #4a6fa5;
 
   /* Borders */
-  --border: #334155;
-  --ring: #4DA6D6;
+  --border: rgba(0, 112, 243, 0.2);
+  --ring: #0070F3;
 
   /* Semantic */
-  --success: #22C55E;
-  --warning: #FBBF24;
-  --error: #EF4444;
-  --info: #4DA6D6;
+  --success: #0070F3;
+  --warning: #F5A623;
+  --error: #FF0000;
+  --info: #0070F3;
+
+  /* Palette */
+  --blue: #0070F3;
+  --purple: #7928CA;
+  --cyan: #50E3C2;
+  --pink: #FF0080;
+  --orange: #F5A623;
 }
 
 @theme inline {
@@ -93,6 +105,11 @@
   --color-warning: var(--warning);
   --color-error: var(--error);
   --color-info: var(--info);
+  --color-blue: var(--blue);
+  --color-purple: var(--purple);
+  --color-cyan: var(--cyan);
+  --color-pink: var(--pink);
+  --color-orange: var(--orange);
   --radius-theme: var(--radius);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
@@ -101,29 +118,67 @@
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-sans, system-ui, -apple-system, sans-serif);
-  transition: background-color 0.3s ease, color 0.3s ease;
+  font-family: var(--font-sans, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif);
 }
 
-/* Focus ring */
 *:focus-visible {
   outline: 2px solid var(--ring);
   outline-offset: 2px;
 }
 
-/* Card flip animation (scaleX squeeze) */
-.card-flip {
-  transform-origin: center center;
+/* Gradient text utility */
+.gradient-text-color {
+  background: linear-gradient(to right, var(--blue), var(--purple), var(--pink));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
-.card-flip-out {
-  animation: flipOut 0.3s ease-in forwards;
+/* Vercel-style border gradient */
+.border-gradient {
+  position: relative;
 }
 
-.card-flip-in {
-  animation: flipIn 0.3s ease-out forwards;
+.border-gradient::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(to bottom, rgba(255,255,255,0.1), rgba(255,255,255,0));
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  -webkit-mask-composite: xor;
+  pointer-events: none;
 }
 
+/* Skeleton */
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.skeleton {
+  background: linear-gradient(90deg, var(--accent) 25%, var(--border) 50%, var(--accent) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s ease-in-out infinite;
+  border-radius: var(--radius);
+}
+
+/* Grid background pattern */
+.grid-pattern {
+  background-image:
+    linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+  background-size: 64px 64px;
+}
+
+/* Glow effect */
+.glow {
+  box-shadow: 0 0 80px 20px rgba(0, 112, 243, 0.1);
+}
+
+/* Card flip (auth) */
 @keyframes flipOut {
   0% { transform: perspective(800px) rotateY(0deg); opacity: 1; }
   100% { transform: perspective(800px) rotateY(90deg); opacity: 0; }
@@ -133,3 +188,6 @@ body {
   0% { transform: perspective(800px) rotateY(-90deg); opacity: 0; }
   100% { transform: perspective(800px) rotateY(0deg); opacity: 1; }
 }
+
+.card-flip-out { animation: flipOut 0.3s ease-in forwards; }
+.card-flip-in { animation: flipIn 0.3s ease-out forwards; }

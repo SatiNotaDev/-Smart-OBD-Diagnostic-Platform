@@ -35,51 +35,33 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
 
   return (
     <>
-      {/* Mobile backdrop */}
       {isOpen && (
-        <div
-          className="fixed inset-0 z-40 bg-black/50 lg:hidden"
-          onClick={onClose}
-        />
+        <div className="fixed inset-0 z-40 bg-[#0a2540]/60 lg:hidden" onClick={onClose} />
       )}
 
       <aside
         className={cn(
-          "fixed inset-y-0 left-0 z-50 flex w-64 flex-col border-r border-border bg-card transition-transform duration-300 lg:translate-x-0 lg:static lg:z-auto",
+          "fixed inset-y-0 left-0 z-50 flex w-60 flex-col bg-background border-r border-border transition-transform duration-200 lg:translate-x-0 lg:static lg:z-auto",
           isOpen ? "translate-x-0" : "-translate-x-full"
         )}
       >
-        {/* Logo + close */}
-        <div className="flex h-16 items-center justify-between px-6 border-b border-border">
-          <div className="flex items-center gap-1 select-none">
-            <span className="text-xl font-extralight tracking-wide text-foreground">
-              Smart
-            </span>
-            <span className="text-xl font-black tracking-tight text-primary uppercase">
-              OBD
-            </span>
+        {/* Logo */}
+        <div className="flex h-16 items-center justify-between px-5 border-b border-border">
+          <div className="flex items-center gap-2 select-none">
+            <div className="h-4 w-4 bg-primary rounded-sm" />
+            <span className="text-sm font-semibold tracking-tight text-foreground">Smart OBD</span>
           </div>
-          <button
-            onClick={onClose}
-            className="lg:hidden p-1 text-muted hover:text-foreground transition-colors cursor-pointer"
-          >
-            <X size={20} />
+          <button onClick={onClose} className="lg:hidden p-1 text-muted hover:text-foreground cursor-pointer">
+            <X size={18} />
           </button>
         </div>
 
-        {/* User info */}
-        <div className="flex items-center gap-3 px-6 py-5 border-b border-border">
-          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary/10 text-sm font-semibold text-primary">
+        {/* User */}
+        <div className="flex items-center gap-2.5 px-5 py-4 border-b border-border">
+          <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-primary text-primary-foreground text-xs font-medium">
             {initials}
           </div>
-          <div className="min-w-0">
-            <p className="truncate text-sm font-medium text-foreground">
-              {user?.name || user?.email}
-            </p>
-            {user?.name && (
-              <p className="truncate text-xs text-muted">{user.email}</p>
-            )}
-          </div>
+          <p className="truncate text-sm text-foreground">{user?.name || user?.email}</p>
         </div>
 
         {/* Navigation */}
@@ -92,13 +74,13 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
                 href={href}
                 onClick={onClose}
                 className={cn(
-                  "flex items-center gap-3 rounded-[var(--radius)] px-3 py-2.5 text-sm transition-colors",
+                  "flex items-center gap-2.5 rounded-lg px-3 py-2 text-sm transition-colors",
                   isActive
-                    ? "bg-primary/10 text-primary font-medium"
+                    ? "bg-accent text-foreground font-medium"
                     : "text-muted hover:text-foreground hover:bg-accent"
                 )}
               >
-                <Icon size={18} />
+                <Icon size={16} />
                 {t(labelKey)}
               </Link>
             );
@@ -124,9 +106,9 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
         <div className="px-3 pb-4">
           <button
             onClick={handleLogout}
-            className="flex w-full items-center gap-3 rounded-[var(--radius)] px-3 py-2.5 text-sm text-muted hover:text-error hover:bg-error/10 transition-colors cursor-pointer"
+            className="flex w-full items-center gap-2.5 rounded-lg px-3 py-2 text-sm text-muted hover:text-error hover:bg-error/5 transition-colors cursor-pointer"
           >
-            <LogOut size={18} />
+            <LogOut size={16} />
             {t("dashboard.sidebar.logout")}
           </button>
         </div>

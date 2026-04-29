@@ -31,7 +31,7 @@ export function AiChatSection({ vehicleId }: AiChatSectionProps) {
   };
 
   return (
-    <div className="rounded-2xl border border-border bg-card shadow-sm overflow-hidden">
+    <div className="rounded-xl border border-border bg-card overflow-hidden">
       <div className="flex items-center justify-between p-4 border-b border-border">
         <div className="flex items-center gap-3">
           <h3 className="text-lg font-semibold text-foreground flex items-center gap-2">
@@ -159,7 +159,7 @@ function ChatWindow({ chatId }: { chatId: string }) {
               </div>
             )}
             <div
-              className={`max-w-[80%] rounded-xl px-3 py-2 text-sm whitespace-pre-wrap ${
+              className={`max-w-[80%] rounded-lg px-3 py-2 text-sm whitespace-pre-wrap ${
                 msg.role === "USER"
                   ? "bg-primary text-primary-foreground"
                   : "bg-accent text-foreground"
@@ -179,7 +179,7 @@ function ChatWindow({ chatId }: { chatId: string }) {
             <div className="h-7 w-7 shrink-0 rounded-full bg-primary/10 flex items-center justify-center">
               <Bot size={14} className="text-primary" />
             </div>
-            <div className="bg-accent rounded-xl px-3 py-2">
+            <div className="bg-accent rounded-lg px-3 py-2">
               <Loader2 size={14} className="animate-spin text-muted" />
             </div>
           </div>

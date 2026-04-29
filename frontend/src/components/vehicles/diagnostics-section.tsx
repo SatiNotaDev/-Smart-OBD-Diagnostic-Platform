@@ -78,7 +78,7 @@ export function DiagnosticsSection({ vehicleId }: DiagnosticsSectionProps) {
   };
 
   return (
-    <div className="rounded-2xl border border-border bg-card p-6 shadow-sm">
+    <div className="rounded-xl border border-border bg-card p-6">
       <div className="flex items-center justify-between mb-4">
         <h3 className="text-lg font-semibold text-foreground">
           {t("dashboard.vehicles.diagnostics.title")}

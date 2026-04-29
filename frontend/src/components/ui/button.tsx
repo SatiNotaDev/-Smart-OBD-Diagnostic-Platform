@@ -14,21 +14,21 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         ref={ref}
         disabled={disabled || isLoading}
         className={cn(
-          "inline-flex items-center justify-center gap-2 rounded-[var(--radius)] font-medium transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 cursor-pointer",
+          "inline-flex items-center justify-center gap-2 rounded-lg font-medium transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 cursor-pointer",
           {
-            "bg-primary text-primary-foreground hover:bg-primary-hover shadow-md hover:shadow-lg active:scale-[0.98]":
+            "bg-primary text-primary-foreground hover:bg-primary-hover shadow-[0_4px_14px_0_rgba(0,112,243,0.25)]":
               variant === "primary",
-            "border-2 border-border bg-transparent text-foreground hover:bg-accent hover:border-primary":
+            "border border-border bg-background text-foreground hover:bg-accent":
               variant === "outline",
             "bg-transparent text-foreground hover:bg-accent":
               variant === "ghost",
-            "bg-white text-gray-700 border border-gray-300 hover:bg-gray-50 shadow-sm dark:bg-card dark:text-foreground dark:border-border dark:hover:bg-accent":
+            "bg-white text-[#0a2540] border border-[rgba(0,112,243,0.15)] hover:bg-[#f0f7ff] shadow-sm dark:bg-[#0d1f36] dark:text-[#e0ecff] dark:border-[rgba(0,112,243,0.2)] dark:hover:bg-[#0a1929]":
               variant === "google",
           },
           {
-            "h-9 px-4 text-sm": size === "sm",
-            "h-11 px-6 text-sm": size === "md",
-            "h-12 px-8 text-base": size === "lg",
+            "h-8 px-3 text-xs": size === "sm",
+            "h-10 px-4 text-sm": size === "md",
+            "h-12 px-6 text-sm": size === "lg",
           },
           className
         )}
