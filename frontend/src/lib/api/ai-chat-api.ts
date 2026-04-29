@@ -22,6 +22,12 @@ export interface SendMessageResponse {
   assistantMessage: { id: string; role: string; content: string };
 }
 
+export interface ChatUsage {
+  used: number;
+  limit: number; // -1 means unlimited
+  plan: string;
+}
+
 export const aiChatApi = {
   listByVehicle: (vehicleId: string) =>
     api.get<AiChat[]>(`/ai-chat/vehicle/${vehicleId}`),
@@ -35,4 +41,6 @@ export const aiChatApi = {
     api.post<SendMessageResponse>(`/ai-chat/${chatId}/message`, { message }),
 
   delete: (id: string) => api.del(`/ai-chat/${id}`),
+
+  getUsage: () => api.get<ChatUsage>("/ai-chat/usage"),
 };
