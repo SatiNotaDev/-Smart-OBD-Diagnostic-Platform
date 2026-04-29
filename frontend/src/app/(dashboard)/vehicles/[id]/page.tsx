@@ -20,6 +20,7 @@ import { useVehicle, useDeleteVehicle } from "@/lib/query/use-vehicles";
 import { EditVehicleDialog } from "@/components/vehicles/edit-vehicle-dialog";
 import { NotesSection } from "@/components/vehicles/notes-section";
 import { DiagnosticsSection } from "@/components/vehicles/diagnostics-section";
+import { LiveOBDSection } from "@/components/vehicles/live-obd-section";
 import { AiChatSection } from "@/components/vehicles/ai-chat-section";
 import { PhotoGallery } from "@/components/vehicles/photo-gallery";
 import { useI18n } from "@/lib/i18n/i18n";
@@ -149,6 +150,7 @@ export default function VehicleDetailPage() {
       </div>
 
       <PhotoGallery vehicleId={id} photos={vehicle.photos || []} />
+      <LiveOBDSection vehicleId={id} />
       <DiagnosticsSection vehicleId={id} />
       <NotesSection vehicleId={id} />
       <AiChatSection vehicleId={id} />
