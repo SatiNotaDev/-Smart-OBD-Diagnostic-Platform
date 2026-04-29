@@ -5,11 +5,12 @@ import { Plus, Search, Car } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Select } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
-import { VehicleCard } from "@/components/vehicles/vehicle-card";
 import { AddVehicleDialog } from "@/components/vehicles/add-vehicle-dialog";
+import { DraggableVehicleGrid } from "@/components/vehicles/draggable-vehicle-grid";
 import { useVehicles, useDeleteVehicle } from "@/lib/query/use-vehicles";
 import { useI18n } from "@/lib/i18n/i18n";
-import { PageTransition, StaggerContainer, StaggerItem } from "@/components/ui/page-transition";
+import { useToast } from "@/components/ui/toast";
+import { PageTransition } from "@/components/ui/page-transition";
 import { SkeletonCard } from "@/components/ui/skeleton";
 
 export default function VehiclesPage() {
@@ -17,6 +18,8 @@ export default function VehiclesPage() {
   const [search, setSearch] = useState("");
   const [sortBy, setSortBy] = useState("createdAt");
   const [showAdd, setShowAdd] = useState(false);
+
+  const { success: showSuccess, error: showError } = useToast();
 
   const { data: vehicles, isLoading } = useVehicles({
     search: search || undefined,
@@ -34,7 +37,10 @@ export default function VehiclesPage() {
 
   const handleDelete = async (id: string) => {
     if (!confirm(t("dashboard.vehicles.deleteConfirm"))) return;
-    deleteVehicle.mutate(id);
+    deleteVehicle.mutate(id, {
+      onSuccess: () => showSuccess(t("dashboard.vehicles.deleted") || "Vehicle deleted"),
+      onError: (err: any) => showError(err?.message || "Failed to delete"),
+    });
   };
 
   return (
@@ -86,13 +92,7 @@ export default function VehiclesPage() {
           </Button>
         </div>
       ) : (
-        <StaggerContainer className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {vehicles.map((v) => (
-            <StaggerItem key={v.id}>
-              <VehicleCard vehicle={v} onDelete={handleDelete} />
-            </StaggerItem>
-          ))}
-        </StaggerContainer>
+        <DraggableVehicleGrid vehicles={vehicles} onDelete={handleDelete} />
       )}
 
       <AddVehicleDialog open={showAdd} onClose={() => setShowAdd(false)} />

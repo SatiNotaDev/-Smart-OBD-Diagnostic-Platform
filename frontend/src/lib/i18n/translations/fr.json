@@ -134,7 +134,8 @@
       "addDialog": {
         "title": "Ajouter un véhicule",
         "submit": "Ajouter",
-        "cancel": "Annuler"
+        "cancel": "Annuler",
+        "success": "Véhicule ajouté"
       },
       "vinDecode": "Décoder le VIN",
       "vinDecoding": "Décodage...",
@@ -198,7 +199,8 @@
         "startConversation": "Posez des questions sur le diagnostic, l'entretien ou les réparations",
         "placeholder": "Posez une question sur votre véhicule...",
         "deleteConfirm": "Supprimer cette conversation ?"
-      }
+      },
+      "deleteError": "Échec de la suppression"
     },
     "settings": {
       "title": "Paramètres",
@@ -251,5 +253,9 @@
         "manage": "Gérer"
       }
     }
+  },
+  "toast": {
+    "upgradeError": "Échec du paiement",
+    "portalError": "Échec du portail"
   }
 }

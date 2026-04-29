@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { subscriptionsApi, type PlanInfo } from "@/lib/api/subscriptions-api";
 import { useI18n } from "@/lib/i18n/i18n";
+import { useToast } from "@/components/ui/toast";
 
 const plans = [
   {
@@ -33,6 +34,7 @@ const plans = [
 
 export function SubscriptionSection() {
   const { t } = useI18n();
+  const { error: showError } = useToast();
   const [planInfo, setPlanInfo] = useState<PlanInfo | null>(null);
   const [loading, setLoading] = useState(true);
   const [checkoutLoading, setCheckoutLoading] = useState<string | null>(null);
@@ -49,7 +51,9 @@ export function SubscriptionSection() {
     try {
       const { url } = await subscriptionsApi.checkout(plan);
       if (url) window.location.href = url;
-    } catch {
+    } catch (e: unknown) {
+      const msg = e instanceof Error ? e.message : "Failed to start checkout";
+      showError(msg);
       setCheckoutLoading(null);
     }
   };
@@ -58,7 +62,10 @@ export function SubscriptionSection() {
     try {
       const { url } = await subscriptionsApi.portal();
       if (url) window.location.href = url;
-    } catch {}
+    } catch (e: unknown) {
+      const msg = e instanceof Error ? e.message : "Failed to open portal";
+      showError(msg);
+    }
   };
 
   if (loading) {

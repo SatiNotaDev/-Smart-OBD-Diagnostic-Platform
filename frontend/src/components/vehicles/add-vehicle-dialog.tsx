@@ -10,6 +10,7 @@ import { Input } from "@/components/ui/input";
 import { Select } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
 import { useI18n } from "@/lib/i18n/i18n";
+import { useToast } from "@/components/ui/toast";
 import { useCreateVehicle } from "@/lib/query/use-vehicles";
 import {
   vehiclesApi,
@@ -40,6 +41,7 @@ interface AddVehicleDialogProps {
 
 export function AddVehicleDialog({ open, onClose }: AddVehicleDialogProps) {
   const { t } = useI18n();
+  const { success: showSuccess, error: showError } = useToast();
   const [error, setError] = useState("");
   const createVehicle = useCreateVehicle();
 
@@ -155,7 +157,7 @@ export function AddVehicleDialog({ open, onClose }: AddVehicleDialogProps) {
       const data = await vehiclesApi.decodeVin(vin);
       if (data.make) setValue("brand", data.make);
       if (data.model) setValue("model", data.model);
-      if (data.year) setValue("year", data.year);
+      if (data.year) setValue("year", String(data.year));
       if (data.fuelType) {
         const fuel = data.fuelType.toLowerCase();
         if (fuel.includes("diesel")) setValue("engineType", "diesel");
@@ -191,10 +193,13 @@ export function AddVehicleDialog({ open, onClose }: AddVehicleDialogProps) {
         reset();
         setMakes([]);
         setModels([]);
+        showSuccess(t("dashboard.vehicles.addDialog.success") || "Vehicle added");
         onClose();
       },
       onError: (err: any) => {
-        setError(err?.message || t("common.error"));
+        const msg = err?.message || t("common.error");
+        setError(msg);
+        showError(msg);
       },
     });
   };

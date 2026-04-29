@@ -1,9 +1,8 @@
 import { Injectable, Logger, BadRequestException } from '@nestjs/common';
+import { CAR_MAKES, CAR_MODELS } from '../data/car-makes-models';
 
 const NHTSA_BASE_URL = 'https://vpic.nhtsa.dot.gov/api/vehicles';
 
-/** TTL for the in-memory makes cache (1 hour). */
-const MAKES_CACHE_TTL_MS = 60 * 60 * 1000;
 
 interface NhtsaResult {
   Variable: string;
@@ -46,9 +45,6 @@ export interface VehicleModel {
 export class NhtsaService {
   private readonly logger = new Logger(NhtsaService.name);
 
-  /** In-memory cache for all makes. */
-  private makesCache: VehicleMake[] | null = null;
-  private makesCacheTimestamp = 0;
 
   /**
    * Decode a VIN using the NHTSA vPIC API.
@@ -101,40 +97,32 @@ export class NhtsaService {
   }
 
   /**
-   * Get all vehicle makes. Results are cached in memory for 1 hour.
+   * Get all vehicle makes from built-in database (covers global market).
    */
   async getAllMakes(): Promise<VehicleMake[]> {
-    const now = Date.now();
-
-    if (this.makesCache && now - this.makesCacheTimestamp < MAKES_CACHE_TTL_MS) {
-      this.logger.debug('Returning cached makes list');
-      return this.makesCache;
-    }
-
-    this.logger.log('Fetching all makes from NHTSA (cache miss)');
-    const url = `${NHTSA_BASE_URL}/getallmakes?format=json`;
-    const data = await this.fetchJson<{ Results: NhtsaMakeResult[] }>(url);
-
-    this.makesCache = (data.Results ?? [])
-      .filter((r) => r.Make_Name)
-      .map((r) => ({
-        id: r.Make_ID,
-        name: r.Make_Name,
-      }));
-    this.makesCacheTimestamp = now;
-
-    this.logger.log(`Cached ${this.makesCache.length} makes`);
-    return this.makesCache;
+    return CAR_MAKES;
   }
 
   /**
-   * Get all models for a given make.
+   * Get models for a given make from built-in database.
+   * Falls back to NHTSA API if make is not in our local data.
    */
   async getModelsByMake(make: string): Promise<VehicleModel[]> {
-    const encoded = encodeURIComponent(make.trim());
+    const normalizedMake = make.trim();
+    const localModels = CAR_MODELS[normalizedMake]
+      || CAR_MODELS[Object.keys(CAR_MODELS).find(
+        (k) => k.toLowerCase() === normalizedMake.toLowerCase(),
+      ) || ''];
+
+    if (localModels && localModels.length > 0) {
+      return localModels;
+    }
+
+    // Fallback to NHTSA for makes not in local database
+    const encoded = encodeURIComponent(normalizedMake);
     const url = `${NHTSA_BASE_URL}/getmodelsformake/${encoded}?format=json`;
 
-    this.logger.log(`Fetching models for make: ${make}`);
+    this.logger.log(`Fetching models for make from NHTSA: ${make}`);
     const data = await this.fetchJson<{ Results: NhtsaModelResult[] }>(url);
 
     return (data.Results ?? []).map((r) => ({
