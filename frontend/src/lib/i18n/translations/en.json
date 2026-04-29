@@ -142,7 +142,18 @@
       "vinError": "Could not decode VIN",
       "searchMake": "Type to search...",
       "deleteConfirm": "Delete this vehicle?",
-      "deleted": "Vehicle deleted"
+      "deleted": "Vehicle deleted",
+      "detail": {
+        "backToList": "Back to vehicles",
+        "notFound": "Vehicle not found",
+        "specifications": "Specifications",
+        "addedOn": "Added on",
+        "edit": "Edit",
+        "delete": "Delete",
+        "editTitle": "Edit Vehicle",
+        "save": "Save Changes",
+        "saved": "Changes saved"
+      }
     },
     "settings": {
       "title": "Settings",

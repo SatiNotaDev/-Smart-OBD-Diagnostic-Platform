@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { Car, Gauge, Hash, Trash2 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { useI18n } from "@/lib/i18n/i18n";
@@ -25,7 +26,10 @@ export function VehicleCard({ vehicle, onDelete }: VehicleCardProps) {
     vehicle.engineType;
 
   return (
-    <div className="rounded-2xl border border-border bg-card p-5 shadow-sm hover:shadow-md transition-shadow">
+    <Link
+      href={`/vehicles/${vehicle.id}`}
+      className="block rounded-2xl border border-border bg-card p-5 shadow-sm hover:shadow-md hover:border-primary/30 transition-all"
+    >
       <div className="flex items-start justify-between gap-3">
         <div className="flex items-center gap-3">
           <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-[var(--radius)] bg-primary/10">
@@ -45,7 +49,7 @@ export function VehicleCard({ vehicle, onDelete }: VehicleCardProps) {
           {onDelete && (
             <button
               type="button"
-              onClick={() => onDelete(vehicle.id)}
+              onClick={(e) => { e.preventDefault(); onDelete(vehicle.id); }}
               className="p-1.5 rounded-[var(--radius)] text-muted hover:text-error hover:bg-error/10 transition-colors"
             >
               <Trash2 size={15} />
@@ -73,6 +77,6 @@ export function VehicleCard({ vehicle, onDelete }: VehicleCardProps) {
           </span>
         )}
       </div>
-    </div>
+    </Link>
   );
 }

@@ -142,7 +142,18 @@
       "vinError": "Impossible de décoder le VIN",
       "searchMake": "Tapez pour rechercher...",
       "deleteConfirm": "Supprimer ce véhicule ?",
-      "deleted": "Véhicule supprimé"
+      "deleted": "Véhicule supprimé",
+      "detail": {
+        "backToList": "Retour aux véhicules",
+        "notFound": "Véhicule introuvable",
+        "specifications": "Caractéristiques",
+        "addedOn": "Ajouté le",
+        "edit": "Modifier",
+        "delete": "Supprimer",
+        "editTitle": "Modifier le véhicule",
+        "save": "Enregistrer",
+        "saved": "Modifications enregistrées"
+      }
     },
     "settings": {
       "title": "Paramètres",
