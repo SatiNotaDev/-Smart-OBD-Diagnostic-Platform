@@ -181,6 +181,15 @@
         "deleteConfirm": "Supprimer cette session ?",
         "expand": "Voir détails",
         "collapse": "Masquer"
+      },
+      "chat": {
+        "title": "Assistant IA",
+        "newChat": "Nouveau chat",
+        "noChats": "Aucune conversation",
+        "selectOrCreate": "Sélectionnez un chat ou créez-en un",
+        "startConversation": "Posez des questions sur le diagnostic, l'entretien ou les réparations",
+        "placeholder": "Posez une question sur votre véhicule...",
+        "deleteConfirm": "Supprimer cette conversation ?"
       }
     },
     "settings": {

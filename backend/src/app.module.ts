@@ -5,6 +5,7 @@ import { AuthModule } from './modules/auth/auth.module';
 import { VehiclesModule } from './modules/vehicles/vehicles.module';
 import { NotesModule } from './modules/notes/notes.module';
 import { DiagnosticsModule } from './modules/diagnostics/diagnostics.module';
+import { AiChatModule } from './modules/ai-chat/ai-chat.module';
 import { LoggerMiddleware } from './common/middleware/logger.middleware';
 import { SecurityMiddleware } from './common/middleware/security.middleware';
 
@@ -25,6 +26,8 @@ import { SecurityMiddleware } from './common/middleware/security.middleware';
     NotesModule,
     // Diagnostics Module
     DiagnosticsModule,
+    // AI Chat Module
+    AiChatModule,
   ],
 })
 export class AppModule implements NestModule {
